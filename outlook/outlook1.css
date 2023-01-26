@@ -1,0 +1,62 @@
+.main{
+    margin: auto;
+    width:700px;
+    height:auto;
+    background-color: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    border:3px solid #000;
+}
+.title{
+    text-align: center;
+    font-size: 50px;
+    color:#000;
+    margin-bottom: 10px;
+    user-select: none;
+}
+.content{
+    background-color: #fff;
+    border:2px solid #000;
+    border-radius: 0px;
+    width: 600px;
+    height: 100px;
+    margin: auto;
+    margin-bottom: 15px;
+    text-align: center;
+    line-height: 100px;
+    font-size: 40px;
+    font-family: KaiTi;
+    user-select: none;
+    color: #000;
+}
+body{
+    background-color: #fff;
+    padding-top: 30px;
+}
+.circle{
+    width: 0px;
+    height: 0px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    animation-name: ani;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    border-top: 30px solid #000000;
+    border-bottom: 30px solid #838383;
+    border-left: 30px solid #dbdbdb;
+    border-right: 30px solid #232f33;
+    border-radius: 100%;
+}
+.circle_out{
+    width: 700px;
+    margin: auto;
+}
+@keyframes ani{
+    0%      {transform: rotate(45deg);}
+    25%     {transform: rotate(135deg);}
+    50%     {transform: rotate(225deg);}
+    75%     {transform: rotate(315deg);}
+    100%    {transform: rotate(405deg);}
+}
