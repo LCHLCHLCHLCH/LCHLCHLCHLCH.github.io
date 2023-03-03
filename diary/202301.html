@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023.1</title>
+    <style>
+        body{
+            background-color: #eee;
+        }
+        /*最外层轮廓*/
+        .out{
+            display: flex;
+            width: 700px;
+            height: 500px;
+            background-color: none;
+            margin: auto;
+            margin-top: 50px;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            border-radius: 5px;
+            border-top: solid#000 10px rgba(0, 0, 0, 1);
+        }
+        /*左侧导航栏*/
+        .list{
+            flex: 1;
+            overflow: auto;
+            flex-direction: column;
+            margin-right: 8px;
+        }
+        /*左侧导航栏内部方块*/
+        .content{
+            flex: 1;
+            height: 60px;
+            margin: auto;
+            margin: 8px;
+            background-color: #fff;
+            user-select: none;
+            text-align: center;
+            line-height: 60px;
+            border-radius: 3px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+            
+        }
+        /*右侧日记主体*/
+        .main{
+            padding: 8px;
+            flex: 3;
+            margin: 8px;
+            margin-left: 0px;
+            background-color: #fff;
+            border-radius: 3px;
+
+        }
+        /*标题*/
+        .title{
+            font-size: 50px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function day0128(){
+            document.getElementById("date").innerHTML="1.28";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;寒假结束了。今天开学。<br>&emsp;&emsp;感谢XS监督,我已节制15天(从1.13开始)<br>&emsp;&emsp;寒假前的网课被Xs严重内卷。但是期末成绩不理想。<br>&emsp;&emsp;开学以后课桌是乱的。我没有找到课桌，站了半天。";
+        }
+        function day0129(){
+            document.getElementById("date").innerHTML="1.29";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;宿舍里非常冷。<br>&emsp;&emsp;昨天做了奇怪的梦。<br>&emsp;&emsp;今天考了语文和数学。<br>&emsp;&emsp;张璟悦春风得意马蹄疾。(受霍燕清提拔成为贺珺手下)<br>&emsp;&emsp;张璟悦因为我被霍燕清拍了一下。";
+        }
+        function day0130(){
+            document.getElementById("date").innerHTML="1.30";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;通过切换stylesheet实现像素动画<br>&emsp;&emsp;你可以适当乐呵一下,因为人类就是这么不要脸。	--张璟悦";
+        }
+        function day0131(){
+            document.getElementById("date").innerHTML="1.31";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;苗苗: 以后你们听见新希望校歌会非常触动。你们以后可以回来验证。<br>&emsp;&emsp;今天中午吃骨肉相连。我因为和芳芳探讨作文，去餐厅晚了，只吃上了四五根。结果最后居然又上了鸡米花!真是“塞翁失马”。";
+        }
+        function day0201(){
+            document.getElementById("date").innerHTML="2.1";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;经过科学的计算，我的频率为:1.65X10Hz<br>&emsp;&emsp;今天换座位,又和李明宇做同桌<br>&emsp;&emsp;任泽斌:我要融化郑翔天";
+        }
+        function day0202(){
+            document.getElementById("date").innerHTML="2.2";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;今天数学课因为走神被贾佳罚站。";
+        }
+        function day0203(){
+            document.getElementById("date").innerHTML="2.3";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;韩文治:我喜欢好看的(环状结构)<br>&emsp;&emsp;进行了无意义的颁奖典礼彩排。占用了我美好的课活。";
+        }
+        function day0204(){
+            document.getElementById("date").innerHTML="2.4";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;用AI分析用户的100余个字,并生成相应字体";
+        }
+        function day0205(){
+            document.getElementById("date").innerHTML="2.5";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;今天看了1944版《红楼梦》。记录一些比较大的改编：<br>&emsp;&emsp;1.宝玉听说黛玉要回家后变得痴呆，结果这时发现通灵宝玉不见了。<br>&emsp;&emsp;2.凤姐去怡红院搜查,晴雯态度不太好，凤姐就去向王夫人说睛雯的坏话。<br>&emsp;&emsp;3.“贤袭人娇嗔箴宝玉”改成了晴雯<br>&emsp;&emsp;4.黛玉吃醋, 把《西厢记》扔进水里";
+        }
+        function day0209(){
+            document.getElementById("date").innerHTML="2.9";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;前两天下了大雪。<br>&emsp;&emsp;李明宇进行了信任-背叛小测试。结果我和宝姐姐相互背叛。任泽斌和张璟悦非常伤心。我获得了李明宇的congratulation.<br>&emsp;&emsp;哲哲在教室放视频被某主任抓住了，移交给了霍燕清。霍燕清要送他回家。哲哲哭得很伤心。Pover!";
+        }
+        function day0212(){
+            document.getElementById("date").innerHTML="2.12";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;昨天半夜下起了大雪。<br>&emsp;&emsp;昨天非常不舒服。化学课和大课间连吐两次。中午又作死吃鸡花，又吐一次。昨天晚饭和今天早饭都没敢去吃。";
+        }
+        function day0213(){
+            document.getElementById("date").innerHTML="2.13";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;苗苗:明天早读前的时间写作文。第一二节课写题。明天一上午都是语文的时间。<br>&emsp;&emsp;李明宇给韩文治的肖像画龙点晴。";
+        }
+        function day0215(){
+            document.getElementById("date").innerHTML="2.15";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;由于租房走读的同学太多,霍燕清受到领导的严厉批评。";
+        }
+        function day0219(){
+            document.getElementById("date").innerHTML="2.19";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;今天休小假。<br>&emsp;&emsp;中午借了李明宇的《1984》。下午看了张璟悦的《特别关注》。";
+        }
+        function day0221(){
+            document.getElementById("date").innerHTML="2.21";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;从昨天开始，每天下午课活加入了跑操。<br>&emsp;&emsp;今天早上得知最新一期《人文历史》是讲《红楼梦》的，但是已经卖完了。今天下午又去看还没有。<br>&emsp;&emsp;之前某天做了个非常离谱的梦，是关于郑翔天的。";
+        }
+        function day0223(){
+            document.getElementById("date").innerHTML="2.23";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;今天考了语文和数学。节制高达41天。";
+        }
+        function day0224(){
+            document.getElementById("date").innerHTML="2.24";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;现在是早上8;35，外面开始下起了雪。上午的时候雪停了。<br>&emsp;&emsp;今天下午买到了《人文历史》。";
+        }
+        function day0225(){
+            document.getElementById("date").innerHTML="2.25";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;Because I scored a little much in the exam, I have to take the weekly test in the people-over-people.self-study room.No one could check answer with me.Besides,the math is so difficult! It feels so terrible.<br>&emsp;&emsp;I just kicked over the kettle, making the water spill all over the floor. Thanks for XS's help.";
+        }
+        function day0226(){
+            document.getElementById("date").innerHTML="2.26";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;We are asked to come to the classroom at 4:00 this afternoon. The happy afternoon will be taken up by meaningless activity.<br>&emsp;&emsp;This afternoon we released the ballons with a stiky hotes.<br>&emsp;&emsp;At the noon I washed my only shirt and had to wear only one clothes. Thanks XS for lending me one of his.";
+        }
+        function day0227(){
+            document.getElementById("date").innerHTML="2.27";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;我的笔漏水了。直糟糕。<br>&emsp;&emsp;任泽斌's leg got hurt, making him unable to get to his bed, which is an upper berth, Thus he exchanged bed with me.";
+        }
+        function day0228(){
+            document.getElementById("date").innerHTML="2.28";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;It's such a stupid idea that they made a people-over-people passport. Now I have to take the night-self-learning in the	people-over-people leaning room.<br>&emsp;&emsp;Today we changed the seat.I became deskmates with 吕栋栋。";
+        }
+        function day0301(){
+            document.getElementById("date").innerHTML="3.1";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;贾佳cried in the class,because many students haven't reach her expections.<br>&emsp;&emsp;I'm trying to melt 吕栋栋。";
+        }
+        function day0302(){
+            document.getElementById("date").innerHTML="3.2";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;霍燕清：看看20、21、22年的山东卷高考题。<br>&emsp;&emsp;I was misunderstood as fans of 张璟悦。<br>&emsp;&emsp;吕栋栋became fans of 张璟悦。";
+        }
+        function day0303(){
+            document.getElementById("date").innerHTML="3.3";
+            document.getElementById("diary").innerHTML="&emsp;&emsp;节制49天。<br>&emsp;&emsp;感谢苗苗不在半天的小假布置语文作业！";
+        }
+    </script>
+</head>
+<body>
+    <div class="out">
+        <div class="list">
+            <div class="content" onclick="day0128()">1.28</div>
+            <div class="content" onclick="day0129()">1.29</div>
+            <div class="content" onclick="day0130()">1.30</div>
+            <div class="content" onclick="day0131()">1.31</div>
+            <div class="content" onclick="day0201()">2.1</div>
+            <div class="content" onclick="day0202()">2.2</div>
+            <div class="content" onclick="day0203()">2.3</div>
+            <div class="content" onclick="day0204()">2.4</div>
+            <div class="content" onclick="day0205()">2.5</div>
+            <div class="content" onclick="day0209()">2.9</div>
+            <div class="content" onclick="day0212()">2.12</div>
+            <div class="content" onclick="day0213()">2.13</div>
+            <div class="content" onclick="day0215()">2.15</div>
+            <div class="content" onclick="day0219()">2.19</div>
+            <div class="content" onclick="day0221()">2.21</div>
+            <div class="content" onclick="day0223()">2.23</div>
+            <div class="content" onclick="day0224()">2.24</div>
+            <div class="content" onclick="day0225()">2.25</div>
+            <div class="content" onclick="day0226()">2.26</div>
+            <div class="content" onclick="day0227()">2.27</div>
+            <div class="content" onclick="day0228()">2.28</div>
+            <div class="content" onclick="day0301()">3.1</div>
+            <div class="content" onclick="day0302()">3.2</div>
+            <div class="content" onclick="day0303()">3.3</div>
+        </div>
+        <div class="main">
+            <div class="title" id="date"></div>
+            <div class="" id="diary"></div>
+        </div>
+    </div>
+</body>
+</html>
