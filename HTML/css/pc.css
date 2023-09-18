@@ -1,0 +1,237 @@
+/*
+*{
+    border: 1px solid;
+}
+*/
+body{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100vh;
+    width: auto;
+    height:auto;
+    margin: auto;
+    background: url(../res/bp.png) no-repeat 0 ;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.up_bar{
+    height: 50px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.7) 0px 3px 7px -3px;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+}
+.content{
+    display: block;
+    flex: 1;
+    flex-direction: column;
+    background-color: #fff;
+}
+.up_picture{
+    width: auto;
+    height: 290px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px -50px 36px -28px inset;
+}
+.logo_and_name{
+    width: 100%;
+    background-color: #fff;
+    padding-top: 30px;
+}
+.content_block1{
+    margin: 80px;
+    margin-top: 0px;
+    display: flex;
+}
+.content_block2{
+    margin: 80px;
+    margin-top: 40px;
+}
+.content_block3{
+    margin: 80px;
+    margin-top: 40px;
+    display: flex;
+}
+.content_block4{
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    width: 70vw;
+    border: #000 solid;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.about_us_content{
+    flex: 3;
+    overflow: auto;
+    margin: 20px;
+}
+.about_us_picture{
+    flex: 3;
+    text-align: center;
+}
+.button_area{
+    display: flex;
+    height: 60px;
+}
+.button_bilibili{
+    flex:1;
+    background-color: #fff;
+    border: #000 solid;
+    margin: 8px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: all 0.5s;
+}
+.button_bilibili:hover{
+    flex:1;
+    background-color: #fb759c;
+    border: #fb759c solid;
+    margin: 5px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+.button_weixin{
+    flex:1;
+    margin: 8px;
+    background-color: #fff;
+    border: #000 solid;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: all 0.5s;
+}
+.button_weixin:hover{
+    flex:1;
+    background-color: #1aad19;
+    border: #1aad19 solid;
+    margin: 5px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+.button_mail{
+    flex:1;
+    margin: 8px;
+    background-color: #fff;
+    border: #000 solid;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: all 0.5s;
+}
+.button_mail:hover{
+    flex:1;
+    background-color:#e91e00;
+    border: #e91e00 solid;
+    margin: 5px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+
+.button_image{
+    height: 30px;
+    width: auto;
+    margin: auto;
+    display: inline-block;
+    vertical-align: middle;
+    user-select: none;
+}
+
+
+
+/*从这里开始是方向建设培养的css*/
+.tech_depart_title{
+    margin: 30px;
+    display: flex;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+.tech_depart_content{
+    height: auto;
+    display: none;
+    box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px;
+}
+.content_button{/*用于内容展开的按钮*/
+    width:100px;
+    height: 100px;
+    text-align: center;
+    display:inline-block;
+    background-color: #fff;
+    border: #000 solid;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
+    border-radius: 0px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+.content_button:hover{
+    background-color: #056de8;
+    border: #056de8 solid;
+}
+.tech_depart_title_content{
+    flex: 1;
+    flex-direction: column;
+    border-top: #000 solid;
+    border-bottom: #000 solid;
+    border-right: #000 solid;
+}
+
+
+/*从这里开始是第三部分开源社区的css*/
+.open_source_picture{
+    text-align: center;
+    flex: 1;
+}
+.open_source_content{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+text{
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    padding: 10px;
+    background-color: #fff;
+    transition: all 0.5s;
+    border-radius: 5px;
+    cursor:pointer;
+    user-select: none;
+    border: #000 solid;
+}
+text:hover{
+    background-color: #5197ed;
+    border: #5197ed solid;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/*第四部分：招新*/
+.join_us_block{
+    margin: 3px;
+    height: 50px;
+    background-color: #fff;
+    border: #000 solid;
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+    margin: 8px;
+    padding: 3px;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.join_us_block:hover{
+    background-color: #056de8;
+    border: #056de8 solid;
+}
