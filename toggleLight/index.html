@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>toggle Light</title>
+	<script src="https://unpkg.com/vue@3"></script>
+	<link rel="stylesheet" href="./styls2.css">
+</head>
+
+<body>
+	<div id="app">
+		<div class="outline">
+			<div v-for="(line, lineIndex) in grid" :key="lineIndex" class="line">
+				<div v-for="(cell, colIndex) in line" :key="colIndex" 
+				:class="{ notLit: !grid[lineIndex][colIndex].isLit, Lit: grid[lineIndex][colIndex].isLit }" 
+				@click="handleClick(lineIndex, colIndex)">
+					<!-- {{ lineIndex }},{{ colIndex }} -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./app.js"></script>
+</body>
+
+</html>
