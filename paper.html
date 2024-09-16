@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>2022.6</title>
+</head>
+
+<body>
+	<h1>A new method to decode and play video on embedded platform</h1>
+	<h2>Introduction</h2>
+	<p>An embedded system is a computer system—a combination of a computer processor, computer memory, and input/output
+		peripheral devices—that has a dedicated function within a larger mechanical or electronic system. The common
+		type of
+		embedded platform is microcontroller, single-board computer, System-on-Chips (Soc) platforms, Field-Programmable
+		Gate Array, Embedded Linux Platforms, etc. While A video decoder is a hardware or software that converts encoded
+		video stream signals into digital video files including audio, video, captions, subtitles for being playback on
+		TV,
+		smartphones, tablets, computer monitor, or other streaming devices. A video decoder has the inverse features of
+		a
+		video encoder, converting uncompressed or raw digital video to analog video. A video decoder can be a hardware
+		device such as part of video capture devices, set-top boxes, software, or a plug-in for a computer. The video
+		decoder can receive encoded digital video signals, display EPG data, closed caption, and subtitles.</p>
+	<p>With the development of technology, multimedia content has been more and more common in our life. At the same
+		time,
+		embedded device has been increasingly widely used in daily life, from our mobile phone to various electronic
+		device’s main control. With the popularization and increase of the need for its function, video decoding and
+		playing
+		has become indispensable for more and more application. However, due to embedded system’ s weak processing
+		ability,
+		it’s still a huge challenge to decode and play video stably and efficiently on an embedded platform. The
+		considered
+		challenges are as followed:</p>
+	<p>1. The limited resource and constraint of performance<br>
+		The decoding and playing of a video require plenty of resource, which could be easily achieved by modern PC.
+		While
+		typically, the memory size, CPU frequency, cache, computing ability, etc., are far behind that of modern PC.
+		Take a
+		modal of STM32 microcontroller for example, its memory size is commonly between 16kb and 256kb, barely enough to
+		store a frame of a video.
+	</p>
+	<p>2. The power consumption and heat dissipation management<br>
+		For mobile devices and portable embedded systems, power consumption and heat management are crucial factor.
+		Efficient power management are necessary for the aim of extending the lifespan of the battery and the usage
+		time.
+		Plus, embedded devices are often placed in enclosed space, which is a disadvantage for its heat dissipation.
+	</p>
+	<p>3. The requirement for real-time and stability<br>
+		Certain embedded platform has strict requirement on the real-time and stability of the video decoding and
+		playing,
+		such as monitoring and medical imaging. On top of this, any delay, crash and stuck could cause serious
+		degradation
+		of user experience. So searching for a new method to decode and play video on embedded platform is necessary.
+	</p>
+	<p>4. The support for multi-platform<br>
+		Due to the variety and constant update of video format, the decoding method should be flexible and portable
+		enough
+		to be applied on various platform.
+	</p>
+	<p>In summary, the decoding and playing of video on embedded platform faces various aspect of challenge and
+		requirement,
+		so it’s of great meaning to look for a better way to decode video on embedded platform.</p>
+	<p>There are several steps for a modern video player to transform a compressed video file to a format which contains
+		the
+		direct color information of each frame. First, it reads the raw video file into the RAM to start processing it.
+		Then
+		it tries to traverse the stream info and find the video stream in it. After succeeding in finding it, the
+		decoder
+		tries to find an appropriate decoder for that video stream and open it. Then it will apply some RAM space to
+		store
+		the temporary number. If that was finished successfully, it will start the constant process of decoding. First
+		it
+		reads a “packet” from the stream. If it was a video packet, it will be sent to the decoder. Several video packet
+		will generate a video frame which is in the format that can be displayed on the monitor directly, and the
+		process
+		will go on and on until the video terminates. </p>
+	<p>Based on the process mentioned above, the most widely used way to decode video is to run an operating system on
+		the
+		machine, decode the video using native executable file and display the result using system API. However, if
+		several
+		new methods raised by me could be applied, the efficiency and performance of playing video on embedded platform
+		may
+		improve greatly.</p>
+
+</body>
+
+</html>

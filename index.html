@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCH的博客</title>
+    <link rel="stylesheet" type="text/css" href="./outlook/outlook1.css" id="css">
+    <link rel="preload" href="./outlook/outlook2.css" as="style">
+    <link rel="preload" href="./outlook/outlook3.css" as="style">
+    <script>
+        var outlook=1;
+        function changeoutlook(){
+            var obj = document.getElementById("css");
+            if(outlook==1){
+                obj.setAttribute("href","./outlook/outlook2.css");
+                outlook=2;
+            }
+            else if(outlook==2){
+                obj.setAttribute("href","./outlook/outlook3.css");
+                outlook=3;
+            }
+            else if(outlook==3){
+                obj.setAttribute("href","./outlook/outlook1.css");
+                outlook=1;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="circle_out">
+    <div class="circle" onclick="changeoutlook()"></div>
+    </div>
+    <div class="main">
+        <div class="title">LCH的博客</div>
+        <div class="content" onclick="window.open('404.html')">日记</div>
+        <div class="content" onclick="window.open('./bookmarks.html')">书签</div>
+        <div class="content" onclick="window.open('./poembeta')">哲哲的诗</div>
+    </div>
+</body>
+</html>
