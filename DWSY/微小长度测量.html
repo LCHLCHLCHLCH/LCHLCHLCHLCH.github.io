@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微小长度测量</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        table {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>微小长度测量</h1>
+    <p style="color: red;">
+        本网页所示公式目前仍存在较大问题，建议仅作为公式参考。在时间充裕的情况下建议使用计算器反复核实本网站产生的数据。
+    </p>
+
+    <p style="color: red;">
+        建议与他人的计算结果进行核对防止出现较大偏差。
+    </p>
+    <table id="data-table1">
+        <tr>
+            <td>拉力/kg</td>
+            <td>D1/mm</td>
+            <td>D2/mm</td>
+            <td>D_平均/mm</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>8 </td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <table id="data-table2">
+        <tr>
+            <td>次数</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>d(mm)</td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+        </tr>
+    </table>
+
+    <table id="data-table3">
+        <tr>
+            <td>钢丝长度L/mm</td>
+            <td>尺镜距离H/mm</td>
+            <td>杠杆常数a/mm</td>
+        </tr>
+        <tr>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+        </tr>
+    </table>
+
+
+    <button onclick="proceedData()">生成报告</button>
+
+    <div class="result" id="report">
+        <!-- 结果将在这里显示 -->
+    </div>
+
+    <script>
+        function proceedData() {
+            /*获取钢丝拉长的数据*/
+            const d1Inputs = document.querySelectorAll('#data-table1 tr td:nth-child(2) input');
+            const d2Inputs = document.querySelectorAll('#data-table1 tr td:nth-child(3) input');
+            const averageCells = document.querySelectorAll('#data-table1 tr td:nth-child(4)');
+
+            //第一二列的数据
+            const D1Values = [];
+            const D2Values = [];
+
+            //获取输入框中D1、D2的值
+            d1Inputs.forEach(input => {
+                D1Values.push(parseFloat(input.value) || 0); // 如果输入为空，则存储0
+            });
+
+            d2Inputs.forEach(input => {
+                D2Values.push(parseFloat(input.value) || 0); // 如果输入为空，则存储0
+            });
+
+            const D_average = [];
+
+            //计算平均值并填写
+            for (let i = 0; i < d1Inputs.length; i++) {
+                D_average.push((D1Values[i] + D2Values[i]) / 2);
+                averageCells[i + 1].innerText = D_average[i].toFixed(1);
+            }
+
+            // console.log('D1/mm 数据:', D1Values);
+            // console.log('D2/mm 数据:', D2Values);
+
+
+            /*获取其他数据*/
+            const dValues = Array.from(document.querySelectorAll('#data-table2 input[type="number"]'))
+                .map(input => Number(input.value));
+            const otherValues = Array.from(document.querySelectorAll('#data-table3 input[type="number"]'))
+                .map(input => Number(input.value));
+
+            console.log(dValues);
+            console.log(otherValues);
+
+            const L = otherValues[0];
+            const H = otherValues[1];
+            const variable_a = otherValues[2];
+            //两个D的初始值两两相减获得的D,共有四个值
+            const variable_D = [];
+            for (let i = 0; i < 4; i++) {
+                variable_D.push(D_average[i + 4] - D_average[i]);
+            }
+
+            /*计算需要填入的字符串的值*/
+            const a = dValues.join(' + ');
+            const b = _.mean(dValues);
+            const c = variable_D[0];
+            const d = variable_D[1];
+            const e = variable_D[2];
+            const f = variable_D[3];
+            const g = _.mean(variable_D);
+            const h = 1000 * 1000 * 8 * 39.24 * L * H / (3.14 * b * b * variable_a * g);
+
+            const i = _.meanBy(dValues, x => Math.pow(x - b, 2)) * 5;
+            const j = _.meanBy(variable_D, x => Math.pow(x - g, 2)) * 4;
+
+            const k1 = i;
+            const k2 = Math.sqrt(Math.pow((1.14 * Math.sqrt(k1 / 20)), 2) + Math.pow((0.01 / 2 / 3), 2));
+            const l1 = j;
+            const l2 = Math.sqrt(Math.pow((1.2 * Math.sqrt(l1 / 12)), 2) + Math.pow((0.5 / 2 / 3), 2));
+
+            const m = h * Math.sqrt(Math.pow((2 / H), 2) + Math.pow((2 / L), 2) + Math.pow((2 * k2 / b), 2) + Math.pow((l2 / g), 2) + Math.pow((0.02 / a), 2));
+
+            /*处理markdown文件*/
+            fetch('./微小长度测量.md')
+                .then(response => response.text())
+                .then(template => {
+
+                    //替换公式中的字符串
+                    const result = template.replace(/<([a-zA-Z_][a-zA-Z0-9_]*)>/g, (_, key) => {
+                        // 使用对象来存储变量
+                        const variables = { a, b, c, d, e, f, g, h, i, j, k1, k2, l1, l2, m };
+                        return variables[key] !== undefined ? variables[key] : ''; // 返回值或空字符串
+                    });
+
+                    document.getElementById('report').innerHTML = result;
+                    MathJax.typeset();
+                })
+        }
+    </script>
+
+</body>
+
+</html>
