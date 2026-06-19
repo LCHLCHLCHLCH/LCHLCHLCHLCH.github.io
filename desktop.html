@@ -222,24 +222,116 @@
         el.style.zIndex = ++zCounter;
       }
 
-      function makeDraggable(el, titleBar) {
-        var dragging = false, ox = 0, oy = 0;
+      var EDGE = 6; // 边缘检测像素
+
+      function detectEdge(el, e) {
+        var r = el.getBoundingClientRect();
+        var x = e.clientX - r.left;
+        var y = e.clientY - r.top;
+        var top = y < EDGE, bottom = y > r.height - EDGE;
+        var left = x < EDGE, right = x > r.width - EDGE;
+        if (top && left) return 'nw';
+        if (top && right) return 'ne';
+        if (bottom && left) return 'sw';
+        if (bottom && right) return 'se';
+        if (top) return 'n';
+        if (bottom) return 's';
+        if (left) return 'w';
+        if (right) return 'e';
+        return null;
+      }
+
+      var CURSOR_MAP = { nw:'nw-resize', ne:'ne-resize', sw:'sw-resize', se:'se-resize',
+                         n:'n-resize', s:'s-resize', w:'w-resize', e:'e-resize' };
+
+      function makeInteractive(el, titleBar) {
+        var drag = false, resize = false, dir = '', ox = 0, oy = 0;
+        var startW, startH, startL, startT;
+
+        // 光标随边缘变化
+        el.addEventListener('mousemove', function(e) {
+          if (drag || resize) return;
+          var d = detectEdge(el, e);
+          el.style.cursor = d ? CURSOR_MAP[d] : '';
+        });
+
+        // 标题栏按下 → 拖动 或 顶边角缩放
         titleBar.addEventListener('mousedown', function(e) {
           if (e.target.closest('button')) return;
-          dragging = true;
-          var r = el.getBoundingClientRect();
-          ox = e.clientX - r.left;
-          oy = e.clientY - r.top;
-          el.style.cursor = 'move';
           bringToFront(el);
+          var d = detectEdge(el, e);
+          if (d && (d.indexOf('n') !== -1 || d.indexOf('w') !== -1 || d.indexOf('e') !== -1)) {
+            // 标题栏上的边缘 → 缩放（允许 n/ne/nw）
+            if (d === 'w' || d === 'e') { drag = true; dir = ''; } // 左右纯边缘→拖动
+            else { resize = true; dir = d; }
+          } else {
+            drag = true;
+          }
+          if (drag) {
+            var r = el.getBoundingClientRect();
+            ox = e.clientX - r.left;
+            oy = e.clientY - r.top;
+          }
+          if (resize) {
+            var r2 = el.getBoundingClientRect();
+            startW = r2.width; startH = r2.height;
+            startL = r2.left; startT = r2.top;
+            ox = e.clientX; oy = e.clientY;
+          }
         });
+
+        // 窗口 body 按下 → 可能缩放（底部/右侧/角）
+        el.addEventListener('mousedown', function(e) {
+          if (e.target.closest('.title-bar')) return;
+          bringToFront(el);
+          var d = detectEdge(el, e);
+          if (d) {
+            resize = true; dir = d;
+            var r = el.getBoundingClientRect();
+            startW = r.width; startH = r.height;
+            startL = r.left; startT = r.top;
+            ox = e.clientX; oy = e.clientY;
+            e.preventDefault();
+          }
+        });
+
         document.addEventListener('mousemove', function(e) {
-          if (!dragging) return;
-          el.style.left = (e.clientX - ox) + 'px';
-          el.style.top  = (e.clientY - oy) + 'px';
+          if (drag) {
+            el.style.left = (e.clientX - ox) + 'px';
+            el.style.top  = (e.clientY - oy) + 'px';
+          }
+          if (resize) {
+            var dx = e.clientX - ox;
+            var dy = e.clientY - oy;
+            var minW = 280, minH = 160;
+
+            if (dir.indexOf('e') !== -1) {
+              el.style.width = Math.max(minW, startW + dx) + 'px';
+            }
+            if (dir.indexOf('s') !== -1) {
+              el.style.height = Math.max(minH, startH + dy) + 'px';
+            }
+            if (dir.indexOf('w') !== -1) {
+              var nw = Math.max(minW, startW - dx);
+              el.style.width = nw + 'px';
+              el.style.left = (startL + (startW - nw)) + 'px';
+            }
+            if (dir.indexOf('n') !== -1) {
+              var nh = Math.max(minH, startH - dy);
+              el.style.height = nh + 'px';
+              el.style.top = (startT + (startH - nh)) + 'px';
+            }
+          }
         });
+
         document.addEventListener('mouseup', function() {
-          if (dragging) { dragging = false; el.style.cursor = ''; }
+          if (drag) { drag = false; }
+          if (resize) { resize = false; dir = ''; }
+        });
+
+        // 鼠标离开窗口时重置光标
+        el.addEventListener('mouseleave', function() {
+          if (!drag && !resize) el.style.cursor = '';
         });
       }
 
@@ -305,7 +397,7 @@
         var closeBtn = el.querySelector('.win-close');
         var taskBtn = createTaskBtn(id, title, iconUrl);
 
-        makeDraggable(el, titleBar);
+        makeInteractive(el, titleBar);
 
         closeBtn.addEventListener('click', function() {
           el.style.display = 'none';
