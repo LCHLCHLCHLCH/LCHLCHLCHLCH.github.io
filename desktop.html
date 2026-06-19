@@ -93,12 +93,16 @@
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
 
+    /* ── 窗口 body 清除 XP.css 默认 margin ── */
+    .window > .window-body { margin: 0; }
+    .window > .window-body > .status-bar { margin: 0; }
+
     /* ── Explorer 布局 ── */
-    .explorer-layout { display: flex; height: 320px; }
+    .explorer-layout { display: flex; height: 340px; }
     .explorer-icons {
-      flex: 1; padding: 12px; overflow-y: auto;
+      flex: 1; padding: 8px; overflow-y: auto;
       display: flex; flex-wrap: wrap; align-content: flex-start;
-      gap: 14px; background: #fff;
+      gap: 10px; background: #fff;
     }
     .explorer-icon-item {
       display: flex; flex-direction: column; align-items: center; gap: 4px;
