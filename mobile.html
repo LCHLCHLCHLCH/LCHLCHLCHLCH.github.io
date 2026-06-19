@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LCH 的博客</title>
   <link rel="stylesheet" href="https://unpkg.com/xp.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -29,16 +28,11 @@
       text-shadow: 1px 1px #0f1089;
       display: flex; align-items: center; gap: 10px;
     }
-    .header .header-left { display: flex; align-items: center; gap: 10px; flex: 1; }
     .header img { width: 32px; height: 32px; }
     .header .subtitle {
       font-size: 11px; font-weight: normal;
       opacity: 0.85; margin-top: 2px;
     }
-    .header .title-bar-controls {
-      display: none; flex-shrink: 0;
-    }
-    .header .title-bar-controls.visible { display: flex; }
 
     /* ── 文章列表 ── */
     .post-list {
@@ -49,8 +43,12 @@
       background: #fff;
       box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff,
                   inset -2px -2px grey, inset 2px 2px #dfdfdf;
-      padding: 14px;
-      border-radius: 2px;
+      padding: 14px; border-radius: 2px;
+      cursor: pointer;
+    }
+    .post-card:active {
+      box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
+                  inset -2px -2px #dfdfdf, inset 2px 2px grey;
     }
     .post-card h2 {
       font-size: 16px; color: #003399; margin-bottom: 4px;
@@ -62,10 +60,6 @@
       font-size: var(--content-font-size);
       color: #333; line-height: 1.6;
     }
-    .post-card .post-type {
-      display: inline-block; font-size: 10px; color: #808080;
-      background: #ece9d8; padding: 1px 6px; margin-top: 8px;
-    }
 
     /* ── 底部工具栏 ── */
     .footer {
@@ -73,8 +67,7 @@
       border-top: 2px solid #fff;
       padding: 8px 14px;
       display: flex; align-items: center; justify-content: space-between;
-      font-size: 11px;
-      color: #444;
+      font-size: 11px; color: #444;
       position: sticky; bottom: 0;
     }
     .footer select {
@@ -84,34 +77,6 @@
     .footer a { color: #003399; text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
 
-    /* ── 文章阅读页 ── */
-    .article-view { display: none; padding: 14px; }
-    .article-view.active { display: block; }
-    .article-content {
-      font-size: var(--content-font-size);
-      line-height: 1.8;
-    }
-    .article-content h1 { font-size: 1.4em; margin-bottom: 4px; }
-    .article-content h2 { font-size: 1.2em; margin: 18px 0 8px; color: #003399;
-      border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
-    .article-content h3 { font-size: 1.1em; margin: 12px 0 6px; }
-    .article-content p { margin: 8px 0; }
-    .article-content ul, .article-content ol { margin: 8px 0 8px 20px; }
-    .article-content li { margin: 3px 0; }
-    .article-content code { font-family: monospace;
-      background: #d4d0c8; padding: 1px 5px; font-size: 0.9em; }
-    .article-content pre { background: #000; color: silver; padding: 10px;
-      overflow-x: auto; font-size: 0.85em; margin: 8px 0; }
-    .article-content pre code { background: none; padding: 0; color: inherit; }
-    .article-content blockquote {
-      border-left: 3px solid #7f9db9; padding: 2px 10px;
-      margin: 8px 0; color: #555; background: #f0f0f0; }
-    .article-content table { border-collapse: collapse; width: 100%; margin: 8px 0; }
-    .article-content th, .article-content td {
-      border: 1px solid #808080; padding: 3px 6px; font-size: 0.9em; }
-    .article-content th { background: #d4d0c8; }
-    .article-content hr { border: none; border-top: 1px solid #808080; margin: 12px 0; }
-
     .loading { color: #808080; font-style: italic; padding: 20px; text-align: center; }
   </style>
 </head>
@@ -119,26 +84,16 @@
 
   <!-- 顶部 -->
   <div class="header">
-    <div class="header-left">
-      <img src="icons/my-computer.png" alt="" draggable="false">
-      <div>
-        <div>LCH 的博客</div>
-        <div class="subtitle">Windows XP 风格</div>
-      </div>
-    </div>
-    <div class="title-bar-controls">
-      <button id="headerCloseBtn" aria-label="Close"></button>
+    <img src="icons/my-computer.png" alt="" draggable="false">
+    <div>
+      <div>LCH 的博客</div>
+      <div class="subtitle">Windows XP 风格</div>
     </div>
   </div>
 
   <!-- 文章列表 -->
   <div class="post-list" id="postList">
     <p class="loading">加载中…</p>
-  </div>
-
-  <!-- 文章阅读 -->
-  <div class="article-view" id="articleView">
-    <div class="article-content" id="articleContent"></div>
   </div>
 
   <!-- 底部 -->
@@ -160,10 +115,6 @@
     // ═══════════════════════════════════════════
     (function() {
       var postList = document.getElementById('postList');
-      var articleView = document.getElementById('articleView');
-      var articleContent = document.getElementById('articleContent');
-      var closeBtn = document.getElementById('headerCloseBtn');
-      var titleBarControls = closeBtn.parentElement;
 
       fetch('posts/index.json')
         .then(function(r) { return r.json(); })
@@ -182,7 +133,7 @@
               '<div class="post-date">' + post.date + '</div>' +
               '<div class="post-summary">' + post.summary + '</div>';
             card.addEventListener('click', function() {
-              loadArticle(post.slug, post.title);
+              window.location.href = 'post.html?slug=' + post.slug;
             });
             postList.appendChild(card);
           });
@@ -190,30 +141,6 @@
         .catch(function() {
           postList.innerHTML = '<p class="loading" style="color:red">加载失败</p>';
         });
-
-      function loadArticle(slug, title) {
-        articleContent.innerHTML = '<p class="loading">加载中…</p>';
-        articleView.classList.add('active');
-        postList.style.display = 'none';
-        titleBarControls.classList.add('visible');
-
-        fetch('posts/' + slug + '.md')
-          .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
-          .then(function(md) {
-            articleContent.innerHTML = marked.parse(md);
-            window.scrollTo(0, 0);
-          })
-          .catch(function(err) {
-            articleContent.innerHTML = '<p style="color:red">加载失败: ' + err.message + '</p>';
-          });
-      }
-
-      closeBtn.addEventListener('click', function() {
-        articleView.classList.remove('active');
-        postList.style.display = '';
-        titleBarControls.classList.remove('visible');
-        window.scrollTo(0, 0);
-      });
     })();
 
     // ═══════════════════════════════════════════
@@ -222,7 +149,6 @@
     (function() {
       var select = document.getElementById('fontSizeSelect');
 
-      // 恢复保存的设置
       try {
         var saved = localStorage.getItem('xp-mobile-font-size');
         if (saved) {
