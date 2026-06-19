@@ -33,5 +33,12 @@
     "date": "2025-06-07",
     "summary": "另一个 HTML 示例页面，使用 Solarized Light 暖色调。",
     "type": "html"
+  },
+  {
+    "slug": "furong-nuer-lei",
+    "title": "芙蓉女儿诔·十三词",
+    "date": "2025-06-19",
+    "summary": "以十三种宋词词牌重构《芙蓉女儿诔》，从设祭追忆到哀思成礼，连缀成篇。",
+    "type": "markdown"
   }
 ]
