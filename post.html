@@ -12,21 +12,35 @@
     body {
       background: #ece9d8;
       font-family: Tahoma, Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 24px;
       min-height: 100vh;
+      overflow: hidden;
     }
     .window {
-      width: 100%;
-      max-width: 680px;
-      align-self: flex-start;
+      width: 100vw;
+      height: 100vh;
+      display: flex; flex-direction: column;
+      border-radius: 0 !important;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+    .window > .title-bar {
+      height: 32px; font-size: 14px;
+      flex-shrink: 0;
+      border-radius: 0 !important;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+    .window > .title-bar .title-bar-text {
+      display: flex; align-items: center; gap: 5px;
+    }
+    .window > .title-bar .title-bar-controls button {
+      min-width: 22px; min-height: 22px;
     }
     .window-body {
-      padding: 16px 20px;
-      max-height: 80vh;
-      overflow-y: auto;
+      margin: 0; padding: 16px 20px;
+      flex: 1; overflow-y: auto;
     }
+    .status-bar { flex-shrink: 0; }
     /* Markdown 渲染内容样式 */
     .window-body h1 { font-size: 1.6rem; margin-bottom: 8px; color: #000; }
     .window-body h2 { font-size: 1.3rem; margin: 20px 0 8px; color: #003399; border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
