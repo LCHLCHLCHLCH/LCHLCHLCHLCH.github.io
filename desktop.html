@@ -384,7 +384,7 @@
       var selectedSlug = null;
 
       function getFileIcon(post) {
-        return post.type === 'html' ? 'icons/information.png' : 'icons/folder-closed.png';
+        return post.type === 'html' ? 'icons/html.png' : 'icons/fax-cover-page.png';
       }
 
       function renderIcons(iconsContainer, previewPane, statusField) {
@@ -437,7 +437,7 @@
 
       function openMarkdownWindow(post) {
         var winId = 'post-' + post.slug;
-        var el = wm.create(winId, post.title + ' - 记事本', 'icons/folder-closed.png', 580, 60 + Math.random() * 80, 180 + Math.random() * 60);
+        var el = wm.create(winId, post.title + ' - 记事本', 'icons/fax-cover-page.png', 580, 60 + Math.random() * 80, 180 + Math.random() * 60);
         var body = wm.getBody(winId);
         body.innerHTML = '<div class="content-body"><p style="color:#808080">加载中…</p></div>';
 
@@ -453,7 +453,7 @@
 
       function openHtmlWindow(post) {
         var winId = 'post-' + post.slug;
-        var el = wm.create(winId, post.title + ' - Internet Explorer', 'icons/information.png', 640, 60 + Math.random() * 80, 160 + Math.random() * 60);
+        var el = wm.create(winId, post.title + ' - Internet Explorer', 'icons/html.png', 640, 60 + Math.random() * 80, 160 + Math.random() * 60);
         wm.setBody(winId, '<div class="iframe-body"><iframe src="posts/' + post.slug + '.html"></iframe></div>');
       }
 
