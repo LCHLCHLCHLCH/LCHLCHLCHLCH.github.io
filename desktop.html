@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>桌面</title>
+  <link rel="stylesheet" href="https://unpkg.com/xp.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(
+        180deg,
+        #3a6bc5 0%,
+        #5b8ed8 15%,
+        #7baedf 30%,
+        #a3d4f0 50%,
+        #c8e8f8 65%,
+        #7db356 65%,
+        #5a9e3a 78%,
+        #3d7a22 100%
+      );
+      font-family: Tahoma, Arial, sans-serif;
+      user-select: none;
+    }
+
+    /* ── 桌面图标 ── */
+    .desktop-icons {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .desktop-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: default;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+      padding: 6px 10px;
+      border-radius: 1px;
+      border: 1px solid transparent;
+      width: 80px;
+      position: relative;
+      /* hover 无效果 —— 与 XP 一致 */
+    }
+    .desktop-icon-img {
+      width: 48px;
+      height: 48px;
+      position: relative;
+    }
+    .desktop-icon-img img {
+      width: 48px;
+      height: 48px;
+      image-rendering: auto;
+      display: block;
+    }
+    .desktop-icon-img .icon-overlay {
+      display: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 48px; height: 48px;
+      background: rgba(0, 102, 204, 0.45);
+      pointer-events: none;
+    }
+    .desktop-icon-label {
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.3;
+      max-width: 72px;
+      padding: 1px 4px;
+      border: 1px dotted transparent;
+    }
+
+    /* ── 选中态 ── */
+    .desktop-icon.selected .icon-overlay {
+      display: block;
+    }
+    .desktop-icon.selected .desktop-icon-label {
+      color: #fff;
+      background: #3168d5;
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    /* ── 任务栏 ── */
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 36px;
+      background: linear-gradient(
+        180deg,
+        #2c6fc7 0%,
+        #1e54a8 3%,
+        #2f6fc7 15%,
+        #3f87d6 50%,
+        #255eae 85%,
+        #1a4a9a 100%
+      );
+      border-top: 2px solid #5698e0;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      z-index: 9999;
+    }
+    .taskbar .start-btn {
+      height: 26px;
+      padding: 0 18px 0 8px;
+      font-size: 12px;
+      font-weight: bold;
+      font-style: italic;
+      color: #fff;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+      background: linear-gradient(180deg, #3f9a3a 0%, #2c7a28 50%, #1d6b1a 100%);
+      border: none;
+      border-radius: 0 12px 12px 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .taskbar .start-btn:hover {
+      background: linear-gradient(180deg, #4cb848 0%, #389434 50%, #287d24 100%);
+    }
+    .taskbar .start-btn img {
+      width: 20px;
+      height: 20px;
+    }
+    .taskbar .taskbar-divider {
+      width: 1px;
+      height: 22px;
+      background: #1a4a9a;
+      margin: 0 6px;
+      box-shadow: 1px 0 0 rgba(255,255,255,0.15);
+    }
+    .taskbar .task-item {
+      height: 24px;
+      padding: 0 12px;
+      font-size: 11px;
+      color: #fff;
+      background: linear-gradient(180deg, #3b7ed6 0%, #2b5fae 100%);
+      border: 1px solid #1a4a9a;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 120px;
+    }
+    .taskbar .task-item:hover {
+      background: linear-gradient(180deg, #4b8ee6 0%, #3b6fbe 100%);
+    }
+    .taskbar .task-item img {
+      width: 16px;
+      height: 16px;
+    }
+    .taskbar .taskbar-tray {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      font-size: 11px;
+      padding: 0 8px;
+    }
+
+    /* ── 窗口定位 ── */
+    .xp-window {
+      position: absolute;
+    }
+
+    /* ── 修复标题栏高度 ── */
+    .window > .title-bar {
+      height: 30px;
+      font-size: 13px;
+    }
+    .window > .title-bar .title-bar-text {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding-left: 2px;
+    }
+    .window > .title-bar .title-bar-text img {
+      width: 16px;
+      height: 16px;
+    }
+    /* 修复按钮大小以匹配加高的标题栏 */
+    .window > .title-bar .title-bar-controls button {
+      min-width: 21px;
+      min-height: 21px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 桌面图标 -->
+  <div class="desktop-icons" id="desktopIcons">
+    <div class="desktop-icon" data-icon="my-computer">
+      <div class="desktop-icon-img">
+        <img src="icons/my-computer.png" alt="我的电脑" draggable="false">
+        <div class="icon-overlay"></div>
+      </div>
+      <div class="desktop-icon-label">我的电脑</div>
+    </div>
+    <div class="desktop-icon" data-icon="blog">
+      <div class="desktop-icon-img">
+        <img src="icons/folder-closed.png" alt="博客文章" draggable="false">
+        <div class="icon-overlay"></div>
+      </div>
+      <div class="desktop-icon-label">博客文章</div>
+    </div>
+    <div class="desktop-icon" data-icon="about">
+      <div class="desktop-icon-img">
+        <img src="icons/information.png" alt="关于" draggable="false">
+        <div class="icon-overlay"></div>
+      </div>
+      <div class="desktop-icon-label">关于</div>
+    </div>
+    <div class="desktop-icon" data-icon="recycle">
+      <div class="desktop-icon-img">
+        <img src="icons/recycle-bin.png" alt="回收站" draggable="false">
+        <div class="icon-overlay"></div>
+      </div>
+      <div class="desktop-icon-label">回收站</div>
+    </div>
+  </div>
+
+  <!-- 窗口 -->
+  <div class="window xp-window" id="mainWindow" style="width:420px; top:80px; left:200px;">
+    <div class="title-bar" id="windowTitleBar">
+      <div class="title-bar-text">
+        <img src="icons/explorer.png" alt="" draggable="false">
+        博客文章
+      </div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p>你好，世界！</p>
+      <p>这是一个可拖动的 Windows XP 风格窗口。</p>
+      <p>拖动标题栏即可移动窗口。</p>
+    </div>
+  </div>
+
+  <!-- 任务栏 -->
+  <div class="taskbar">
+    <button class="start-btn">
+      <img src="icons/my-computer.png" alt="" draggable="false">
+      开始
+    </button>
+    <div class="taskbar-divider"></div>
+    <div class="task-item">
+      <img src="icons/explorer.png" alt="" draggable="false">
+      博客文章
+    </div>
+    <div class="taskbar-tray">
+      <span id="clock">12:00</span>
+    </div>
+  </div>
+
+  <script>
+    // ── 图标选中 / 取消选中 ──
+    (function() {
+      const icons = document.querySelectorAll('.desktop-icon');
+
+      function deselectAll() {
+        icons.forEach(icon => icon.classList.remove('selected'));
+      }
+
+      // 单击图标 → 选中
+      icons.forEach(icon => {
+        icon.addEventListener('click', function(e) {
+          e.stopPropagation();
+          deselectAll();
+          icon.classList.add('selected');
+        });
+
+        // 双击图标 → 打开窗口（保留选中态）
+        icon.addEventListener('dblclick', function() {
+          openWindow();
+        });
+      });
+
+      // 点击桌面空白 → 取消所有选中
+      document.body.addEventListener('click', function(e) {
+        // 如果点击的是窗口或任务栏内部，不取消选中
+        if (e.target.closest('.window') || e.target.closest('.taskbar')) return;
+        deselectAll();
+      });
+    })();
+
+    // ── 窗口拖动 ──
+    (function() {
+      const win = document.getElementById('mainWindow');
+      const titleBar = document.getElementById('windowTitleBar');
+
+      let dragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      titleBar.addEventListener('mousedown', function(e) {
+        if (e.target.closest('button')) return;
+        dragging = true;
+        const rect = win.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        win.style.cursor = 'move';
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        win.style.left = (e.clientX - offsetX) + 'px';
+        win.style.top  = (e.clientY - offsetY) + 'px';
+      });
+
+      document.addEventListener('mouseup', function() {
+        if (!dragging) return;
+        dragging = false;
+        win.style.cursor = '';
+      });
+    })();
+
+    function openWindow() {
+      // 占位，后续实现
+      console.log('openWindow');
+    }
+
+    // ── 时钟 ──
+    function updateClock() {
+      const now = new Date();
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+  </script>
+</body>
+</html>
