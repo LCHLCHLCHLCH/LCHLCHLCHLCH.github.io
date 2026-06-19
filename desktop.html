@@ -49,22 +49,30 @@
     /* ── 所有桌面窗口 ── */
     .desktop-window {
       position: absolute; display: none;
+      flex-direction: column; min-height: 200px;
     }
-    .window > .title-bar { height: 30px; font-size: 13px; }
+    /* XP.css .window 默认 display:block，覆盖为 flex 以便内容自动填充 */
+    .window.desktop-window {
+      display: flex; flex-direction: column;
+    }
+    .window > .title-bar { height: 30px; font-size: 13px; flex-shrink: 0; }
     .window > .title-bar .title-bar-text {
       display: flex; align-items: center; gap: 5px; padding-left: 2px;
     }
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
 
-    /* ── 窗口 body：用 padding 替代 margin，内容不遮盖蓝色边框 ── */
-    .window > .window-body { margin: 0; padding: 3px 3px 0 3px; }
+    /* ── 窗口 body：flex 自动填满剩余空间 ── */
+    .window > .window-body {
+      margin: 0; padding: 3px 3px 0 3px;
+      flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    }
     .window > .window-body > .status-bar {
-      margin: 0; box-shadow: none; padding: 2px 4px;
+      margin: 0; box-shadow: none; padding: 2px 4px; flex-shrink: 0;
     }
 
     /* ── Explorer 布局 ── */
-    .explorer-layout { display: flex; height: 340px; }
+    .explorer-layout { display: flex; flex: 1; min-height: 0; }
     .explorer-icons {
       flex: 1; padding: 8px; overflow-y: auto;
       display: flex; flex-wrap: wrap; align-content: flex-start;
@@ -102,7 +110,7 @@
     .explorer-preview {
       width: 200px; border-left: 1px solid #d4d0c8; background: #f5f4ee;
       padding: 12px; display: flex; flex-direction: column; gap: 6px;
-      font-size: 11px; overflow-y: auto;
+      font-size: 11px; overflow-y: auto; flex-shrink: 0;
     }
     .explorer-preview .preview-title { font-size: 13px; font-weight: bold; color: #003399; }
     .explorer-preview .preview-label { color: #808080; font-size: 10px; margin-top: 4px; }
@@ -111,7 +119,7 @@
 
     /* ── 内容窗口正文样式 ── */
     .content-body {
-      padding: 14px 18px; max-height: 55vh; overflow-y: auto;
+      padding: 14px 18px; flex: 1; overflow-y: auto;
       font-size: 12px; line-height: 1.7;
     }
     .content-body h1 { font-size: 1.5rem; margin-bottom: 8px; }
@@ -134,8 +142,8 @@
     .content-body hr { border: none; border-top: 1px solid #808080; margin: 12px 0; }
 
     /* iframe 窗口 */
-    .iframe-body { padding: 0; overflow: hidden; }
-    .iframe-body iframe { width: 100%; height: 55vh; border: none; }
+    .iframe-body { padding: 0; overflow: hidden; flex: 1; display: flex; }
+    .iframe-body iframe { width: 100%; flex: 1; border: none; }
   </style>
 </head>
 <body>
@@ -360,7 +368,7 @@
       }
 
       // 创建窗口骨架
-      function create(id, title, iconUrl, width, top, left) {
+      function create(id, title, iconUrl, width, height, top, left) {
         // 如果已存在则置顶
         if (windows[id]) {
           var ex = windows[id];
@@ -372,6 +380,7 @@
         var el = document.createElement('div');
         el.className = 'window desktop-window';
         el.style.width = width + 'px';
+        el.style.height = height + 'px';
         el.style.top = top + 'px';
         el.style.left = left + 'px';
 
@@ -497,7 +506,7 @@
 
       function openMarkdownWindow(post) {
         var winId = 'post-' + post.slug;
-        var el = wm.create(winId, post.title + ' - 记事本', 'icons/fax-cover-page.png', 580, 60 + Math.random() * 80, 180 + Math.random() * 60);
+        var el = wm.create(winId, post.title + ' - 记事本', 'icons/fax-cover-page.png', 580, 400, 60 + Math.random() * 80, 180 + Math.random() * 60);
         var body = wm.getBody(winId);
         body.innerHTML = '<div class="content-body"><p style="color:#808080">加载中…</p></div>';
 
@@ -513,12 +522,12 @@
 
       function openHtmlWindow(post) {
         var winId = 'post-' + post.slug;
-        var el = wm.create(winId, post.title + ' - Internet Explorer', 'icons/html.png', 640, 60 + Math.random() * 80, 160 + Math.random() * 60);
+        var el = wm.create(winId, post.title + ' - Internet Explorer', 'icons/html.png', 640, 420, 60 + Math.random() * 80, 160 + Math.random() * 60);
         wm.setBody(winId, '<div class="iframe-body"><iframe src="posts/' + post.slug + '.html"></iframe></div>');
       }
 
       window.openExplorer = function() {
-        var el = wm.create(EXPLORER_ID, '博客文章', 'icons/explorer.png', 700, 60, 160);
+        var el = wm.create(EXPLORER_ID, '博客文章', 'icons/explorer.png', 700, 460, 60, 160);
         var body = wm.getBody(EXPLORER_ID);
 
         if (posts.length === 0) {
