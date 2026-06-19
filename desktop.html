@@ -49,9 +49,7 @@
     /* ── 所有桌面窗口 ── */
     .desktop-window {
       position: absolute; display: none;
-      /* 需要 position: relative 以便 body 绝对定位 */
     }
-    .window.desktop-window { position: relative; overflow: hidden; }
     .window > .title-bar { height: 30px; font-size: 13px; flex-shrink: 0; }
     .window > .title-bar .title-bar-text {
       display: flex; align-items: center; gap: 5px; padding-left: 2px;
@@ -59,10 +57,10 @@
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
 
-    /* ── 窗口 body：绝对定位填满标题栏下方空间 ── */
+    /* ── 窗口 body：calc 撑满剩余高度 ── */
     .window > .window-body {
       margin: 0; padding: 3px;
-      position: absolute; top: 30px; bottom: 0; left: 0; right: 0;
+      height: calc(100% - 30px);
       display: flex; flex-direction: column; overflow: hidden;
     }
     .window > .window-body > .status-bar {
