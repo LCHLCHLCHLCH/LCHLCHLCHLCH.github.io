@@ -43,44 +43,8 @@
       color: #fff; background: #3168d5; border-color: rgba(255,255,255,0.6);
     }
 
-    /* ── 任务栏 ── */
-    .taskbar {
-      position: fixed; bottom: 0; left: 0; right: 0; height: 36px;
-      background: linear-gradient(180deg, #2c6fc7 0%, #1e54a8 3%, #2f6fc7 15%,
-        #3f87d6 50%, #255eae 85%, #1a4a9a 100%);
-      border-top: 2px solid #5698e0; display: flex; align-items: center;
-      padding: 0 8px; z-index: 9999;
-    }
-    .taskbar .start-btn {
-      height: 26px; padding: 0 18px 0 8px; font-size: 12px; font-weight: bold;
-      font-style: italic; color: #fff; text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
-      background: linear-gradient(180deg, #3f9a3a 0%, #2c7a28 50%, #1d6b1a 100%);
-      border: none; border-radius: 0 12px 12px 0; cursor: pointer;
-      display: flex; align-items: center; gap: 4px;
-    }
-    .taskbar .start-btn:hover {
-      background: linear-gradient(180deg, #4cb848 0%, #389434 50%, #287d24 100%);
-    }
-    .taskbar .start-btn img { width: 20px; height: 20px; }
-    .taskbar .taskbar-divider {
-      width: 1px; height: 22px; background: #1a4a9a; margin: 0 6px;
-      box-shadow: 1px 0 0 rgba(255,255,255,0.15);
-    }
-    .taskbar .task-items { display: flex; gap: 4px; flex: 1; overflow: hidden; }
-    .taskbar .task-item {
-      height: 24px; padding: 0 12px; font-size: 11px; color: #fff;
-      background: linear-gradient(180deg, #3b7ed6 0%, #2b5fae 100%);
-      border: 1px solid #1a4a9a; border-radius: 2px; cursor: pointer;
-      display: flex; align-items: center; gap: 4px; white-space: nowrap;
-    }
-    .taskbar .task-item:hover {
-      background: linear-gradient(180deg, #4b8ee6 0%, #3b6fbe 100%);
-    }
-    .taskbar .task-item img { width: 16px; height: 16px; }
-    .taskbar .taskbar-tray {
-      margin-left: auto; display: flex; align-items: center; gap: 6px;
-      color: #fff; font-size: 11px; padding: 0 8px;
-    }
+    /* ── 任务栏 [PREPARE TO DISCARD] ── */
+    /* .taskbar { ... } — 已隐藏，准备丢弃 */
 
     /* ── 所有桌面窗口 ── */
     .desktop-window {
@@ -211,7 +175,8 @@
   <!-- 所有窗口由 JS 动态创建 -->
   <div id="windowContainer"></div>
 
-  <!-- 任务栏 -->
+  <!-- 任务栏 [PREPARE TO DISCARD] -->
+  <!--
   <div class="taskbar">
     <button class="start-btn">
       <img src="icons/my-computer.png" alt="" draggable="false"> 开始
@@ -222,6 +187,7 @@
       <span id="clock">12:00</span>
     </div>
   </div>
+  -->
 
   <script>
     // ═══════════════════════════════════════════
@@ -277,7 +243,9 @@
         });
       }
 
+      // [PREPARE TO DISCARD] 任务栏已隐藏，createTaskBtn 暂时为空操作
       function createTaskBtn(id, title, iconUrl) {
+        if (!taskbarItems) return null;
         var btn = document.createElement('div');
         btn.className = 'task-item';
         btn.innerHTML = '<img src="' + iconUrl + '" alt="" draggable="false">' + title;
@@ -513,8 +481,9 @@
     })();
 
     // ═══════════════════════════════════════════
-    // 时钟
+    // 时钟 [PREPARE TO DISCARD]
     // ═══════════════════════════════════════════
+    /*
     function updateClock() {
       var now = new Date();
       document.getElementById('clock').textContent =
@@ -523,6 +492,7 @@
     }
     updateClock();
     setInterval(updateClock, 30000);
+    */
   </script>
 </body>
 </html>
