@@ -5,19 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>桌面</title>
   <link rel="stylesheet" href="https://unpkg.com/xp.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: linear-gradient(
-        180deg, #3a6bc5 0%, #5b8ed8 15%, #7baedf 30%,
-        #a3d4f0 50%, #c8e8f8 65%, #7db356 65%, #5a9e3a 78%, #3d7a22 100%
-      );
-      font-family: Tahoma, Arial, sans-serif;
-      user-select: none;
+      width: 100vw; height: 100vh; overflow: hidden;
+      background: linear-gradient(180deg,
+        #3a6bc5 0%, #5b8ed8 15%, #7baedf 30%,
+        #a3d4f0 50%, #c8e8f8 65%, #7db356 65%, #5a9e3a 78%, #3d7a22 100%);
+      font-family: Tahoma, Arial, sans-serif; user-select: none;
     }
 
     /* ── 桌面图标 ── */
@@ -69,11 +66,12 @@
       width: 1px; height: 22px; background: #1a4a9a; margin: 0 6px;
       box-shadow: 1px 0 0 rgba(255,255,255,0.15);
     }
+    .taskbar .task-items { display: flex; gap: 4px; flex: 1; overflow: hidden; }
     .taskbar .task-item {
       height: 24px; padding: 0 12px; font-size: 11px; color: #fff;
       background: linear-gradient(180deg, #3b7ed6 0%, #2b5fae 100%);
       border: 1px solid #1a4a9a; border-radius: 2px; cursor: pointer;
-      display: flex; align-items: center; gap: 4px; min-width: 120px;
+      display: flex; align-items: center; gap: 4px; white-space: nowrap;
     }
     .taskbar .task-item:hover {
       background: linear-gradient(180deg, #4b8ee6 0%, #3b6fbe 100%);
@@ -84,39 +82,16 @@
       color: #fff; font-size: 11px; padding: 0 8px;
     }
 
-    /* ── 窗口通用 ── */
-    .xp-window {
+    /* ── 所有桌面窗口 ── */
+    .desktop-window {
       position: absolute; display: none;
     }
-
-    /* ── 标题栏修复 ── */
     .window > .title-bar { height: 30px; font-size: 13px; }
     .window > .title-bar .title-bar-text {
       display: flex; align-items: center; gap: 5px; padding-left: 2px;
     }
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
-
-    /* ── 工具栏 ── */
-    .window-toolbar {
-      display: flex; align-items: center; gap: 6px;
-      padding: 4px 6px; background: #ece9d8;
-      border-bottom: 1px solid #d4d0c8;
-    }
-    .window-toolbar .toolbar-btn {
-      min-width: unset; min-height: 22px; width: 26px; height: 22px;
-      padding: 0; display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-    }
-    .window-toolbar .address-bar {
-      flex: 1; display: flex; align-items: center; gap: 4px;
-      font-size: 11px; color: #000;
-    }
-    .window-toolbar .address-label { color: #555; white-space: nowrap; }
-    .window-toolbar .address-path {
-      background: #fff; border: 1px solid #7f9db9; padding: 1px 6px;
-      height: 21px; line-height: 19px; flex: 1; font-size: 11px;
-    }
 
     /* ── Explorer 布局 ── */
     .explorer-layout { display: flex; height: 320px; }
@@ -127,8 +102,8 @@
     }
     .explorer-icon-item {
       display: flex; flex-direction: column; align-items: center; gap: 4px;
-      width: 88px; padding: 6px 4px; cursor: default; border: 1px solid transparent;
-      border-radius: 2px;
+      width: 88px; padding: 6px 4px; cursor: default;
+      border: 1px solid transparent; border-radius: 2px;
     }
     .explorer-icon-item:hover { background: #e8f0fc; border-color: #c8d8f0; }
     .explorer-icon-item.selected {
@@ -142,25 +117,43 @@
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
       overflow: hidden;
     }
-
-    /* ── 预览面板 ── */
     .explorer-preview {
-      width: 220px; border-left: 1px solid #d4d0c8; background: #f5f4ee;
-      padding: 12px; display: flex; flex-direction: column; gap: 8px;
+      width: 200px; border-left: 1px solid #d4d0c8; background: #f5f4ee;
+      padding: 12px; display: flex; flex-direction: column; gap: 6px;
       font-size: 11px; overflow-y: auto;
     }
-    .explorer-preview .preview-title {
-      font-size: 13px; font-weight: bold; color: #003399;
-    }
-    .explorer-preview .preview-label {
-      color: #808080; font-size: 10px; text-transform: uppercase; margin-top: 4px;
-    }
+    .explorer-preview .preview-title { font-size: 13px; font-weight: bold; color: #003399; }
+    .explorer-preview .preview-label { color: #808080; font-size: 10px; margin-top: 4px; }
     .explorer-preview .preview-value { color: #222; }
     .explorer-preview .preview-empty { color: #aaa; font-style: italic; margin-top: 20px; }
 
-    .explorer-preview .preview-open-btn {
-      margin-top: auto; min-width: unset; width: 100%; text-align: center;
+    /* ── 内容窗口正文样式 ── */
+    .content-body {
+      padding: 14px 18px; max-height: 55vh; overflow-y: auto;
+      font-size: 12px; line-height: 1.7;
     }
+    .content-body h1 { font-size: 1.5rem; margin-bottom: 8px; }
+    .content-body h2 { font-size: 1.2rem; margin: 16px 0 8px; color: #003399;
+      border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
+    .content-body h3 { font-size: 1.05rem; margin: 12px 0 6px; }
+    .content-body p { margin: 6px 0; }
+    .content-body ul, .content-body ol { margin: 6px 0 6px 22px; }
+    .content-body li { margin: 2px 0; }
+    .content-body code { font-family: "Perfect DOS VGA 437 Win", monospace;
+      background: #d4d0c8; padding: 1px 4px; font-size: 0.9em; }
+    .content-body pre { background: #000; color: silver; padding: 10px; overflow-x: auto;
+      font-family: "Perfect DOS VGA 437 Win", monospace; font-size: 0.85rem; margin: 8px 0; }
+    .content-body pre code { background: none; padding: 0; color: inherit; }
+    .content-body blockquote { border-left: 3px solid #7f9db9;
+      padding: 2px 10px; margin: 8px 0; color: #555; background: #f0f0f0; }
+    .content-body table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+    .content-body th, .content-body td { border: 1px solid #808080; padding: 3px 6px; font-size: 0.9rem; }
+    .content-body th { background: #d4d0c8; }
+    .content-body hr { border: none; border-top: 1px solid #808080; margin: 12px 0; }
+
+    /* iframe 窗口 */
+    .iframe-body { padding: 0; overflow: hidden; }
+    .iframe-body iframe { width: 100%; height: 55vh; border: none; }
   </style>
 </head>
 <body>
@@ -197,42 +190,8 @@
     </div>
   </div>
 
-  <!-- 资源管理器窗口（初始隐藏） -->
-  <div class="window xp-window" id="explorerWindow" style="width:700px; top:60px; left:160px;">
-    <div class="title-bar" id="explorerTitleBar">
-      <div class="title-bar-text">
-        <img src="icons/explorer.png" alt="" draggable="false">
-        博客文章
-      </div>
-      <div class="title-bar-controls">
-        <button aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button>
-        <button aria-label="Close" id="explorerCloseBtn"></button>
-      </div>
-    </div>
-    <!-- 工具栏 -->
-    <div class="window-toolbar">
-      <button class="toolbar-btn" title="后退">←</button>
-      <button class="toolbar-btn" title="前进">→</button>
-      <button class="toolbar-btn" title="向上">↑</button>
-      <div class="address-bar">
-        <span class="address-label">地址</span>
-        <span class="address-path">C:\博客文章</span>
-      </div>
-    </div>
-    <!-- 主区域 -->
-    <div class="explorer-layout">
-      <div class="explorer-icons" id="explorerIcons">
-        <!-- 由 JS 动态填充 -->
-      </div>
-      <div class="explorer-preview" id="explorerPreview">
-        <p class="preview-empty">← 点击一个文件查看信息</p>
-      </div>
-    </div>
-    <div class="status-bar">
-      <div class="status-bar-field" id="explorerStatus">0 个文件</div>
-    </div>
-  </div>
+  <!-- 所有窗口由 JS 动态创建 -->
+  <div id="windowContainer"></div>
 
   <!-- 任务栏 -->
   <div class="taskbar">
@@ -240,9 +199,7 @@
       <img src="icons/my-computer.png" alt="" draggable="false"> 开始
     </button>
     <div class="taskbar-divider"></div>
-    <div class="task-item" id="taskbarBlogBtn">
-      <img src="icons/explorer.png" alt="" draggable="false"> 博客文章
-    </div>
+    <div class="task-items" id="taskbarItems"></div>
     <div class="taskbar-tray">
       <span id="clock">12:00</span>
     </div>
@@ -250,12 +207,12 @@
 
   <script>
     // ═══════════════════════════════════════════
-    // 图标选中 / 取消选中
+    // 图标选中
     // ═══════════════════════════════════════════
     (function() {
-      const icons = document.querySelectorAll('.desktop-icon');
-      function deselectAll() { icons.forEach(icon => icon.classList.remove('selected')); }
-      icons.forEach(icon => {
+      var icons = document.querySelectorAll('.desktop-icon');
+      function deselectAll() { icons.forEach(function(icon) { icon.classList.remove('selected'); }); }
+      icons.forEach(function(icon) {
         icon.addEventListener('click', function(e) {
           e.stopPropagation();
           deselectAll();
@@ -269,95 +226,175 @@
     })();
 
     // ═══════════════════════════════════════════
-    // 窗口拖动
+    // 窗口管理器
     // ═══════════════════════════════════════════
-    function makeDraggable(winEl, titleBarEl) {
-      let dragging = false, offsetX = 0, offsetY = 0;
-      titleBarEl.addEventListener('mousedown', function(e) {
-        if (e.target.closest('button')) return;
-        dragging = true;
-        const rect = winEl.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        winEl.style.cursor = 'move';
-      });
-      document.addEventListener('mousemove', function(e) {
-        if (!dragging) return;
-        winEl.style.left = (e.clientX - offsetX) + 'px';
-        winEl.style.top  = (e.clientY - offsetY) + 'px';
-      });
-      document.addEventListener('mouseup', function() {
-        if (!dragging) return;
-        dragging = false;
-        winEl.style.cursor = '';
-      });
-    }
+    var wm = (function() {
+      var container = document.getElementById('windowContainer');
+      var taskbarItems = document.getElementById('taskbarItems');
+      var windows = {};   // id → { el, taskBtn }
+      var zCounter = 100;
+
+      function bringToFront(el) {
+        el.style.zIndex = ++zCounter;
+      }
+
+      function makeDraggable(el, titleBar) {
+        var dragging = false, ox = 0, oy = 0;
+        titleBar.addEventListener('mousedown', function(e) {
+          if (e.target.closest('button')) return;
+          dragging = true;
+          var r = el.getBoundingClientRect();
+          ox = e.clientX - r.left;
+          oy = e.clientY - r.top;
+          el.style.cursor = 'move';
+          bringToFront(el);
+        });
+        document.addEventListener('mousemove', function(e) {
+          if (!dragging) return;
+          el.style.left = (e.clientX - ox) + 'px';
+          el.style.top  = (e.clientY - oy) + 'px';
+        });
+        document.addEventListener('mouseup', function() {
+          if (dragging) { dragging = false; el.style.cursor = ''; }
+        });
+      }
+
+      function createTaskBtn(id, title, iconUrl) {
+        var btn = document.createElement('div');
+        btn.className = 'task-item';
+        btn.innerHTML = '<img src="' + iconUrl + '" alt="" draggable="false">' + title;
+        btn.onclick = function() {
+          var w = windows[id];
+          if (!w) return;
+          if (w.el.style.display === 'block') {
+            w.el.style.display = 'none';
+          } else {
+            w.el.style.display = 'block';
+            bringToFront(w.el);
+          }
+        };
+        taskbarItems.appendChild(btn);
+        return btn;
+      }
+
+      function removeTaskBtn(btn) {
+        if (btn && btn.parentNode) btn.parentNode.removeChild(btn);
+      }
+
+      // 创建窗口骨架
+      function create(id, title, iconUrl, width, top, left) {
+        // 如果已存在则置顶
+        if (windows[id]) {
+          var ex = windows[id];
+          ex.el.style.display = 'block';
+          bringToFront(ex.el);
+          return ex.el;
+        }
+
+        var el = document.createElement('div');
+        el.className = 'window desktop-window';
+        el.style.width = width + 'px';
+        el.style.top = top + 'px';
+        el.style.left = left + 'px';
+
+        el.innerHTML =
+          '<div class="title-bar win-titlebar">' +
+            '<div class="title-bar-text">' +
+              '<img src="' + iconUrl + '" alt="" draggable="false">' +
+              title +
+            '</div>' +
+            '<div class="title-bar-controls">' +
+              '<button aria-label="Minimize"></button>' +
+              '<button aria-label="Maximize"></button>' +
+              '<button aria-label="Close" class="win-close"></button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="window-body win-body"></div>';
+        // 初始: 不显示
+        el.style.display = 'none';
+        container.appendChild(el);
+
+        var titleBar = el.querySelector('.win-titlebar');
+        var bodyEl = el.querySelector('.win-body');
+        var closeBtn = el.querySelector('.win-close');
+        var taskBtn = createTaskBtn(id, title, iconUrl);
+
+        makeDraggable(el, titleBar);
+
+        closeBtn.addEventListener('click', function() {
+          el.style.display = 'none';
+        });
+
+        // 点击窗口任意位置 → 置顶
+        el.addEventListener('mousedown', function() {
+          bringToFront(el);
+        });
+
+        windows[id] = { el: el, body: bodyEl, taskBtn: taskBtn, titleBar: titleBar };
+
+        // 显示
+        el.style.display = 'block';
+        bringToFront(el);
+
+        return el;
+      }
+
+      function getBodyEl(id) {
+        return windows[id] ? windows[id].body : null;
+      }
+
+      function setBodyHTML(id, html) {
+        var b = getBodyEl(id);
+        if (b) b.innerHTML = html;
+      }
+
+      function closeWindow(id) {
+        var w = windows[id];
+        if (!w) return;
+        w.el.style.display = 'none';
+      }
+
+      return { create: create, getBody: getBodyEl, setBody: setBodyHTML, close: closeWindow, bringToFront: bringToFront };
+    })();
 
     // ═══════════════════════════════════════════
-    // 资源管理器窗口
+    // 资源管理器（博客文章文件夹）
     // ═══════════════════════════════════════════
     (function() {
-      const win = document.getElementById('explorerWindow');
-      const titleBar = document.getElementById('explorerTitleBar');
-      const closeBtn = document.getElementById('explorerCloseBtn');
-      const iconsContainer = document.getElementById('explorerIcons');
-      const previewPane = document.getElementById('explorerPreview');
-      const statusField = document.getElementById('explorerStatus');
+      var EXPLORER_ID = 'explorer';
+      var posts = [];
+      var selectedSlug = null;
 
-      makeDraggable(win, titleBar);
-
-      let posts = [];
-      let selectedSlug = null;
-
-      // 关闭窗口
-      closeBtn.addEventListener('click', function() { win.style.display = 'none'; });
-      // 任务栏按钮也可触发
-      document.getElementById('taskbarBlogBtn').addEventListener('click', function() {
-        if (win.style.display === 'block') {
-          win.style.display = 'none';
-        } else {
-          openExplorer();
-        }
-      });
-
-      // 获取文件类型图标
       function getFileIcon(post) {
-        if (post.type === 'html') return 'icons/information.png';
-        return 'icons/folder-closed.png'; // markdown 用文件夹图标
+        return post.type === 'html' ? 'icons/information.png' : 'icons/folder-closed.png';
       }
 
-      // 打开文件的链接
-      function getFileUrl(post) {
-        if (post.type === 'html') return 'posts/' + post.slug + '.html';
-        return 'post.html?slug=' + post.slug;
-      }
-
-      // 渲染大图标列表
-      function renderIcons() {
+      function renderIcons(iconsContainer, previewPane, statusField) {
         iconsContainer.innerHTML = '';
         posts.forEach(function(post) {
-          const item = document.createElement('div');
+          var item = document.createElement('div');
           item.className = 'explorer-icon-item';
           item.setAttribute('data-slug', post.slug);
           item.innerHTML =
             '<img src="' + getFileIcon(post) + '" alt="" draggable="false">' +
             '<div class="explorer-icon-label">' + post.title + '</div>';
 
-          // 单击 → 选中 + 预览
           item.addEventListener('click', function(e) {
             e.stopPropagation();
-            // 取消其他选中
             iconsContainer.querySelectorAll('.explorer-icon-item.selected').forEach(function(el) {
               el.classList.remove('selected');
             });
             item.classList.add('selected');
             selectedSlug = post.slug;
-            showPreview(post);
+            showPreview(post, previewPane);
           });
 
-          // 双击 → 打开
           item.addEventListener('dblclick', function() {
-            window.open(getFileUrl(post), '_blank');
+            if (post.type === 'markdown') {
+              openMarkdownWindow(post);
+            } else {
+              openHtmlWindow(post);
+            }
           });
 
           iconsContainer.appendChild(item);
@@ -365,8 +402,7 @@
         statusField.textContent = posts.length + ' 个文件';
       }
 
-      // 预览面板
-      function showPreview(post) {
+      function showPreview(post, previewPane) {
         var typeLabel = post.type === 'markdown' ? 'Markdown 文档' : 'HTML 页面';
         previewPane.innerHTML =
           '<div class="preview-title">' + post.title + '</div>' +
@@ -375,44 +411,71 @@
           '<div class="preview-label">日期</div>' +
           '<div class="preview-value">' + post.date + '</div>' +
           '<div class="preview-label">摘要</div>' +
-          '<div class="preview-value">' + post.summary + '</div>' +
-          '<button class="preview-open-btn" onclick="window.open(\'' + getFileUrl(post) + '\',\'_blank\')">打开</button>';
+          '<div class="preview-value">' + post.summary + '</div>';
       }
 
-      // 点击图标区域空白 → 取消预览
-      iconsContainer.addEventListener('click', function(e) {
-        if (e.target === iconsContainer) {
-          iconsContainer.querySelectorAll('.explorer-icon-item.selected').forEach(function(el) {
-            el.classList.remove('selected');
-          });
-          selectedSlug = null;
-          previewPane.innerHTML = '<p class="preview-empty">← 点击一个文件查看信息</p>';
-        }
-      });
+      function openMarkdownWindow(post) {
+        var winId = 'post-' + post.slug;
+        var el = wm.create(winId, post.title + ' - 记事本', 'icons/folder-closed.png', 580, 60 + Math.random() * 80, 180 + Math.random() * 60);
+        var body = wm.getBody(winId);
+        body.innerHTML = '<div class="content-body"><p style="color:#808080">加载中…</p></div>';
 
-      window.openExplorer = function() {
-        if (win.style.display === 'block') {
-          // 已经打开，置顶即可
-          win.style.zIndex = parseInt(win.style.zIndex || 100) + 1;
-          return;
-        }
-        // 首次打开 → 加载数据
-        fetch('posts/index.json')
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            posts = data;
-            renderIcons();
-            previewPane.innerHTML = '<p class="preview-empty">← 点击一个文件查看信息</p>';
-            win.style.display = 'block';
-            win.style.zIndex = 200;
+        fetch('posts/' + post.slug + '.md')
+          .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+          .then(function(md) {
+            wm.setBody(winId, '<div class="content-body">' + marked.parse(md) + '</div>');
           })
           .catch(function(err) {
-            posts = [];
-            renderIcons();
-            previewPane.innerHTML = '<p class="preview-empty" style="color:red">加载失败: ' + err.message + '</p>';
-            win.style.display = 'block';
-            win.style.zIndex = 200;
+            wm.setBody(winId, '<div class="content-body"><p style="color:red">加载失败: ' + err.message + '</p></div>');
           });
+      }
+
+      function openHtmlWindow(post) {
+        var winId = 'post-' + post.slug;
+        var el = wm.create(winId, post.title + ' - Internet Explorer', 'icons/information.png', 640, 60 + Math.random() * 80, 160 + Math.random() * 60);
+        wm.setBody(winId, '<div class="iframe-body"><iframe src="posts/' + post.slug + '.html"></iframe></div>');
+      }
+
+      window.openExplorer = function() {
+        var el = wm.create(EXPLORER_ID, '博客文章', 'icons/explorer.png', 700, 60, 160);
+        var body = wm.getBody(EXPLORER_ID);
+
+        if (posts.length === 0) {
+          // 首次加载
+          body.innerHTML =
+            '<div class="explorer-layout">' +
+              '<div class="explorer-icons" id="explorerIcons"></div>' +
+              '<div class="explorer-preview" id="explorerPreview"><p class="preview-empty">← 点击文件查看信息</p></div>' +
+            '</div>' +
+            '<div class="status-bar"><div class="status-bar-field" id="explorerStatus">0 个文件</div></div>';
+
+          fetch('posts/index.json')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              posts = data;
+              renderIcons(
+                body.querySelector('#explorerIcons'),
+                body.querySelector('#explorerPreview'),
+                body.querySelector('#explorerStatus')
+              );
+            })
+            .catch(function() {
+              body.querySelector('#explorerPreview').innerHTML = '<p class="preview-empty" style="color:red">加载失败</p>';
+            });
+        } else {
+          // 已加载过数据，重建 DOM
+          body.innerHTML =
+            '<div class="explorer-layout">' +
+              '<div class="explorer-icons" id="explorerIcons"></div>' +
+              '<div class="explorer-preview" id="explorerPreview"><p class="preview-empty">← 点击文件查看信息</p></div>' +
+            '</div>' +
+            '<div class="status-bar"><div class="status-bar-field" id="explorerStatus">0 个文件</div></div>';
+          renderIcons(
+            body.querySelector('#explorerIcons'),
+            body.querySelector('#explorerPreview'),
+            body.querySelector('#explorerStatus')
+          );
+        }
       };
     })();
 
@@ -423,7 +486,7 @@
       var blogIcon = document.querySelector('.desktop-icon[data-icon="blog"]');
       if (blogIcon) {
         blogIcon.addEventListener('dblclick', function() {
-          if (typeof openExplorer === 'function') openExplorer();
+          openExplorer();
         });
       }
     })();
