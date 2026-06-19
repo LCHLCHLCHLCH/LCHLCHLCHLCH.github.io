@@ -35,16 +35,10 @@
       font-size: 11px; font-weight: normal;
       opacity: 0.85; margin-top: 2px;
     }
-    .header .close-btn {
-      display: none;
-      min-width: 24px; min-height: 24px;
-      width: 24px; height: 24px;
-      flex-shrink: 0;
+    .header .title-bar-controls {
+      display: none; flex-shrink: 0;
     }
-    .header .close-btn:active,
-    .header .close-btn:hover,
-    .header .close-btn:focus { box-shadow: none !important; }
-    .header .close-btn.visible { display: block; }
+    .header .title-bar-controls.visible { display: flex; }
 
     /* ── 文章列表 ── */
     .post-list {
@@ -132,7 +126,9 @@
         <div class="subtitle">Windows XP 风格</div>
       </div>
     </div>
-    <button class="close-btn" id="headerCloseBtn" aria-label="Close"></button>
+    <div class="title-bar-controls">
+      <button id="headerCloseBtn" aria-label="Close"></button>
+    </div>
   </div>
 
   <!-- 文章列表 -->
@@ -167,6 +163,7 @@
       var articleView = document.getElementById('articleView');
       var articleContent = document.getElementById('articleContent');
       var closeBtn = document.getElementById('headerCloseBtn');
+      var titleBarControls = closeBtn.parentElement;
 
       fetch('posts/index.json')
         .then(function(r) { return r.json(); })
@@ -198,7 +195,7 @@
         articleContent.innerHTML = '<p class="loading">加载中…</p>';
         articleView.classList.add('active');
         postList.style.display = 'none';
-        closeBtn.classList.add('visible');
+        titleBarControls.classList.add('visible');
 
         fetch('posts/' + slug + '.md')
           .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
@@ -214,7 +211,7 @@
       closeBtn.addEventListener('click', function() {
         articleView.classList.remove('active');
         postList.style.display = '';
-        closeBtn.classList.remove('visible');
+        titleBarControls.classList.remove('visible');
         window.scrollTo(0, 0);
       });
     })();
