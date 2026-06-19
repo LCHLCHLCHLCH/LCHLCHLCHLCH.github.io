@@ -52,13 +52,14 @@ var wm = (function() {
   var CURSOR_MAP = { nw:'nw-resize', ne:'ne-resize', sw:'sw-resize', se:'se-resize',
                      n:'n-resize', s:'s-resize', w:'w-resize', e:'e-resize' };
 
-  function makeInteractive(el, titleBar) {
+  function makeInteractive(el, titleBar, resizable) {
+    if (resizable === undefined) resizable = true;
     var drag = false, resize = false, dir = '', ox = 0, oy = 0;
     var startW, startH, startL, startT;
 
-    // 光标随边缘变化
+    // 光标随边缘变化（不可缩放窗口不显示边缘光标）
     el.addEventListener('mousemove', function(e) {
-      if (drag || resize || el.classList.contains('maximized')) return;
+      if (!resizable || drag || resize || el.classList.contains('maximized')) return;
       var d = detectEdge(el, e);
       el.style.cursor = d ? CURSOR_MAP[d] : '';
     });
@@ -84,7 +85,7 @@ var wm = (function() {
         return;
       }
       bringToFront(el);
-      var d = detectEdge(el, e);
+      var d = resizable ? detectEdge(el, e) : null;
       if (d && (d.indexOf('n') !== -1 || d.indexOf('w') !== -1 || d.indexOf('e') !== -1)) {
         if (d === 'w' || d === 'e') { drag = true; dir = ''; }
         else { resize = true; dir = d; }
@@ -106,7 +107,7 @@ var wm = (function() {
 
     // 窗口 body 按下 → 可能缩放（底部/右侧/角）
     el.addEventListener('mousedown', function(e) {
-      if (el.classList.contains('maximized')) return;
+      if (!resizable || el.classList.contains('maximized')) return;
       if (e.target.closest('.title-bar')) return;
       bringToFront(el);
       var d = detectEdge(el, e);
@@ -178,7 +179,8 @@ var wm = (function() {
     return btn;
   }
 
-  function create(id, title, iconUrl, width, height, top, left) {
+  function create(id, title, iconUrl, width, height, top, left, options) {
+    options = options || {};
     if (windows[id]) {
       var ex = windows[id];
       ex.el.style.display = 'block';
@@ -194,6 +196,7 @@ var wm = (function() {
     el.style.top = top + 'px';
     el.style.left = left + 'px';
 
+    var maxBtnHtml = options.resizable === false ? '' : '<button aria-label="Maximize"></button>';
     el.innerHTML =
       '<div class="title-bar win-titlebar">' +
         '<div class="title-bar-text">' +
@@ -202,7 +205,7 @@ var wm = (function() {
         '</div>' +
         '<div class="title-bar-controls">' +
           '<button aria-label="Minimize"></button>' +
-          '<button aria-label="Maximize"></button>' +
+          maxBtnHtml +
           '<button aria-label="Close" class="win-close"></button>' +
         '</div>' +
       '</div>' +
@@ -216,7 +219,7 @@ var wm = (function() {
     var closeBtn = el.querySelector('.win-close');
     var taskBtn = createTaskBtn(id, title, iconUrl);
 
-    makeInteractive(el, titleBar);
+    makeInteractive(el, titleBar, options.resizable !== false);
 
     // ── 最大化 / 还原 ──
     var maxBtn = el.querySelector('button[aria-label="Maximize"]');
@@ -424,7 +427,7 @@ var wm = (function() {
 // ═══════════════════════════════════════════
 function openControlPanel() {
   var winId = 'control-panel';
-  wm.create(winId, '控制面板', 'icons/control-panel.png', 420, 320, 120, 220);
+  wm.create(winId, '控制面板', 'icons/control-panel.png', 420, 320, 120, 220, { resizable: false });
   var body = wm.getBody(winId);
 
   var currentSize = getComputedStyle(document.body).getPropertyValue('--content-font-size').trim();
