@@ -103,8 +103,22 @@
       const slug = params.get('slug');
 
       if (!slug) {
-        document.getElementById('postTitle').textContent = '错误';
-        document.getElementById('postBody').innerHTML = '<p class="error">缺少文章参数。</p>';
+        // 无 slug → 展示文章列表作为回退
+        document.getElementById('postTitle').textContent = '文章列表';
+        document.getElementById('postBody').innerHTML = '<p class="loading">加载中…</p>';
+        fetch('posts/index.json')
+          .then(function(r) { return r.json(); })
+          .then(function(posts) {
+            var html = '';
+            posts.forEach(function(p) {
+              var url = p.type === 'html' ? 'posts/' + p.slug + '.html' : 'post.html?slug=' + p.slug;
+              html += '<p><a href="' + url + '">' + p.title + '</a> <span style="color:#808080;font-size:11px">' + p.date + '</span></p>';
+            });
+            document.getElementById('postBody').innerHTML = html || '<p>暂无文章</p>';
+          })
+          .catch(function() {
+            document.getElementById('postBody').innerHTML = '<p class="error">加载失败</p>';
+          });
         return;
       }
 
