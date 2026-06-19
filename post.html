@@ -43,11 +43,7 @@
       flex: 1; overflow-y: auto;
       font-size: var(--content-font-size);
     }
-    .status-bar {
-      flex-shrink: 0;
-      box-shadow: none !important;
-      margin: 0 3px;
-    }
+
     /* Markdown 渲染内容样式 */
     .window-body h1 { font-size: 1.6em; margin-bottom: 8px; color: #000; }
     .window-body h2 { font-size: 1.3em; margin: 20px 0 8px; color: #003399; border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
@@ -93,15 +89,13 @@
       <div class="title-bar-controls">
         <button aria-label="Minimize"></button>
         <button aria-label="Maximize"></button>
-        <button aria-label="Close" onclick="window.close()"></button>
+        <button aria-label="Close" onclick="history.back()"></button>
       </div>
     </div>
     <div class="window-body" id="postBody">
       <p class="loading">正在加载文章…</p>
     </div>
-    <div class="status-bar">
-      <div class="status-bar-field"><a href="javascript:history.back()" style="color:#0000ff">← 返回</a></div>
-    </div>
+
   </div>
 
   <script>
