@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "hello",
+    "title": "你好，世界！",
+    "date": "2025-06-01",
+    "summary": "这是我的第一篇博客文章，介绍了这个 Windows XP 风格博客网站的特点。",
+    "type": "markdown"
+  },
+  {
+    "slug": "about-xp",
+    "title": "关于 Windows XP",
+    "date": "2025-06-03",
+    "summary": "回顾 Windows XP 的历史、Luna 主题设计，以及 Bliss 壁纸的由来。",
+    "type": "markdown"
+  },
+  {
+    "slug": "tech-stack",
+    "title": "技术栈",
+    "date": "2025-06-05",
+    "summary": "本博客所使用的技术选型：XP.css + marked.js + GitHub Pages。",
+    "type": "markdown"
+  },
+  {
+    "slug": "test-a",
+    "title": "测试页面 A",
+    "date": "2025-06-07",
+    "summary": "一个纯 HTML 示例页面，使用蓝白色调。",
+    "type": "html"
+  },
+  {
+    "slug": "test-b",
+    "title": "测试页面 B",
+    "date": "2025-06-07",
+    "summary": "另一个 HTML 示例页面，使用 Solarized Light 暖色调。",
+    "type": "html"
+  }
+]
