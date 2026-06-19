@@ -14,6 +14,7 @@
       font-family: Tahoma, Arial, sans-serif;
       min-height: 100vh;
       overflow: hidden;
+      --content-font-size: 14px;
     }
     .window {
       width: 100vw;
@@ -39,12 +40,13 @@
     .window-body {
       margin: 0; padding: 16px 20px;
       flex: 1; overflow-y: auto;
+      font-size: var(--content-font-size);
     }
     .status-bar { flex-shrink: 0; }
     /* Markdown 渲染内容样式 */
-    .window-body h1 { font-size: 1.6rem; margin-bottom: 8px; color: #000; }
-    .window-body h2 { font-size: 1.3rem; margin: 20px 0 8px; color: #003399; border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
-    .window-body h3 { font-size: 1.1rem; margin: 14px 0 6px; }
+    .window-body h1 { font-size: 1.6em; margin-bottom: 8px; color: #000; }
+    .window-body h2 { font-size: 1.3em; margin: 20px 0 8px; color: #003399; border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
+    .window-body h3 { font-size: 1.1em; margin: 14px 0 6px; }
     .window-body p  { margin: 8px 0; line-height: 1.7; }
     .window-body ul, .window-body ol { margin: 8px 0 8px 24px; }
     .window-body li { margin: 4px 0; }
@@ -54,7 +56,7 @@
     }
     .window-body pre {
       background: #000; color: silver; padding: 12px; overflow-x: auto;
-      font-family: "Perfect DOS VGA 437 Win", monospace; font-size: 0.9rem; margin: 10px 0;
+      font-family: "Perfect DOS VGA 437 Win", monospace; font-size: 0.85em; margin: 10px 0;
     }
     .window-body pre code { background: none; padding: 0; color: inherit; }
     .window-body blockquote {
@@ -64,7 +66,7 @@
     .window-body table { border-collapse: collapse; width: 100%; margin: 10px 0; }
     .window-body th, .window-body td {
       border: 1px solid #808080; padding: 4px 8px; text-align: left;
-      font-size: 0.95rem;
+      font-size: 0.95em;
     }
     .window-body th { background: #d4d0c8; }
     .window-body hr { border: none; border-top: 1px solid #808080; margin: 16px 0; }
@@ -98,27 +100,24 @@
   </div>
 
   <script>
+    // 恢复字体大小设置
+    (function() {
+      try {
+        var saved = localStorage.getItem('xp-mobile-font-size');
+        if (saved) {
+          document.body.style.setProperty('--content-font-size', saved);
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug');
 
       if (!slug) {
-        // 无 slug → 展示文章列表作为回退
-        document.getElementById('postTitle').textContent = '文章列表';
-        document.getElementById('postBody').innerHTML = '<p class="loading">加载中…</p>';
-        fetch('posts/index.json')
-          .then(function(r) { return r.json(); })
-          .then(function(posts) {
-            var html = '';
-            posts.forEach(function(p) {
-              var url = p.type === 'html' ? 'posts/' + p.slug + '.html' : 'post.html?slug=' + p.slug;
-              html += '<p><a href="' + url + '">' + p.title + '</a> <span style="color:#808080;font-size:11px">' + p.date + '</span></p>';
-            });
-            document.getElementById('postBody').innerHTML = html || '<p>暂无文章</p>';
-          })
-          .catch(function() {
-            document.getElementById('postBody').innerHTML = '<p class="error">加载失败</p>';
-          });
+        document.getElementById('postTitle').textContent = '错误';
+        document.getElementById('postBody').innerHTML = '<p class="error">缺少文章参数。</p>';
         return;
       }
 
