@@ -59,6 +59,17 @@
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
 
+    /* ── 最大化时去除圆角 ── */
+    .window.desktop-window.maximized {
+      border-radius: 0 !important;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+    .window.desktop-window.maximized > .title-bar {
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+
     /* ── 窗口 body：calc 撑满剩余高度 ── */
     .window > .window-body {
       margin: 0; padding: 3px;
@@ -256,7 +267,7 @@
 
         // 光标随边缘变化
         el.addEventListener('mousemove', function(e) {
-          if (drag || resize) return;
+          if (drag || resize || el.classList.contains('maximized')) return;
           var d = detectEdge(el, e);
           el.style.cursor = d ? CURSOR_MAP[d] : '';
         });
@@ -264,6 +275,19 @@
         // 标题栏按下 → 拖动 或 顶边角缩放
         titleBar.addEventListener('mousedown', function(e) {
           if (e.target.closest('button')) return;
+          // 最大化时拖动标题栏 → 先还原再拖
+          if (el.classList.contains('maximized')) {
+            var winData = windows[el._winId];
+            if (winData && winData.toggleMaximize) {
+              winData.toggleMaximize();
+              // 还原后把鼠标放在标题栏中间偏左位置
+              var r2 = el.getBoundingClientRect();
+              ox = r2.width * 0.3;
+              oy = e.clientY - r2.top;
+              drag = true;
+              return;
+            }
+          }
           bringToFront(el);
           var d = detectEdge(el, e);
           if (d && (d.indexOf('n') !== -1 || d.indexOf('w') !== -1 || d.indexOf('e') !== -1)) {
@@ -288,6 +312,7 @@
 
         // 窗口 body 按下 → 可能缩放（底部/右侧/角）
         el.addEventListener('mousedown', function(e) {
+          if (el.classList.contains('maximized')) return;
           if (e.target.closest('.title-bar')) return;
           bringToFront(el);
           var d = detectEdge(el, e);
@@ -377,6 +402,7 @@
 
         var el = document.createElement('div');
         el.className = 'window desktop-window';
+        el._winId = id;
         el.style.width = width + 'px';
         el.style.height = height + 'px';
         el.style.top = top + 'px';
@@ -406,6 +432,55 @@
 
         makeInteractive(el, titleBar);
 
+        // ── 最大化 / 还原 ──
+        var maxBtn = el.querySelector('button[aria-label="Maximize"]');
+        var restored = { left: left, top: top, width: width, height: height };
+
+        function maximize() {
+          restored = {
+            left: parseInt(el.style.left) || left,
+            top: parseInt(el.style.top) || top,
+            width: parseInt(el.style.width) || width,
+            height: parseInt(el.style.height) || height
+          };
+          el.classList.add('maximized');
+          el.style.left = '0px';
+          el.style.top = '0px';
+          el.style.width = '100vw';
+          el.style.height = '100vh';
+        }
+
+        function restore() {
+          el.classList.remove('maximized');
+          el.style.left = restored.left + 'px';
+          el.style.top = restored.top + 'px';
+          el.style.width = restored.width + 'px';
+          el.style.height = restored.height + 'px';
+        }
+
+        function toggleMaximize() {
+          if (el.classList.contains('maximized')) {
+            restore();
+          } else {
+            maximize();
+          }
+          bringToFront(el);
+        }
+
+        // 双击标题栏 → 最大化/还原
+        titleBar.addEventListener('dblclick', function(e) {
+          if (e.target.closest('button')) return;
+          toggleMaximize();
+        });
+
+        // 最大化按钮
+        if (maxBtn) {
+          maxBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleMaximize();
+          });
+        }
+
         closeBtn.addEventListener('click', function() {
           el.style.display = 'none';
         });
@@ -415,7 +490,7 @@
           bringToFront(el);
         });
 
-        windows[id] = { el: el, body: bodyEl, taskBtn: taskBtn, titleBar: titleBar };
+        windows[id] = { el: el, body: bodyEl, taskBtn: taskBtn, titleBar: titleBar, toggleMaximize: toggleMaximize };
 
         // 显示
         el.style.display = 'block';
