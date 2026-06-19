@@ -53,6 +53,8 @@
     .window > .title-bar { height: 30px; font-size: 13px; flex-shrink: 0; }
     .window > .title-bar .title-bar-text {
       display: flex; align-items: center; gap: 5px; padding-left: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      min-width: 0; flex-shrink: 1;
     }
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
