@@ -192,10 +192,45 @@
       width: 16px;
       height: 16px;
     }
-    /* 修复按钮大小以匹配加高的标题栏 */
     .window > .title-bar .title-bar-controls button {
       min-width: 21px;
       min-height: 21px;
+    }
+
+    /* ── 窗口内文件列表 ── */
+    .file-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .file-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 6px;
+      cursor: default;
+    }
+    .file-list li:hover {
+      background: #e8f0fc;
+    }
+    .file-list li img {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .file-list li a {
+      color: #0000ff;
+      text-decoration: none;
+      flex: 1;
+    }
+    .file-list li a:hover {
+      text-decoration: underline;
+    }
+    .file-list li .file-type {
+      color: #808080;
+      font-size: 11px;
+      min-width: 80px;
+      text-align: right;
     }
   </style>
 </head>
@@ -234,7 +269,7 @@
   </div>
 
   <!-- 窗口 -->
-  <div class="window xp-window" id="mainWindow" style="width:420px; top:80px; left:200px;">
+  <div class="window xp-window" id="mainWindow" style="width:480px; top:80px; left:200px;">
     <div class="title-bar" id="windowTitleBar">
       <div class="title-bar-text">
         <img src="icons/explorer.png" alt="" draggable="false">
@@ -247,9 +282,36 @@
       </div>
     </div>
     <div class="window-body">
-      <p>你好，世界！</p>
-      <p>这是一个可拖动的 Windows XP 风格窗口。</p>
-      <p>拖动标题栏即可移动窗口。</p>
+      <ul class="file-list">
+        <li>
+          <img src="icons/folder-closed.png" alt="" draggable="false">
+          <a href="post.html?slug=hello" target="_blank">hello.md</a>
+          <span class="file-type">Markdown</span>
+        </li>
+        <li>
+          <img src="icons/folder-closed.png" alt="" draggable="false">
+          <a href="post.html?slug=about-xp" target="_blank">about-xp.md</a>
+          <span class="file-type">Markdown</span>
+        </li>
+        <li>
+          <img src="icons/folder-closed.png" alt="" draggable="false">
+          <a href="post.html?slug=tech-stack" target="_blank">tech-stack.md</a>
+          <span class="file-type">Markdown</span>
+        </li>
+        <li style="border-top: 1px solid #d4d0c8; margin-top: 6px; padding-top: 8px;">
+          <img src="icons/information.png" alt="" draggable="false">
+          <a href="test-a.html" target="_blank">test-a.html</a>
+          <span class="file-type">HTML 页面</span>
+        </li>
+        <li>
+          <img src="icons/information.png" alt="" draggable="false">
+          <a href="test-b.html" target="_blank">test-b.html</a>
+          <span class="file-type">HTML 页面</span>
+        </li>
+      </ul>
+    </div>
+    <div class="status-bar">
+      <div class="status-bar-field">5 个文件</div>
     </div>
   </div>
 

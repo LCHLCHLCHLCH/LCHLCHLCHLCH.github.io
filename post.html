@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章</title>
+  <link rel="stylesheet" href="https://unpkg.com/xp.css">
+  <!-- marked.js for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #ece9d8;
+      font-family: Tahoma, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    .window {
+      width: 100%;
+      max-width: 680px;
+      align-self: flex-start;
+    }
+    .window-body {
+      padding: 16px 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    /* Markdown 渲染内容样式 */
+    .window-body h1 { font-size: 1.6rem; margin-bottom: 8px; color: #000; }
+    .window-body h2 { font-size: 1.3rem; margin: 20px 0 8px; color: #003399; border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
+    .window-body h3 { font-size: 1.1rem; margin: 14px 0 6px; }
+    .window-body p  { margin: 8px 0; line-height: 1.7; }
+    .window-body ul, .window-body ol { margin: 8px 0 8px 24px; }
+    .window-body li { margin: 4px 0; }
+    .window-body code {
+      font-family: "Perfect DOS VGA 437 Win", monospace;
+      background: #d4d0c8; padding: 2px 5px; font-size: 0.9em;
+    }
+    .window-body pre {
+      background: #000; color: silver; padding: 12px; overflow-x: auto;
+      font-family: "Perfect DOS VGA 437 Win", monospace; font-size: 0.9rem; margin: 10px 0;
+    }
+    .window-body pre code { background: none; padding: 0; color: inherit; }
+    .window-body blockquote {
+      border-left: 3px solid #7f9db9; padding: 4px 12px; margin: 10px 0;
+      color: #555; background: #f0f0f0;
+    }
+    .window-body table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+    .window-body th, .window-body td {
+      border: 1px solid #808080; padding: 4px 8px; text-align: left;
+      font-size: 0.95rem;
+    }
+    .window-body th { background: #d4d0c8; }
+    .window-body hr { border: none; border-top: 1px solid #808080; margin: 16px 0; }
+    .window-body a { color: #0000ff; }
+    .window-body a:visited { color: #800080; }
+
+    .back-link {
+      display: inline-block; margin-top: 12px; color: #0000ff; cursor: pointer;
+      text-decoration: underline;
+    }
+    .loading { color: #808080; font-style: italic; }
+    .error { color: #cc0000; }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="title-bar">
+      <div class="title-bar-text" id="postTitle">加载中…</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close" onclick="window.close()"></button>
+      </div>
+    </div>
+    <div class="window-body" id="postBody">
+      <p class="loading">正在加载文章…</p>
+    </div>
+    <div class="status-bar">
+      <div class="status-bar-field"><a href="desktop.html" style="color:#0000ff">← 返回桌面</a></div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug');
+
+      if (!slug) {
+        document.getElementById('postTitle').textContent = '错误';
+        document.getElementById('postBody').innerHTML = '<p class="error">缺少文章参数。</p>';
+        return;
+      }
+
+      // 从 posts/ 目录获取 .md 文件
+      const mdUrl = 'posts/' + slug + '.md';
+
+      fetch(mdUrl)
+        .then(function(res) {
+          if (!res.ok) throw new Error('文章未找到 (HTTP ' + res.status + ')');
+          return res.text();
+        })
+        .then(function(md) {
+          // 用 marked 渲染
+          const html = marked.parse(md);
+
+          // 提取标题（第一个 h1）
+          const h1Match = md.match(/^#\s+(.+)/m);
+          const title = h1Match ? h1Match[1] : slug;
+
+          document.getElementById('postTitle').textContent = title + ' - 记事本';
+          document.getElementById('postBody').innerHTML = html;
+        })
+        .catch(function(err) {
+          document.getElementById('postTitle').textContent = '加载失败';
+          document.getElementById('postBody').innerHTML =
+            '<p class="error">无法加载文章：' + err.message + '</p>';
+        });
+    })();
+  </script>
+</body>
+</html>
