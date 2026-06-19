@@ -93,9 +93,11 @@
     .window > .title-bar .title-bar-text img { width: 16px; height: 16px; }
     .window > .title-bar .title-bar-controls button { min-width: 21px; min-height: 21px; }
 
-    /* ── 窗口 body 清除 XP.css 默认 margin ── */
-    .window > .window-body { margin: 0; }
-    .window > .window-body > .status-bar { margin: 0; }
+    /* ── 窗口 body：用 padding 替代 margin，内容不遮盖蓝色边框 ── */
+    .window > .window-body { margin: 0; padding: 3px 3px 0 3px; }
+    .window > .window-body > .status-bar {
+      margin: 0; box-shadow: none; padding: 2px 4px;
+    }
 
     /* ── Explorer 布局 ── */
     .explorer-layout { display: flex; height: 340px; }
