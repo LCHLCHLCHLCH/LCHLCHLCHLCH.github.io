@@ -275,14 +275,21 @@
         // 标题栏按下 → 拖动 或 顶边角缩放
         titleBar.addEventListener('mousedown', function(e) {
           if (e.target.closest('button')) return;
-          // 最大化时拖动标题栏 → 还原并使标题栏跟随鼠标
+          // 最大化时拖动标题栏 → 还原并移动到鼠标位置
           if (el.classList.contains('maximized')) {
             var winData = windows[el._winId];
             if (winData && winData.toggleMaximize) {
               winData.toggleMaximize();
+              // 将窗口定位到鼠标下方：标题栏 Y 贴顶，水平按比例对齐
               var r2 = el.getBoundingClientRect();
-              ox = e.clientX - r2.left;
-              oy = e.clientY - r2.top;
+              var ratio = e.clientX / window.innerWidth;
+              var newLeft = e.clientX - r2.width * ratio;
+              el.style.left = Math.max(0, Math.min(newLeft, window.innerWidth - r2.width)) + 'px';
+              el.style.top = '0px';
+              // 进入拖动
+              var r3 = el.getBoundingClientRect();
+              ox = e.clientX - r3.left;
+              oy = e.clientY - r3.top;
               drag = true;
             }
             return;
