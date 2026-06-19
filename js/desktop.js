@@ -410,4 +410,59 @@ var wm = (function() {
       openExplorer();
     });
   }
+
+  var cpIcon = document.querySelector('.desktop-icon[data-icon="control-panel"]');
+  if (cpIcon) {
+    cpIcon.addEventListener('dblclick', function() {
+      openControlPanel();
+    });
+  }
+})();
+
+// ═══════════════════════════════════════════
+// 控制面板
+// ═══════════════════════════════════════════
+function openControlPanel() {
+  var winId = 'control-panel';
+  wm.create(winId, '控制面板', 'icons/control-panel.png', 420, 320, 120, 220);
+  var body = wm.getBody(winId);
+
+  var currentSize = getComputedStyle(document.body).getPropertyValue('--content-font-size').trim();
+  var sizes = ['10px', '12px', '14px', '16px', '18px', '20px'];
+  var sizeLabels = ['极小 (10px)', '小 (12px)', '中 (14px)', '大 (16px)', '很大 (18px)', '极大 (20px)'];
+
+  var optionsHtml = '';
+  for (var i = 0; i < sizes.length; i++) {
+    var sel = sizes[i] === currentSize ? ' selected' : '';
+    optionsHtml += '<option value="' + sizes[i] + '"' + sel + '>' + sizeLabels[i] + '</option>';
+  }
+
+  body.innerHTML =
+    '<div class="control-panel-body">' +
+      '<h3>显示设置</h3>' +
+      '<div class="control-panel-item">' +
+        '<span class="cp-label">文章字体大小</span>' +
+        '<div class="cp-control">' +
+          '<select id="fontSizeSelect">' + optionsHtml + '</select>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  var select = body.querySelector('#fontSizeSelect');
+  if (select) {
+    select.addEventListener('change', function() {
+      document.body.style.setProperty('--content-font-size', select.value);
+      try { localStorage.setItem('xp-blog-font-size', select.value); } catch(e) {}
+    });
+  }
+}
+
+// 启动时恢复字体大小设置
+(function() {
+  try {
+    var saved = localStorage.getItem('xp-blog-font-size');
+    if (saved) {
+      document.body.style.setProperty('--content-font-size', saved);
+    }
+  } catch(e) {}
 })();

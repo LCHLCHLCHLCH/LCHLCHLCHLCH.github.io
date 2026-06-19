@@ -6,6 +6,7 @@ body {
     #3a6bc5 0%, #5b8ed8 15%, #7baedf 30%,
     #a3d4f0 50%, #c8e8f8 65%, #7db356 65%, #5a9e3a 78%, #3d7a22 100%);
   font-family: Tahoma, Arial, sans-serif; user-select: none;
+  --content-font-size: 12px;
 }
 
 /* ── 桌面图标 ── */
@@ -116,7 +117,7 @@ body {
 /* ── 内容窗口正文样式 ── */
 .content-body {
   padding: 14px 18px; flex: 1; overflow-y: auto;
-  font-size: 12px; line-height: 1.7;
+  font-size: var(--content-font-size); line-height: 1.7;
 }
 .content-body h1 { font-size: 1.5rem; margin-bottom: 8px; }
 .content-body h2 { font-size: 1.2rem; margin: 16px 0 8px; color: #003399;
@@ -140,3 +141,18 @@ body {
 /* iframe 窗口 */
 .iframe-body { padding: 0; overflow: hidden; flex: 1; display: flex; }
 .iframe-body iframe { width: 100%; flex: 1; border: none; }
+
+/* ── 控制面板 ── */
+.control-panel-body { padding: 16px 20px; flex: 1; overflow-y: auto; }
+.control-panel-body h3 { font-size: 14px; margin-bottom: 12px; color: #003399; }
+.control-panel-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid #d4d0c8;
+}
+.control-panel-item:last-child { border-bottom: none; }
+.control-panel-item .cp-label { font-size: 12px; }
+.control-panel-item .cp-control { display: flex; align-items: center; gap: 8px; }
+.control-panel-item select {
+  font-family: Tahoma, sans-serif; font-size: 12px;
+  padding: 2px 6px; min-width: 120px;
+}
