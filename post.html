@@ -23,6 +23,7 @@
       border-radius: 0 !important;
       border-top-left-radius: 0 !important;
       border-top-right-radius: 0 !important;
+      padding: 0 0 3px 0;
     }
     .window > .title-bar {
       height: 32px; font-size: 14px;
@@ -38,11 +39,15 @@
       min-width: 22px; min-height: 22px;
     }
     .window-body {
-      margin: 0; padding: 16px 20px;
+      margin: 0 3px; padding: 14px 18px;
       flex: 1; overflow-y: auto;
       font-size: var(--content-font-size);
     }
-    .status-bar { flex-shrink: 0; }
+    .status-bar {
+      flex-shrink: 0;
+      box-shadow: none !important;
+      margin: 0 3px;
+    }
     /* Markdown 渲染内容样式 */
     .window-body h1 { font-size: 1.6em; margin-bottom: 8px; color: #000; }
     .window-body h2 { font-size: 1.3em; margin: 20px 0 8px; color: #003399; border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
