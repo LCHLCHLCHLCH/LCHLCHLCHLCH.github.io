@@ -37,16 +37,14 @@
     }
     .header .close-btn {
       display: none;
-      width: 28px; height: 28px;
-      background: #c94b2c;
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 4px;
-      color: #fff; font-size: 16px; font-weight: bold;
-      cursor: pointer; align-items: center; justify-content: center;
+      min-width: 24px; min-height: 24px;
+      width: 24px; height: 24px;
       flex-shrink: 0;
     }
-    .header .close-btn:hover { background: #e05a3c; }
-    .header .close-btn.visible { display: flex; }
+    .header .close-btn:active,
+    .header .close-btn:hover,
+    .header .close-btn:focus { box-shadow: none !important; }
+    .header .close-btn.visible { display: block; }
 
     /* ── 文章列表 ── */
     .post-list {
@@ -134,7 +132,7 @@
         <div class="subtitle">Windows XP 风格</div>
       </div>
     </div>
-    <div class="close-btn" id="headerCloseBtn" title="关闭">✕</div>
+    <button class="close-btn" id="headerCloseBtn" aria-label="Close"></button>
   </div>
 
   <!-- 文章列表 -->
