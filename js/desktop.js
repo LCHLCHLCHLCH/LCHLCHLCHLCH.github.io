@@ -433,6 +433,13 @@ var wm = (function() {
       openControlPanel();
     });
   }
+
+  var ghIcon = document.querySelector('.desktop-icon[data-icon="github"]');
+  if (ghIcon) {
+    ghIcon.addEventListener('dblclick', function() {
+      window.open('https://github.com/LCHLCHLCHLCH', '_blank');
+    });
+  }
 })();
 
 // ═══════════════════════════════════════════
