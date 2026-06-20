@@ -154,7 +154,7 @@ body {
 .control-panel-item:last-child { border-bottom: none; }
 .control-panel-item .cp-label { font-size: 12px; }
 .control-panel-item .cp-control { display: flex; align-items: center; gap: 8px; }
-.control-panel-item select {
-  font-family: Tahoma, sans-serif; font-size: 12px;
-  padding: 2px 6px; min-width: 120px;
+.control-panel-item input[type=range] { width: 120px; }
+.control-panel-item .cp-slider-val {
+  font-size: 12px; min-width: 36px; text-align: center;
 }

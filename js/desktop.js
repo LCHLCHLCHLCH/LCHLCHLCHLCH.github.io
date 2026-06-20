@@ -431,22 +431,10 @@ function openControlPanel() {
   var body = wm.getBody(winId);
 
   var currentSize = getComputedStyle(document.body).getPropertyValue('--content-font-size').trim();
-  var sizes = ['10px', '12px', '14px', '16px', '18px', '20px'];
-  var sizeLabels = ['极小 (10px)', '小 (12px)', '中 (14px)', '大 (16px)', '很大 (18px)', '极大 (20px)'];
-
-  var optionsHtml = '';
-  for (var i = 0; i < sizes.length; i++) {
-    var sel = sizes[i] === currentSize ? ' selected' : '';
-    optionsHtml += '<option value="' + sizes[i] + '"' + sel + '>' + sizeLabels[i] + '</option>';
-  }
+  var sliderVal = Math.round((parseInt(currentSize) - 10) / 2); // 10→0, 12→1, ... 20→5
 
   var currentSelect = getComputedStyle(document.body).getPropertyValue('--content-select').trim();
-  var selectOptions = '';
-  ['none', 'text'].forEach(function(val) {
-    var label = val === 'text' ? '允许选中' : '禁止选中';
-    var sel = val === currentSelect ? ' selected' : '';
-    selectOptions += '<option value="' + val + '"' + sel + '>' + label + '</option>';
-  });
+  var checkedAttr = currentSelect === 'text' ? ' checked' : '';
 
   body.innerHTML =
     '<div class="control-panel-body">' +
@@ -454,30 +442,36 @@ function openControlPanel() {
       '<div class="control-panel-item">' +
         '<span class="cp-label">文章字体大小</span>' +
         '<div class="cp-control">' +
-          '<select id="fontSizeSelect">' + optionsHtml + '</select>' +
+          '<input type="range" id="fontSizeSlider" min="0" max="5" value="' + sliderVal + '" step="1">' +
+          '<span class="cp-slider-val" id="sliderLabel">' + currentSize + '</span>' +
         '</div>' +
       '</div>' +
       '<div class="control-panel-item">' +
         '<span class="cp-label">文字可选</span>' +
         '<div class="cp-control">' +
-          '<select id="selectToggle">' + selectOptions + '</select>' +
+          '<input type="checkbox" id="selectCheckbox"' + checkedAttr + '>' +
+          '<label for="selectCheckbox">允许选中</label>' +
         '</div>' +
       '</div>' +
     '</div>';
 
-  var select = body.querySelector('#fontSizeSelect');
-  if (select) {
-    select.addEventListener('change', function() {
-      document.body.style.setProperty('--content-font-size', select.value);
-      try { localStorage.setItem('xp-blog-font-size', select.value); } catch(e) {}
+  var slider = body.querySelector('#fontSizeSlider');
+  var sliderLabel = body.querySelector('#sliderLabel');
+  if (slider) {
+    slider.addEventListener('input', function() {
+      var size = (10 + parseInt(slider.value) * 2) + 'px';
+      sliderLabel.textContent = size;
+      document.body.style.setProperty('--content-font-size', size);
+      try { localStorage.setItem('xp-blog-font-size', size); } catch(e) {}
     });
   }
 
-  var selToggle = body.querySelector('#selectToggle');
-  if (selToggle) {
-    selToggle.addEventListener('change', function() {
-      document.body.style.setProperty('--content-select', selToggle.value);
-      try { localStorage.setItem('xp-blog-content-select', selToggle.value); } catch(e) {}
+  var checkbox = body.querySelector('#selectCheckbox');
+  if (checkbox) {
+    checkbox.addEventListener('change', function() {
+      var val = checkbox.checked ? 'text' : 'none';
+      document.body.style.setProperty('--content-select', val);
+      try { localStorage.setItem('xp-blog-content-select', val); } catch(e) {}
     });
   }
 }
