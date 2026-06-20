@@ -273,7 +273,7 @@ body {
 }
 .post-meta-line {
   padding: 10px 18px;
-  font-size: 13px;
+  font-size: 14px;
   color: #555;
   border-bottom: 1px solid #d4d0c8;
   display: flex;
@@ -295,7 +295,7 @@ body {
   margin: 0 2px;
 }
 .post-meta-stats {
-  font-size: 12px;
+  font-size: 13px;
   color: #808080;
   gap: 10px;
 }
@@ -309,14 +309,14 @@ body {
 /* ── 文章正文 ── */
 .post-content {
   padding: 20px 24px 28px;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.85;
   color: #222;
 }
-.post-content h1 { font-size: 1.5em; margin: 8px 0 12px; }
-.post-content h2 { font-size: 1.2em; margin: 20px 0 10px; color: #003399;
+.post-content h1 { font-size: 1.6em; margin: 8px 0 12px; }
+.post-content h2 { font-size: 1.3em; margin: 20px 0 10px; color: #003399;
   border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
-.post-content h3 { font-size: 1.05em; margin: 16px 0 8px; }
+.post-content h3 { font-size: 1.1em; margin: 16px 0 8px; }
 .post-content p  { margin: 8px 0; }
 .post-content ul,
 .post-content ol { margin: 8px 0 8px 24px; }
@@ -325,7 +325,7 @@ body {
 .post-content a:visited { color: #800080; }
 .post-content code {
   font-family: "Perfect DOS VGA 437 Win", "Courier New", monospace;
-  background: #d4d0c8; padding: 1px 5px; font-size: 0.9em;
+  background: #d4d0c8; padding: 1px 5px; font-size: 0.92em;
   word-break: break-all;
 }
 /* ── 行内代码 ── */
@@ -351,7 +351,7 @@ body {
 .post-content pre {
   background: #000; color: #c0c0c0; padding: 12px; overflow-x: auto;
   font-family: "Perfect DOS VGA 437 Win", "Courier New", monospace;
-  font-size: 0.85em; margin: 0; border: none;
+  font-size: 0.88em; margin: 0; border: none;
   max-width: 100%;
   white-space: pre;
 }
@@ -373,7 +373,7 @@ body {
   padding: 12px 16px;
   background: #ece9d8;
   border: 1px solid #d4d0c8;
-  font-size: 12px;
+  font-size: 13px;
   color: #555;
   line-height: 1.8;
 }
@@ -548,12 +548,12 @@ body {
 
   .post-content {
     padding: 10px 12px 16px;
-    font-size: 13px;
+    font-size: 14px;
   }
   .post-content figure.highlight pre,
   .post-content pre {
     padding: 8px;
-    font-size: 0.78em;
+    font-size: 0.82em;
     white-space: pre-wrap;
     word-break: break-all;
   }
