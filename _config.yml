@@ -15,7 +15,7 @@ permalink_defaults:
 
 # Directory
 source_dir: source
-public_dir: public
+public_dir: docs
 
 # Writing
 new_post_name: :title.md
