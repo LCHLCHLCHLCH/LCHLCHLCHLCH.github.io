@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ccleste4esp — 在单片机上跑 Celeste Classic - LCH 的博客</title>
+
+<!-- xp.css Luna 样式库 -->
+
+<link rel="stylesheet" href="https://unpkg.com/xp.css">
+
+
+<!-- 主题自定义样式 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- SEO -->
+
+<meta name="description" content="一个怀旧 XP 风格的个人博客">
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 顶部：导航栏窗口 -->
+    <!-- 顶部导航窗口 -->
+<div class="window nav-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/Internet-Shortcut.png" alt="" width="16" height="16" draggable="false">
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body nav-body">
+    
+      
+        <a href="/">
+          <button class="">Home</button>
+        </a>
+      
+        <a href="/archives/">
+          <button class="">Archives</button>
+        </a>
+      
+        <a href="/tags/">
+          <button class="">Tags</button>
+        </a>
+      
+        <a href="/about/">
+          <button class="">About</button>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      <aside class="sidebar-left">
+        <!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      
+    </div>
+    <div class="author-name">LCH</div>
+    
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num">6</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">18</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    
+      <div class="author-motto">« 韶华休笑本无根 »</div>
+    
+  </div>
+</div>
+
+      </aside>
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false">
+      ccleste4esp — 在单片机上跑 Celeste Classic
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <div class="post-meta-line">
+  <span>发表于 2025 年 6 月 20 日</span>
+  
+    <span> | 更新于 2026 年 6 月 20 日</span>
+  
+  
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: 5387</span>
+  <span>| 阅读时长: 18 分钟</span>
+  
+    <span class="post-meta-tags">
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+      
+        <a href="/tags/ESP32/">ESP32</a>
+      
+        <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
+      
+        <a href="/tags/PICO-8/">PICO-8</a>
+      
+        <a href="/tags/%E7%A7%BB%E6%A4%8D/">移植</a>
+      
+    </span>
+  
+</div>
+
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <p>将一个完整的 PICO-8 平台跳跃游戏塞进一块 ESP32-S3 单片机——128×128 的 LCD、6 个 GPIO 按键、没有操作系统、没有文件系统、没有动态内存分配。这篇文章记录了从黑屏到可玩的完整过程。</p>
+<hr>
+<h2 id="项目概述"><a href="#项目概述" class="headerlink" title="项目概述"></a>项目概述</h2><p><strong>ccleste4esp</strong> 把 Celeste Classic（PICO-8 原版《蔚蓝》）移植到了 ESP32-S3 微控制器上。游戏引擎来自 <a target="_blank" rel="noopener" href="https://github.com/lemon32767/ccleste">lemon32767&#x2F;ccleste</a>——一个用 C 语言逐行从 PICO-8 Lua 代码手工翻译的版本，不依赖任何标准库以外的代码，不做动态内存分配。</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>型号 &#x2F; 规格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主控</td>
+<td>ESP32-S3（双核 240MHz, 8MB Flash, 8MB PSRAM）</td>
+</tr>
+<tr>
+<td>屏幕</td>
+<td>ST7735R 1.44” 128×128 SPI TFT</td>
+</tr>
+<tr>
+<td>按键</td>
+<td>6 个轻触按键（左&#x2F;右&#x2F;上&#x2F;下&#x2F;跳&#x2F;冲）</td>
+</tr>
+<tr>
+<td>帧率</td>
+<td>~30fps</td>
+</tr>
+<tr>
+<td>音频</td>
+<td>未实现</td>
+</tr>
+<tr>
+<td>代码量</td>
+<td>~3000 行 C（游戏引擎 ~2000 行 + 前端 ~400 行 + 驱动 ~600 行）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ccleste4esp/</span><br><span class="line">├── main.c                  ← 程序入口，初始化 + 30fps 游戏主循环</span><br><span class="line">├── CMakeLists.txt          ← ESP-IDF 构建系统</span><br><span class="line">├── sdkconfig.defaults      ← 芯片配置</span><br><span class="line">│</span><br><span class="line">├── main/</span><br><span class="line">│   ├── main.c              ← app_main()</span><br><span class="line">│   ├── esp32_frontend.c    ← PICO-8 API 回调实现（核心移植层）</span><br><span class="line">│   ├── esp32_frontend.h</span><br><span class="line">│   ├── font_data.h         ← PICO-8 4×6 位图字体（从 ROM 提取）</span><br><span class="line">│   │</span><br><span class="line">│   ├── celeste/            ← 游戏引擎（源自 ccleste，未经修改）</span><br><span class="line">│   │   ├── celeste.c       ← 全部游戏逻辑（~2033 行）</span><br><span class="line">│   │   ├── celeste.h       ← PICO-8 回调接口定义</span><br><span class="line">│   │   ├── sprite.h        ← 精灵表单（PICO-8 16 色调色板）</span><br><span class="line">│   │   └── map_data.h      ← 地图数据（4×8 房间，8192 字节）</span><br><span class="line">│   │</span><br><span class="line">│   └── Drivers/            ← 外设驱动</span><br><span class="line">│       ├── LCD/            ← ST7735R 驱动（SPI DMA, 80MHz）</span><br><span class="line">│       ├── button/         ← GPIO 按键（内部上拉）</span><br><span class="line">│       ├── LED/            ← GPIO48 LED</span><br><span class="line">│       └── delay/          ← vTaskDelay 封装</span><br><span class="line">│</span><br><span class="line">└── python/                 ← 资源转换工具（已删除，仅开发期使用）</span><br></pre></td></tr></table></figure>
+
+<h3 id="PICO-8-API-模拟"><a href="#PICO-8-API-模拟" class="headerlink" title="PICO-8 API 模拟"></a>PICO-8 API 模拟</h3><p>游戏引擎 <code>celeste.c</code> 不直接操作硬件。它通过 13 个回调函数与外界交互：</p>
+<table>
+<thead>
+<tr>
+<th>回调</th>
+<th>PICO-8 原语</th>
+<th>ESP32 实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CELESTE_P8_SPR</code></td>
+<td><code>spr()</code> 绘制精灵</td>
+<td>SPI framebuffer 逐像素写入，带透明色和翻转</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_BTN</code></td>
+<td><code>btn()</code> 按键</td>
+<td>GPIO 电平读取（上拉，低有效）</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_PAL</code></td>
+<td><code>pal()</code> 色板置换</td>
+<td><code>pal_map[16]</code> 映射表，绘制时即时转换</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_MAP</code></td>
+<td><code>map()</code> 绘制地图瓦片</td>
+<td>16×16 瓦片循环写入 framebuffer</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_MGET</code></td>
+<td><code>mget()</code> 读取地图</td>
+<td>查 <code>map_data</code> 数组，<code>-1→0</code> 转换</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_PRINT</code></td>
+<td><code>print()</code> 文字</td>
+<td>4×6 位图字体，逐像素渲染</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_CAMERA</code></td>
+<td><code>camera()</code> 视口</td>
+<td>偏移量 + 震动衰减</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_RECTFILL</code></td>
+<td><code>rectfill()</code></td>
+<td>填充矩形</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_CIRCFILL</code></td>
+<td><code>circfill()</code></td>
+<td>实心圆</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_LINE</code></td>
+<td><code>line()</code></td>
+<td>Bresenham 画线</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_FGET</code></td>
+<td><code>fget()</code> 精灵属性</td>
+<td>查 <code>sprite_flags[128]</code> 表</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_MUSIC</code></td>
+<td><code>music()</code></td>
+<td>空操作（未实现）</td>
+</tr>
+<tr>
+<td><code>CELESTE_P8_SFX</code></td>
+<td><code>sfx()</code></td>
+<td>空操作（未实现）</td>
+</tr>
+</tbody></table>
+<h3 id="帧渲染管线"><a href="#帧渲染管线" class="headerlink" title="帧渲染管线"></a>帧渲染管线</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">app_main()</span><br><span class="line"> │</span><br><span class="line"> ├─ 30fps 主循环 (delay_ms(33))</span><br><span class="line"> │   ├─ Celeste_P8_update()        ← 游戏逻辑（物理/碰撞/AI）</span><br><span class="line"> │   ├─ Celeste_P8_draw()          ← PICO-8 API → framebuffer</span><br><span class="line"> │   └─ celeste_render_finish()    ← DMA 推送 128×128×16bit 到 LCD</span><br><span class="line"> │        ├─ __builtin_bswap16()    ← 小端→大端字节序转换</span><br><span class="line"> │        ├─ spi_device_polling_transmit()  ← DMA 传输</span><br><span class="line"> │        └─ __builtin_bswap16()    ← 恢复字节序</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="开发历程：9-个关键-Bug-修复"><a href="#开发历程：9-个关键-Bug-修复" class="headerlink" title="开发历程：9 个关键 Bug 修复"></a>开发历程：9 个关键 Bug 修复</h2><p>整个过程经历了约 9000 行的对话调试。以下是按时间顺序记录的每一个关键问题。</p>
+<h3 id="Bug-1：标题画面卡死"><a href="#Bug-1：标题画面卡死" class="headerlink" title="Bug 1：标题画面卡死"></a>Bug 1：标题画面卡死</h3><p><strong>现象</strong>：游戏显示了标题画面，几个精灵闪烁出现并乱晃，然后冻结。</p>
+<p><strong>根因</strong>：<code>MUSIC</code> 和 <code>SFX</code> 回调虽然被设为空操作，但没有消费 <code>va_arg</code> 传进来的参数。<code>celeste.c</code> 用可变参数调用这些回调，未消费的参数破坏了 <code>va_list</code> 内部状态，导致后续回调的参数全部错乱——相当于随机改写函数调用的参数。</p>
+<p><strong>修复</strong>：在两个空操作回调中添加 <code>va_arg(args, int)</code> 消费掉参数：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> CELESTE_P8_MUSIC:</span><br><span class="line"><span class="keyword">case</span> CELESTE_P8_SFX:</span><br><span class="line">    (<span class="type">void</span>)va_arg(args, <span class="type">int</span>);  <span class="comment">// 消费但不使用</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个非常隐蔽的 bug——空操作函数里什么都不做，看起来”应该没问题”。</p>
+<h3 id="Bug-2：按钮无响应"><a href="#Bug-2：按钮无响应" class="headerlink" title="Bug 2：按钮无响应"></a>Bug 2：按钮无响应</h3><p><strong>现象</strong>：画面正常渲染，但按键没有任何反应，游戏停在标题画面。</p>
+<p><strong>排查</strong>：GPIO 上拉配置正确，但似乎硬件连接或电平逻辑有问题。浮空输入导致随机按键触发，角色自己乱动。</p>
+<p><strong>临时方案</strong>：加入测试 hack——前 40 帧自动按跳跃键，让游戏进入第一关以验证游戏逻辑是否正常。</p>
+<h3 id="Bug-3：多个玩家-无限生成对象"><a href="#Bug-3：多个玩家-无限生成对象" class="headerlink" title="Bug 3：多个玩家 + 无限生成对象"></a>Bug 3：多个玩家 + 无限生成对象</h3><p><strong>现象</strong>：屏幕上出现了几十个 Madeline（玩家角色），云朵、绿色宝珠等游戏对象大量生成，一个玩家死亡就重置整个关卡。这是整个移植过程中最严重的 bug。</p>
+<p><strong>根因</strong>：ESP32 的 <code>map_data.h</code> 使用 <code>-1</code>（<code>int8_t</code>）表示空瓦片，而原版 ccleste 使用 <code>0</code>（<code>unsigned char</code>）表示空。问题出在 <code>load_room()</code> 函数中——它遍历所有瓦片寻找特定 tile 值来初始化对象：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (tile == OBJTYPE_prop[type].tile) &#123; <span class="comment">/* 创建对象 */</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>PLAYER.tile = -1</code>、<code>SMOKE.tile = -1</code>、<code>ORB.tile = -1</code>……所以<strong>每一个空瓦片（值为 -1）都匹配了所有这些对象类型</strong>。游戏在每一块空白地板上生成了完整的玩家、烟雾粒子、宝珠和平台。</p>
+<p><strong>修复</strong>：在 <code>P8mget</code> 回调中添加一行转换：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">P8mget</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">    <span class="type">int</span> ret = map_data[y * <span class="number">128</span> + x];</span><br><span class="line">    <span class="keyword">if</span> (ret &lt; <span class="number">0</span>) ret = <span class="number">0</span>;  <span class="comment">// -1 → 0，不再匹配任何对象</span></span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这一行代码让游戏从”彻底崩溃”变成了”基本可玩”。</p>
+<h3 id="Bug-4：精灵黑色背景"><a href="#Bug-4：精灵黑色背景" class="headerlink" title="Bug 4：精灵黑色背景"></a>Bug 4：精灵黑色背景</h3><p><strong>现象</strong>：跳跃烟雾和部分精灵渲染时带有黑色方块背景。</p>
+<p><strong>根因</strong>：PICO-8 中色号 0 表示透明，但 ESP32 的 SPR 和 MAP 绘制函数把所有像素（包括色号 0 的）都写入了 framebuffer。</p>
+<p><strong>修复</strong>：在精灵和地图瓦片绘制循环中添加透明判断：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> col = sprite_data[...];</span><br><span class="line"><span class="keyword">if</span> (col != <span class="number">0</span>) &#123;  <span class="comment">// 色号 0 = 透明，跳过</span></span><br><span class="line">    display_mem[...] = pico8_rgb565[pal_map[col]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Bug-5：色板延迟应用（头发不变蓝）"><a href="#Bug-5：色板延迟应用（头发不变蓝）" class="headerlink" title="Bug 5：色板延迟应用（头发不变蓝）"></a>Bug 5：色板延迟应用（头发不变蓝）</h3><p><strong>现象</strong>：冲刺后 Madeline 的头发应变蓝色（色板交换），但始终为白色。</p>
+<p><strong>根因</strong>：色板映射 <code>pal_map</code> 在 <code>commit_framebuffer()</code>（帧结束时）才应用。但 <code>unset_hair_color()</code> 在绘制结束时就已把 <code>pal_map[8]</code> 重置为默认值 8。到帧末真正写入 LCD 时，色板已经恢复原样了。</p>
+<p><strong>修复</strong>：重构整个渲染管线——从”先写原始色号到 framebuffer，帧末查表转换”改为”所有绘制函数立即通过 <code>pico8_rgb565[pal_map[color]]</code> 写入 <code>display_mem</code>“。色板置换在绘制时即时生效。<code>commit_framebuffer</code> 从 ~25 行缩减为仅做字节交换和 DMA 传输。</p>
+<h3 id="Bug-6：P8fget-永远返回-true"><a href="#Bug-6：P8fget-永远返回-true" class="headerlink" title="Bug 6：P8fget 永远返回 true"></a>Bug 6：P8fget 永远返回 true</h3><p><code>fget()</code> 查询精灵属性（固体、冰面等）。最初实现是空函数返回 true，导致所有物体都是固体、碰撞检测全部错乱。修复方法是添加 <code>sprite_flags[128]</code> 查找表，从原版 PICO-8 数据中逐位提取每个 tile 的 flag。</p>
+<h3 id="Bug-7：P8print-空函数"><a href="#Bug-7：P8print-空函数" class="headerlink" title="Bug 7：P8print 空函数"></a>Bug 7：P8print 空函数</h3><p>最初的 <code>print()</code> 什么也不画，导致游戏里没有任何文字——标题画面、死亡提示、通关对话全是空白。修复需要实现完整的 4×6 位图字体渲染器。字体数据从 PICO-8 ROM 偏移 <code>0x5600</code> 处提取（而非猜测或手绘），确保与 PICO-8 原生字体像素级一致。</p>
+<h3 id="Bug-8：P8pal-颜色替换无效"><a href="#Bug-8：P8pal-颜色替换无效" class="headerlink" title="Bug 8：P8pal 颜色替换无效"></a>Bug 8：P8pal 颜色替换无效</h3><p>色板置换是 Celeste 的核心视觉效果——冲刺时角色头发变色、某些关卡有特殊色调。最初实现没考虑 <code>pal()</code> 函数，颜色替换完全不生效。修复使用 <code>pal_map[16]</code> 映射表，所有绘制函数在输出前先通过映射表转换色号。</p>
+<h3 id="Bug-9：LCD-颜色与字节序"><a href="#Bug-9：LCD-颜色与字节序" class="headerlink" title="Bug 9：LCD 颜色与字节序"></a>Bug 9：LCD 颜色与字节序</h3><p>ST7735 LCD 的初始化序列、RGB565 颜色公式、SPI DMA 字节序这三个问题交织在一起，导致画面颜色完全错误（红色变蓝色、颜色偏移）。经过逐位测试对照商家代码后确定最终方案：</p>
+<ul>
+<li>RGB565 公式：<code>(R&gt;&gt;3)&lt;&lt;11 | (G&gt;&gt;2)&lt;&lt;5 | (B&gt;&gt;3)</code></li>
+<li>字节序：ESP32 小端 → DMA 发送前 <code>__builtin_bswap16()</code> → 发送后换回</li>
+<li>LCD 初始化：必须用商家的 <code>send_init_command2()</code> 序列</li>
+<li>MADCTL 寄存器：<code>0xC8</code>（MX&#x3D;1, MY&#x3D;1, RGB&#x3D;1）</li>
+</ul>
+<hr>
+<h2 id="PICO-8-16-色调色板"><a href="#PICO-8-16-色调色板" class="headerlink" title="PICO-8 16 色调色板"></a>PICO-8 16 色调色板</h2><table>
+<thead>
+<tr>
+<th>#</th>
+<th>颜色</th>
+<th>PICO-8 色值</th>
+<th>RGB565</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>黑</td>
+<td><code>#000000</code></td>
+<td><code>0x0000</code></td>
+<td>透明</td>
+</tr>
+<tr>
+<td>1</td>
+<td>深蓝</td>
+<td><code>#1D2B53</code></td>
+<td><code>0x194A</code></td>
+<td>背景</td>
+</tr>
+<tr>
+<td>2</td>
+<td>紫</td>
+<td><code>#7E2553</code></td>
+<td><code>0x792A</code></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>绿</td>
+<td><code>#008751</code></td>
+<td><code>0x042A</code></td>
+<td>草&#x2F;植物</td>
+</tr>
+<tr>
+<td>4</td>
+<td>棕</td>
+<td><code>#AB5236</code></td>
+<td><code>0xAA86</code></td>
+<td>泥土</td>
+</tr>
+<tr>
+<td>5</td>
+<td>灰</td>
+<td><code>#5F574F</code></td>
+<td><code>0x5AA9</code></td>
+<td>岩石</td>
+</tr>
+<tr>
+<td>6</td>
+<td>浅灰</td>
+<td><code>#C2C3C7</code></td>
+<td><code>0xC618</code></td>
+<td>冰</td>
+</tr>
+<tr>
+<td>7</td>
+<td>米白</td>
+<td><code>#FFF1E8</code></td>
+<td><code>0xFF9D</code></td>
+<td>雪</td>
+</tr>
+<tr>
+<td>8</td>
+<td>红</td>
+<td><code>#FF004D</code></td>
+<td><code>0xF809</code></td>
+<td>Madeline 头发（默认）</td>
+</tr>
+<tr>
+<td>9</td>
+<td>橙</td>
+<td><code>#FFA300</code></td>
+<td><code>0xFD00</code></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>黄</td>
+<td><code>#FFEC27</code></td>
+<td><code>0xFF64</code></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>亮绿</td>
+<td><code>#00E436</code></td>
+<td><code>0x0726</code></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>蓝</td>
+<td><code>#29ADFF</code></td>
+<td><code>0x2D7F</code></td>
+<td>Madeline 头发（冲刺）</td>
+</tr>
+<tr>
+<td>13</td>
+<td>紫灰</td>
+<td><code>#83769C</code></td>
+<td><code>0x83B3</code></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>粉</td>
+<td><code>#FF77A8</code></td>
+<td><code>0xFBB5</code></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>肤色</td>
+<td><code>#FFCCAA</code></td>
+<td><code>0xFE75</code></td>
+<td>皮肤</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="硬件连接"><a href="#硬件连接" class="headerlink" title="硬件连接"></a>硬件连接</h2><h3 id="LCD（SPI-80MHz-Mode-3-DMA）"><a href="#LCD（SPI-80MHz-Mode-3-DMA）" class="headerlink" title="LCD（SPI, 80MHz, Mode 3, DMA）"></a>LCD（SPI, 80MHz, Mode 3, DMA）</h3><table>
+<thead>
+<tr>
+<th>ST7735R</th>
+<th>ESP32-S3 GPIO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SCL（时钟）</td>
+<td>14</td>
+</tr>
+<tr>
+<td>MOSI（数据）</td>
+<td>13</td>
+</tr>
+<tr>
+<td>RES（复位）</td>
+<td>12</td>
+</tr>
+<tr>
+<td>DC（数据&#x2F;命令）</td>
+<td>11</td>
+</tr>
+<tr>
+<td>CS（片选）</td>
+<td>10</td>
+</tr>
+<tr>
+<td>BLK（背光）</td>
+<td>9</td>
+</tr>
+</tbody></table>
+<h3 id="按键（GPIO-内部上拉，低电平有效）"><a href="#按键（GPIO-内部上拉，低电平有效）" class="headerlink" title="按键（GPIO 内部上拉，低电平有效）"></a>按键（GPIO 内部上拉，低电平有效）</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>GPIO</th>
+<th>游戏动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>左</td>
+<td>1</td>
+<td>向左移动</td>
+</tr>
+<tr>
+<td>上</td>
+<td>2</td>
+<td>向上看</td>
+</tr>
+<tr>
+<td>右</td>
+<td>3</td>
+<td>向右移动</td>
+</tr>
+<tr>
+<td>下</td>
+<td>4</td>
+<td>向下看 &#x2F; 下穿平台</td>
+</tr>
+<tr>
+<td>跳</td>
+<td>5</td>
+<td>跳跃（按住跳更高）</td>
+</tr>
+<tr>
+<td>冲</td>
+<td>6</td>
+<td>冲刺（可空中冲刺）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="当前状态与局限"><a href="#当前状态与局限" class="headerlink" title="当前状态与局限"></a>当前状态与局限</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>游戏逻辑</strong></td>
+<td>完整——Celeste Classic 全部关卡可玩</td>
+</tr>
+<tr>
+<td><strong>渲染</strong></td>
+<td>完整——30fps, 128×128, PICO-8 原色调色板</td>
+</tr>
+<tr>
+<td><strong>输入</strong></td>
+<td>完整——6 键映射</td>
+</tr>
+<tr>
+<td><strong>文字</strong></td>
+<td>完整——4×6 PICO-8 位图字体</td>
+</tr>
+<tr>
+<td><strong>特效</strong></td>
+<td>色板置换、屏幕震动、透明精灵、翻转——均已实现</td>
+</tr>
+<tr>
+<td><strong>音频</strong></td>
+<td><strong>未实现</strong>——music&#x2F;sfx 回调为空</td>
+</tr>
+<tr>
+<td><strong>暂停</strong></td>
+<td><strong>未实现</strong></td>
+</tr>
+<tr>
+<td><strong>存档</strong></td>
+<td><strong>未实现</strong>——引擎有 save&#x2F;load 接口但前端未绑定按键</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="技术要点总结"><a href="#技术要点总结" class="headerlink" title="技术要点总结"></a>技术要点总结</h2><h3 id="为什么-ccleste-适合移植到单片机"><a href="#为什么-ccleste-适合移植到单片机" class="headerlink" title="为什么 ccleste 适合移植到单片机"></a>为什么 ccleste 适合移植到单片机</h3><p>ccleste 的 <code>celeste.c</code> 是一个教科书级的可移植游戏引擎：</p>
+<ul>
+<li><strong>零依赖</strong>：不使用 <code>malloc</code>、不读文件、不调操作系统 API</li>
+<li><strong>回调解耦</strong>：所有 I&#x2F;O（绘制、输入、音频）通过 13 个函数指针回调</li>
+<li><strong>定点数模式</strong>：支持 <code>CELESTE_P8_FIXEDP</code> 宏，用整数运算替代浮点</li>
+<li><strong>单文件</strong>：~2000 行，结构清晰，变量命名与 PICO-8 Lua 源码一一对应</li>
+</ul>
+<h3 id="移植中最危险的-bug-模式"><a href="#移植中最危险的-bug-模式" class="headerlink" title="移植中最危险的 bug 模式"></a>移植中最危险的 bug 模式</h3><p>回顾 9 个 bug，有 3 个模式反复出现：</p>
+<ol>
+<li><strong>“空操作”不空</strong>：空函数如果不消费 <code>va_arg</code> 参数，会破坏调用栈（Bug 1）</li>
+<li><strong>数据表示不匹配</strong>：<code>-1</code> vs <code>0</code> 表示空值，差一个符号毁掉整个对象系统（Bug 3）</li>
+<li><strong>时序假设不成立</strong>：色板”先存后转”在单线程裸机上有竞态——因为绘制和转换之间还有游戏逻辑在改色板（Bug 5）</li>
+</ol>
+<h3 id="单片机移植的独特挑战"><a href="#单片机移植的独特挑战" class="headerlink" title="单片机移植的独特挑战"></a>单片机移植的独特挑战</h3><p>与传统平台移植不同，ESP32 移植多了几层硬件约束：</p>
+<ul>
+<li><strong>无文件系统</strong>：资源必须编译进固件（<code>#include</code> 头文件数组），不能用 <code>fopen</code></li>
+<li><strong>无 GPU</strong>：128×128×16bit framebuffer 完全靠 CPU 逐像素填充</li>
+<li><strong>字节序</strong>：ESP32 小端 vs ST7735 大端，每次 DMA 前后都要做 16KB 的字节交换</li>
+<li><strong>SPI 时序</strong>：80MHz DMA 传输对时序要求苛刻，初始化序列必须精确匹配 LCD 面板型号</li>
+</ul>
+<hr>
+<blockquote>
+<p>把一台 2001 年的游戏机塞进一块指甲盖大小的芯片里，这件事本身就很浪漫。更浪漫的是——那个游戏引擎的作者（lemon-sherbet）和移植者（LCH）都没有见过对方，他们的代码却在一颗 ESP32-S3 里安静地协同工作，画出了 Madeline 攀登蔚蓝山峰的第一个像素。</p>
+</blockquote>
+
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong>LCH</p>
+      <p><strong>文章链接：</strong><a href="/2025/06/20/ccleste4esp/">/2025/06/20/ccleste4esp/</a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>
+
+      </main>
+
+      <!-- 右侧栏 -->
+      <aside class="sidebar-right">
+        <!-- 目录窗口：仅在文章页显示 -->
+
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <ul class="tree-view">
+<li><a href="#项目概述">项目概述</a></li>
+<li><a href="#架构">架构</a>
+<ul>
+<li><a href="#目录结构">目录结构</a></li>
+<li><a href="#PICO-8-API-模拟">PICO-8 API 模拟</a></li>
+<li><a href="#帧渲染管线">帧渲染管线</a></li>
+</ul>
+</li>
+<li><a href="#开发历程：9-个关键-Bug-修复">开发历程：9 个关键 Bug 修复</a>
+<ul>
+<li><a href="#Bug-1：标题画面卡死">Bug 1：标题画面卡死</a></li>
+<li><a href="#Bug-2：按钮无响应">Bug 2：按钮无响应</a></li>
+<li><a href="#Bug-3：多个玩家-无限生成对象">Bug 3：多个玩家 + 无限生成对象</a></li>
+<li><a href="#Bug-4：精灵黑色背景">Bug 4：精灵黑色背景</a></li>
+<li><a href="#Bug-5：色板延迟应用（头发不变蓝）">Bug 5：色板延迟应用（头发不变蓝）</a></li>
+<li><a href="#Bug-6：P8fget-永远返回-true">Bug 6：P8fget 永远返回 true</a></li>
+<li><a href="#Bug-7：P8print-空函数">Bug 7：P8print 空函数</a></li>
+<li><a href="#Bug-8：P8pal-颜色替换无效">Bug 8：P8pal 颜色替换无效</a></li>
+<li><a href="#Bug-9：LCD-颜色与字节序">Bug 9：LCD 颜色与字节序</a></li>
+</ul>
+</li>
+<li><a href="#PICO-8-16-色调色板">PICO-8 16 色调色板</a></li>
+<li><a href="#硬件连接">硬件连接</a>
+<ul>
+<li><a href="#LCD（SPI-80MHz-Mode-3-DMA）">LCD（SPI, 80MHz, Mode 3, DMA）</a></li>
+<li><a href="#按键（GPIO-内部上拉，低电平有效）">按键（GPIO 内部上拉，低电平有效）</a></li>
+</ul>
+</li>
+<li><a href="#当前状态与局限">当前状态与局限</a></li>
+<li><a href="#技术要点总结">技术要点总结</a>
+<ul>
+<li><a href="#为什么-ccleste-适合移植到单片机">为什么 ccleste 适合移植到单片机</a></li>
+<li><a href="#移植中最危险的-bug-模式">移植中最危险的 bug 模式</a></li>
+<li><a href="#单片机移植的独特挑战">单片机移植的独特挑战</a></li>
+</ul>
+</li>
+</li>
+</ul>
+
+    
+  </div>
+</div>
+
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2025/06/20/dev-history/">这个博客是怎么写出来的</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2025/06/20/ccleste4esp/">ccleste4esp — 在单片机上跑 Celeste Classic</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-19</span>
+          <a href="/2025/06/19/furong-nuer-lei/">芙蓉女儿诔·十三词</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-05</span>
+          <a href="/2025/06/05/tech-stack/">技术栈</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-03</span>
+          <a href="/2025/06/03/about-xp/">关于 Windows XP</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+      </aside>
+
+    </div>
+
+    <!-- 底部状态栏 -->
+    <!-- 底部状态栏 -->
+<div class="window status-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false">
+    </div>
+  </div>
+  <div class="status-bar site-statusbar">
+    <p class="status-bar-field">© LCH · Powered by Hexo &amp; xp.css</p>
+    <p class="status-bar-field">
+      
+        
+        
+          <a href="/">Home</a> · 
+        
+          <a href="/archives/">Archives</a> · 
+        
+          <a href="/tags/">Tags</a> · 
+        
+          <a href="/about/">About</a>
+        
+      
+    </p>
+  </div>
+</div>
+
+  </div>
+</body>
+</html>
