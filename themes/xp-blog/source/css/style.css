@@ -328,13 +328,34 @@ body {
   background: #d4d0c8; padding: 1px 5px; font-size: 0.9em;
   word-break: break-all;
 }
+/* ── 行内代码 ── */
+/* (code 样式见上方) */
+
+/* ── 代码块（围栏代码 / 缩进代码）── */
+/* Hexo highlight 包装：figure.highlight > table > td.code > pre */
+.post-content figure.highlight {
+  margin: 10px 0;           /* 去掉浏览器默认的 40px 左右外边距 */
+  background: #000;
+  border: 1px solid #808080;
+}
+.post-content figure.highlight table {
+  width: 100%;              /* table 撑满容器，不让代码缩在左边 */
+  margin: 0;
+  border: none;
+}
+.post-content figure.highlight td.code {
+  width: 100%;
+  padding: 0;
+}
+.post-content figure.highlight pre,
 .post-content pre {
   background: #000; color: #c0c0c0; padding: 12px; overflow-x: auto;
   font-family: "Perfect DOS VGA 437 Win", "Courier New", monospace;
-  font-size: 0.85em; margin: 10px 0; border: 1px solid #808080;
+  font-size: 0.85em; margin: 0; border: none;
   max-width: 100%;
   white-space: pre;
 }
+.post-content figure.highlight pre code,
 .post-content pre code { background: none; padding: 0; color: inherit; white-space: pre; }
 .post-content blockquote {
   border-left: 3px solid #7f9db9; padding: 4px 12px; margin: 10px 0;
@@ -529,12 +550,14 @@ body {
     padding: 10px 12px 16px;
     font-size: 13px;
   }
+  .post-content figure.highlight pre,
   .post-content pre {
     padding: 8px;
     font-size: 0.78em;
     white-space: pre-wrap;
     word-break: break-all;
   }
+  .post-content figure.highlight pre code,
   .post-content pre code {
     white-space: pre-wrap;
     word-break: break-all;
