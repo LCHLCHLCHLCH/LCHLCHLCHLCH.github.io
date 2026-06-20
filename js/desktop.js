@@ -56,6 +56,7 @@ var wm = (function() {
     if (resizable === undefined) resizable = true;
     var drag = false, resize = false, dir = '', ox = 0, oy = 0;
     var startW, startH, startL, startT;
+    var pendingMaxDrag = false, maxDownX = 0, maxDownY = 0;
 
     // 光标随边缘变化（不可缩放窗口不显示边缘光标）
     el.addEventListener('mousemove', function(e) {
@@ -67,21 +68,11 @@ var wm = (function() {
     // 标题栏按下 → 拖动 或 顶边角缩放
     titleBar.addEventListener('mousedown', function(e) {
       if (e.target.closest('button')) return;
-      // 最大化时拖动标题栏 → 还原并移动到鼠标位置
+      // 最大化时：记录按下位置，待实际移动后再还原
       if (el.classList.contains('maximized')) {
-        var winData = windows[el._winId];
-        if (winData && winData.toggleMaximize) {
-          winData.toggleMaximize();
-          var r2 = el.getBoundingClientRect();
-          var ratio = e.clientX / window.innerWidth;
-          var newLeft = e.clientX - r2.width * ratio;
-          el.style.left = Math.max(0, Math.min(newLeft, window.innerWidth - r2.width)) + 'px';
-          el.style.top = '0px';
-          var r3 = el.getBoundingClientRect();
-          ox = e.clientX - r3.left;
-          oy = e.clientY - r3.top;
-          drag = true;
-        }
+        pendingMaxDrag = true;
+        maxDownX = e.clientX;
+        maxDownY = e.clientY;
         return;
       }
       bringToFront(el);
@@ -122,6 +113,26 @@ var wm = (function() {
     });
 
     document.addEventListener('mousemove', function(e) {
+      // 最大化窗口：鼠标移动超过阈值才还原并开始拖动
+      if (pendingMaxDrag) {
+        if (Math.abs(e.clientX - maxDownX) > 3 || Math.abs(e.clientY - maxDownY) > 3) {
+          pendingMaxDrag = false;
+          var winData = windows[el._winId];
+          if (winData && winData.toggleMaximize) {
+            winData.toggleMaximize();
+            var r2 = el.getBoundingClientRect();
+            var ratio = maxDownX / window.innerWidth;
+            var newLeft = maxDownX - r2.width * ratio;
+            el.style.left = Math.max(0, Math.min(newLeft, window.innerWidth - r2.width)) + 'px';
+            el.style.top = '0px';
+            var r3 = el.getBoundingClientRect();
+            ox = maxDownX - r3.left;
+            oy = maxDownY - r3.top;
+            drag = true;
+          }
+        }
+        return;
+      }
       if (drag) {
         el.style.left = (e.clientX - ox) + 'px';
         el.style.top  = (e.clientY - oy) + 'px';
@@ -151,11 +162,13 @@ var wm = (function() {
     });
 
     document.addEventListener('mouseup', function() {
+      pendingMaxDrag = false;
       if (drag) { drag = false; }
       if (resize) { resize = false; dir = ''; }
     });
 
     el.addEventListener('mouseleave', function() {
+      pendingMaxDrag = false;
       if (!drag && !resize) el.style.cursor = '';
     });
   }
