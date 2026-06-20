@@ -343,9 +343,13 @@ body {
   margin: 0;
   border: none;
 }
+.post-content figure.highlight td,
+.post-content figure.highlight th {
+  border: none;
+  padding: 0;
+}
 .post-content figure.highlight td.code {
   width: 100%;
-  padding: 0;
 }
 .post-content figure.highlight pre,
 .post-content pre {
