@@ -22,6 +22,7 @@ body {
   min-height: 100vh;
   font-family: Tahoma, Arial, "Microsoft YaHei", sans-serif;
   background: transparent;
+  user-select: none;
 }
 
 /* ── 桌面容器 ── */
@@ -312,6 +313,7 @@ body {
   font-size: 16px;
   line-height: 1.85;
   color: #222;
+  user-select: text;
 }
 .post-content h1 { font-size: 1.6em; margin: 8px 0 12px; }
 .post-content h2 { font-size: 1.3em; margin: 20px 0 10px; color: #003399;
