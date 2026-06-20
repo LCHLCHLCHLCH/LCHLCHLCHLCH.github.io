@@ -138,8 +138,8 @@
   
 </div>
 <div class="post-meta-line post-meta-stats">
-  <span>总字数: 7157</span>
-  <span>| 阅读时长: 24 分钟</span>
+  <span>总字数: 7314</span>
+  <span>| 阅读时长: 25 分钟</span>
   
     <span class="post-meta-tags">
       
@@ -286,7 +286,7 @@
 
 <p><code>partial()</code> 引入子模板，传参清晰。和 React&#x2F;Vue 的组件化异曲同工，但不需要任何构建工具——Hexo 在生成阶段直接执行 EJS，输出纯 HTML。</p>
 <h3 id="自定义辅助函数"><a href="#自定义辅助函数" class="headerlink" title="自定义辅助函数"></a>自定义辅助函数</h3><p>Hexo 的 EJS 模板本身不提供目录生成、字数统计、阅读时间估计等功能。通过 <code>scripts/toc-helper.js</code> 注册了三个辅助函数：</p>
-<p>**<code>toc(content)</code>**：解析文章 HTML 中的 <code>&lt;h1&gt;</code>~&#96;<h3><code>标签，用栈追踪嵌套层级，生成 xp.css 的</code><ul class="tree-view">&#96; 结构。处理了跳过级别（直接 h1→h3）、兄弟标题并列、深度回退等边界情况。生成的树状目录自带折叠展开功能。</p>
+<p>**<code>toc(content)</code>**：解析文章 HTML 中的 <code>&amp;lt;h1&amp;gt;</code> 到 <code>&amp;lt;h3&amp;gt;</code> 标签，用栈追踪嵌套层级，生成 xp.css 的 <code>&amp;lt;ul class=&quot;tree-view&quot;&amp;gt;</code> 结构。处理了跳过级别（直接 h1→h3）、兄弟标题并列、深度回退等边界情况。生成的树状目录自带折叠展开功能。</p>
 <p>**<code>word_count(content)</code>**：去除 HTML 标签和空白后计算纯文本长度，中文按字符数算（因为中文没有空格分词）。</p>
 <p>**<code>reading_time(content)</code>**：字数 ÷ 300 ≈ 阅读分钟数，最少显示 1 分钟。</p>
 <p>这三个函数通过 <code>hexo.extend.helper.register()</code> 注册后，模板里可以直接调用：</p>
@@ -318,23 +318,23 @@
 </thead>
 <tbody><tr>
 <td><code># ## ###</code> 标题</td>
-<td><code>&lt;h1&gt;</code> ~ <code>&lt;h6&gt;</code>，自动生成 <code>id</code>，供 TOC 锚点跳转</td>
+<td><code>&amp;lt;h1&amp;gt;</code> ~ <code>&amp;lt;h6&amp;gt;</code>，自动生成 <code>id</code>，供 TOC 锚点跳转</td>
 </tr>
 <tr>
 <td><code>**粗体**</code> &#x2F; <code>*斜体*</code></td>
-<td><code>&lt;strong&gt;</code> &#x2F; <code>&lt;em&gt;</code></td>
+<td><code>&amp;lt;strong&amp;gt;</code> &#x2F; <code>&amp;lt;em&amp;gt;</code></td>
 </tr>
 <tr>
 <td><code>`行内代码`</code></td>
-<td><code>&lt;code&gt;</code> — 灰底等宽字体</td>
+<td><code>&amp;lt;code&amp;gt;</code> — 灰底等宽字体</td>
 </tr>
 <tr>
 <td><code>``` 围栏代码块 ```</code></td>
-<td><code>&lt;pre&gt;&lt;code&gt;</code> — 黑底银字终端风格</td>
+<td><code>&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;</code> — 黑底银字终端风格</td>
 </tr>
 <tr>
 <td><code>&gt; 引用</code></td>
-<td><code>&lt;blockquote&gt;</code> — 左侧蓝色竖线 + 灰底</td>
+<td><code>&amp;lt;blockquote&amp;gt;</code> — 左侧蓝色竖线 + 灰底</td>
 </tr>
 <tr>
 <td>&#96;</td>
@@ -342,15 +342,15 @@
 </tr>
 <tr>
 <td><code>- 无序列表</code> &#x2F; <code>1. 有序列表</code></td>
-<td><code>&lt;ul&gt;</code> &#x2F; <code>&lt;ol&gt;</code></td>
+<td><code>&amp;lt;ul&amp;gt;</code> &#x2F; <code>&amp;lt;ol&amp;gt;</code></td>
 </tr>
 <tr>
 <td><code>[链接](url)</code></td>
-<td><code>&lt;a&gt;</code> — 蓝色 &#x2F; 访问后紫色</td>
+<td><code>&amp;lt;a&amp;gt;</code> — 蓝色 &#x2F; 访问后紫色</td>
 </tr>
 <tr>
 <td><code>![图片](url)</code></td>
-<td><code>&lt;img&gt;</code> — <code>max-width: 100%</code> 自觉不溢出</td>
+<td><code>&amp;lt;img&amp;gt;</code> — <code>max-width: 100%</code> 自觉不溢出</td>
 </tr>
 </tbody></table>
 <p>Hexo 的 <code>highlight.enable: true</code> 配合 marked 可以给代码块加语法高亮，但目前保持默认关闭状态——代码块只有银字黑底，没有彩色标记。一方面是风格统一（XP 的记事本也没有语法高亮），另一方面是减少 CSS 体积。</p>
