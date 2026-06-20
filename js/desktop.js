@@ -440,6 +440,13 @@ var wm = (function() {
       window.open('https://github.com/LCHLCHLCHLCH', '_blank');
     });
   }
+
+  var ieIcon = document.querySelector('.desktop-icon[data-icon="ie"]');
+  if (ieIcon) {
+    ieIcon.addEventListener('dblclick', function() {
+      openBrowser();
+    });
+  }
 })();
 
 // ═══════════════════════════════════════════
@@ -492,6 +499,39 @@ function openControlPanel() {
       var val = checkbox.checked ? 'text' : 'none';
       document.body.style.setProperty('--content-select', val);
       try { localStorage.setItem('xp-blog-content-select', val); } catch(e) {}
+    });
+  }
+}
+
+// ═══════════════════════════════════════════
+// IE 浏览器
+// ═══════════════════════════════════════════
+function openBrowser(url) {
+  url = url || 'https://www.baidu.com';
+  var winId = 'browser';
+  wm.create(winId, 'Internet Explorer', 'icons/ie.png', 800, 520, 40, 100);
+  var body = wm.getBody(winId);
+
+  body.innerHTML =
+    '<div class="browser-toolbar">' +
+      '<span class="address-label">地址</span>' +
+      '<input type="text" class="address-input" id="browserUrl" value="' + url + '">' +
+    '</div>' +
+    '<div class="browser-iframe-wrap">' +
+      '<iframe src="' + url + '" id="browserFrame"></iframe>' +
+    '</div>';
+
+  var input = body.querySelector('#browserUrl');
+  if (input) {
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        var val = input.value.trim();
+        if (!val) return;
+        if (!/^https?:\/\//i.test(val)) val = 'https://' + val;
+        var frame = body.querySelector('#browserFrame');
+        if (frame) frame.src = val;
+        input.value = val;
+      }
     });
   }
 }
