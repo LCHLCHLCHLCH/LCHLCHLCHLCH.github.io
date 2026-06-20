@@ -1,0 +1,18 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= page.title ? page.title + ' - ' + config.title : config.title %></title>
+
+<!-- xp.css Luna 样式库 -->
+<% if (theme.use_cdn) { %>
+<link rel="stylesheet" href="<%= theme.xp_css_url %>">
+<% } %>
+
+<!-- 主题自定义样式 -->
+<%- css('css/style') %>
+
+<!-- SEO -->
+<% if (page.description) { %>
+<meta name="description" content="<%= page.description %>">
+<% } else if (config.description) { %>
+<meta name="description" content="<%= config.description %>">
+<% } %>

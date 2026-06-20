@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="<%= config.language %>">
+<head>
+  <%- partial('_partial/head') %>
+</head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 顶部：导航栏窗口 -->
+    <%- partial('_partial/header') %>
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      <aside class="sidebar-left">
+        <%- partial('_partial/sidebar-left') %>
+      </aside>
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <%- body %>
+      </main>
+
+      <!-- 右侧栏 -->
+      <aside class="sidebar-right">
+        <%- partial('_partial/sidebar-right') %>
+      </aside>
+
+    </div>
+
+    <!-- 底部状态栏 -->
+    <%- partial('_partial/footer') %>
+  </div>
+</body>
+</html>

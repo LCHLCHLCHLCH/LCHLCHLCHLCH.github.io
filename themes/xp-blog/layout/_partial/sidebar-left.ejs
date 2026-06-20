@@ -1,0 +1,43 @@
+<!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/information.png') %>" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      <% if (theme.author && theme.author.avatar) { %>
+        <img src="<%= url_for(theme.author.avatar) %>" alt="avatar" onerror="this.style.display='none'">
+      <% } else { %>
+        <div class="avatar-placeholder">👤</div>
+      <% } %>
+    </div>
+    <div class="author-name"><%= theme.author ? theme.author.name : config.author %></div>
+    <% if (theme.author && theme.author.bio) { %>
+      <div class="author-bio"><%= theme.author.bio %></div>
+    <% } %>
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num"><%= site.posts.length %></span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num"><%= site.tags.length %></span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num"><%= site.categories.length %></span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    <% if (theme.author && theme.author.motto) { %>
+      <div class="author-motto">« <%= theme.author.motto %> »</div>
+    <% } %>
+  </div>
+</div>

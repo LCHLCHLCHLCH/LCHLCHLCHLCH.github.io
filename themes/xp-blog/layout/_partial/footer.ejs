@@ -1,0 +1,19 @@
+<!-- 底部状态栏 -->
+<div class="window status-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/information.png') %>" alt="" width="16" height="16" draggable="false">
+    </div>
+  </div>
+  <div class="status-bar site-statusbar">
+    <p class="status-bar-field"><%= theme.footer_text %></p>
+    <p class="status-bar-field">
+      <% if (theme.nav) { %>
+        <% const entries = Object.entries(theme.nav); %>
+        <% entries.forEach(([label, url], i) => { %>
+          <a href="<%= url_for(url) %>"><%= label %></a><%= i < entries.length - 1 ? ' · ' : '' %>
+        <% }); %>
+      <% } %>
+    </p>
+  </div>
+</div>

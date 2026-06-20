@@ -1,0 +1,32 @@
+<!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/fax-cover-page.png') %>" alt="" width="16" height="16" draggable="false">
+      <%= page.title %>
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <%- partial('_partial/post-meta') %>
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <%- page.content %>
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong><%= theme.author ? theme.author.name : config.author %></p>
+      <p><strong>文章链接：</strong><a href="<%= url_for(page.path) %>"><%= url_for(page.path) %></a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>

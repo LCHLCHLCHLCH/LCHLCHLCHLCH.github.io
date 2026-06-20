@@ -1,0 +1,30 @@
+# xp-blog theme config
+
+# CDN: set false to bundle xp.css locally
+use_cdn: true
+xp_css_url: https://unpkg.com/xp.css
+
+# Blog header title bar text
+header_title: LCH 的博客
+
+# Status bar footer text
+footer_text: "© LCH · Powered by Hexo & xp.css"
+
+# Navigation items
+nav:
+  Home: /
+  Archives: /archives/
+  Tags: /tags/
+  About: /about/
+
+# Post date format (moment.js)
+date_format: YYYY 年 M 月 D 日
+
+# Author info
+author:
+  name: LCH
+  avatar: /images/avatar.jpg
+  motto: 韶华休笑本无根
+
+# Latest posts widget
+latest_posts_count: 5

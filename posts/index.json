@@ -40,5 +40,12 @@
     "date": "2025-06-19",
     "summary": "以十三种宋词词牌重构《芙蓉女儿诔》，从设祭追忆到哀思成礼，连缀成篇。",
     "type": "markdown"
+  },
+  {
+    "slug": "dev-history",
+    "title": "这个博客是怎么写出来的",
+    "date": "2025-06-20",
+    "summary": "从一张空白 HTML 到完整 XP 风格博客的完整开发历程：桌面模拟、Hexo 重构、三栏布局。",
+    "type": "markdown"
   }
 ]

@@ -1,0 +1,46 @@
+<!-- 目录窗口：仅在文章页显示 -->
+<% if (is_post()) { %>
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/XML.png') %>" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <%- toc(page.content) %>
+    <% if (!toc(page.content)) { %>
+      <p class="toc-empty">暂无目录</p>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/XML.png') %>" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      <% const count = theme.latest_posts_count || 5; %>
+      <% site.posts.sort('date', -1).limit(count).each(function(post) { %>
+        <li>
+          <span class="latest-date"><%= date(post.date, 'MM-DD') %></span>
+          <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</div>

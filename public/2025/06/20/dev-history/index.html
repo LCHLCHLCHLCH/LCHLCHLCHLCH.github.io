@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>这个博客是怎么写出来的 - LCH 的博客</title>
+
+<!-- xp.css Luna 样式库 -->
+
+<link rel="stylesheet" href="https://unpkg.com/xp.css">
+
+
+<!-- 主题自定义样式 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- SEO -->
+
+<meta name="description" content="一个怀旧 XP 风格的个人博客">
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 顶部：导航栏窗口 -->
+    <!-- 顶部导航窗口 -->
+<div class="window nav-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/Internet-Shortcut.png" alt="" width="16" height="16" draggable="false">
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body nav-body">
+    
+      
+        <a href="/">
+          <button class="">Home</button>
+        </a>
+      
+        <a href="/archives/">
+          <button class="">Archives</button>
+        </a>
+      
+        <a href="/tags/">
+          <button class="">Tags</button>
+        </a>
+      
+        <a href="/about/">
+          <button class="">About</button>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      <aside class="sidebar-left">
+        <!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      
+    </div>
+    <div class="author-name">LCH</div>
+    
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num">5</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">12</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    
+      <div class="author-motto">« 韶华休笑本无根 »</div>
+    
+  </div>
+</div>
+
+      </aside>
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false">
+      这个博客是怎么写出来的
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <div class="post-meta-line">
+  <span>发表于 2025 年 6 月 20 日</span>
+  
+    <span> | 更新于 2026 年 6 月 20 日</span>
+  
+  
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: 6313</span>
+  <span>| 阅读时长: 22 分钟</span>
+  
+    <span class="post-meta-tags">
+      
+        <a href="/tags/%E5%8E%86%E5%8F%B2/">历史</a>
+      
+        <a href="/tags/%E8%AE%BE%E8%AE%A1/">设计</a>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+      
+        <a href="/tags/Hexo/">Hexo</a>
+      
+        <a href="/tags/xp-css/">xp.css</a>
+      
+        <a href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+      
+    </span>
+  
+</div>
+
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <p>从一张空白 HTML 页面到一个完整的 Windows XP 风格博客，这个项目经历了两个主要阶段：先是纯手工打造的桌面模拟器，后来又用 Hexo 重建了一套三栏多窗口布局。这篇文章尽可能详细地记录整个过程。</p>
+<hr>
+<h2 id="第一季：纯静态桌面模拟"><a href="#第一季：纯静态桌面模拟" class="headerlink" title="第一季：纯静态桌面模拟"></a>第一季：纯静态桌面模拟</h2><h3 id="起点：一个空白文件"><a href="#起点：一个空白文件" class="headerlink" title="起点：一个空白文件"></a>起点：一个空白文件</h3><p>一切从 <code>index.html</code> 开始 —— 只有 193 个字符，<code>&lt;body&gt;</code> 里面什么都没有，只有 <code>&lt;title&gt;LCH&lt;/title&gt;</code>。这是整个项目的第一个 commit。</p>
+<p>第一次打开这个页面，浏览器里是一片空白。接下来要做的就是把它变成一个可以点、可以拖、可以打开窗口的 Windows XP 桌面。</p>
+<h3 id="概念诞生"><a href="#概念诞生" class="headerlink" title="概念诞生"></a>概念诞生</h3><p>XP 桌面模拟的核心 idea 是：<strong>把网页做成操作系统的样子</strong>。桌面上有图标，双击打开窗口，窗口可以拖动、缩放、最大化，文件夹里能看到文件列表。手机端则是一个简化版，不需要那么复杂的窗口系统，只要能看到文章就好。</p>
+<p>于是确定了双页面的架构：</p>
+<ul>
+<li>**<code>desktop.html</code>**：PC 端（屏幕宽度 ≥ 1024px），完整的 XP 桌面体验</li>
+<li>**<code>mobile.html</code>**：手机端，简化版文章列表</li>
+<li>**<code>index.html</code>**：路由器，检测屏幕宽度后自动跳转</li>
+</ul>
+<h3 id="UI-框架选型"><a href="#UI-框架选型" class="headerlink" title="UI 框架选型"></a>UI 框架选型</h3><p>做 XP 风格界面，从头写 CSS 太费劲了。很快发现了 <a target="_blank" rel="noopener" href="https://botoxparty.github.io/XP.css/">XP.css</a> —— 一个用纯 CSS 还原 Windows XP Luna 主题的开源库。它提供了 <code>.window</code>、<code>.title-bar</code>、<code>.title-bar-controls</code>、<code>.window-body</code>、<code>.status-bar</code> 等组件，按钮、输入框、树形视图全都自带 XP 风格。</p>
+<p>最关键的是标题栏那个蓝白渐变：<code>linear-gradient(180deg, #0997ff, #0053ee 8%, #0050ee 40%, #0066ff 88%, #005bff 95%, #003dd7 100%)</code> —— 这就是 Luna 主题的灵魂。</p>
+<p>另一个关键库是 <a target="_blank" rel="noopener" href="https://marked.js.org/">marked.js</a>，用来在浏览器端把 Markdown 文件实时渲染成 HTML。</p>
+<h3 id="桌面壁纸：Bliss-渐变"><a href="#桌面壁纸：Bliss-渐变" class="headerlink" title="桌面壁纸：Bliss 渐变"></a>桌面壁纸：Bliss 渐变</h3><p>XP 的默认壁纸 <em>Bliss</em> 是那张著名的加州绿丘蓝天照片。但在纯 CSS 下，可以用一个多层渐变来近似还原：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">180deg</span>,</span><br><span class="line">  <span class="number">#3a6bc5</span> <span class="number">0%</span>, <span class="number">#5b8ed8</span> <span class="number">15%</span>, <span class="number">#7baedf</span> <span class="number">30%</span>,</span><br><span class="line">  <span class="number">#a3d4f0</span> <span class="number">50%</span>, <span class="number">#c8e8f8</span> <span class="number">65%</span>,      <span class="comment">/* 蓝天白云 */</span></span><br><span class="line">  <span class="number">#7db356</span> <span class="number">65%</span>, <span class="number">#5a9e3a</span> <span class="number">78%</span>, <span class="number">#3d7a22</span> <span class="number">100%</span>  <span class="comment">/* 绿色山丘 */</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>上半部分是蓝天（从深蓝渐变到浅蓝白色），65% 处是地平线，下半部分是绿色山丘。后来在 Hexo 版本里换成了真正的 <code>bliss.jpg</code> 照片。</p>
+<h3 id="图标系统"><a href="#图标系统" class="headerlink" title="图标系统"></a>图标系统</h3><p>桌面图标的行为经过了几轮打磨：</p>
+<ol>
+<li><strong>第一版</strong>：只有 emoji 占位符</li>
+<li><strong>第二版</strong>：引入了 <em>Windows XP High Resolution Icon Pack</em>（451 个 PNG 图标），换上了真正的 XP 图标</li>
+<li><strong>交互打磨</strong>：XP 的图标交互很特别 —— 悬停不做任何事；单击显示蓝色半透明遮罩 + 白色文字背景；点击桌面空白处取消选中。这些都通过 <code>.selected</code> 类配合 <code>rgba(0,102,204,0.45)</code> 遮罩层实现</li>
+</ol>
+<p>最终桌面上的图标有六个：</p>
+<table>
+<thead>
+<tr>
+<th>图标</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>我的电脑</td>
+<td>（预留）</td>
+</tr>
+<tr>
+<td>博客文章</td>
+<td>打开资源管理器</td>
+</tr>
+<tr>
+<td>关于</td>
+<td>打开关于页面</td>
+</tr>
+<tr>
+<td>Internet Explorer</td>
+<td>内嵌浏览器</td>
+</tr>
+<tr>
+<td>控制面板</td>
+<td>字体大小 &#x2F; 文字可选设置</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>跳转到作者 GitHub</td>
+</tr>
+</tbody></table>
+<h3 id="窗口管理器：整个桌面模拟的核心"><a href="#窗口管理器：整个桌面模拟的核心" class="headerlink" title="窗口管理器：整个桌面模拟的核心"></a>窗口管理器：整个桌面模拟的核心</h3><p>这是整个项目里最复杂的部分，大约 250 行纯 JavaScript，实现了：</p>
+<p><strong>窗口创建（<code>wm.create</code>）</strong>：</p>
+<ul>
+<li>动态创建 <code>&lt;div class=&quot;window desktop-window&quot;&gt;</code> 元素</li>
+<li>每个窗口有独立的标题栏（图标 + 标题 + 最小化&#x2F;最大化&#x2F;关闭按钮）</li>
+<li>每个窗口在任务栏有对应按钮（后来任务栏被隐藏了）</li>
+<li>窗口位置完全随机（带一点偏移避免完全重叠）</li>
+<li>支持不可缩放模式（<code>&#123; resizable: false &#125;</code>），给控制面板用</li>
+</ul>
+<p><strong>拖拽系统</strong>：</p>
+<ul>
+<li>标题栏 <code>mousedown</code> → 记录鼠标相对窗口左上角的偏移 → <code>document mousemove</code> 更新 <code>left/top</code></li>
+<li><code>mouseup</code> 时停止拖拽</li>
+<li>修复过一个经典 bug：最大化窗口拖拽时不会自动还原。解决方案是加了一个 <code>pendingMaxDrag</code> 状态：mousedown 记录位置，mousemove 超过 3px 阈值时先调用 <code>toggleMaximize()</code> 还原再开始拖拽，还原后窗口自动定位到鼠标下方</li>
+</ul>
+<p><strong>缩放系统</strong>：</p>
+<ul>
+<li>6px 边缘检测区域，支持 8 个方向：<code>nw</code> &#x2F; <code>n</code> &#x2F; <code>ne</code> &#x2F; <code>w</code> &#x2F; <code>e</code> &#x2F; <code>sw</code> &#x2F; <code>s</code> &#x2F; <code>se</code></li>
+<li>每个方向对应不同的光标样式和缩放逻辑</li>
+<li>向西&#x2F;向北缩放时同时更新 <code>left/top</code>，保持右下角不动</li>
+<li>最小尺寸限制：280×160 px</li>
+</ul>
+<p><strong>最大化 &#x2F; 还原</strong>：</p>
+<ul>
+<li>双击标题栏切换</li>
+<li>最大化时 <code>left: 0; top: 0; width: 100vw; height: 100vh</code></li>
+<li>还原时恢复到之前保存的位置和大小</li>
+<li><code>.maximized</code> 类去除窗口圆角</li>
+</ul>
+<p><strong>z-index 管理</strong>：</p>
+<ul>
+<li>全局计数器 <code>zCounter</code>，从 100 开始</li>
+<li>每次点击窗口 <code>bringToFront()</code> 递增 z-index</li>
+<li>保证最后点击的窗口始终在最前面</li>
+</ul>
+<h3 id="资源管理器"><a href="#资源管理器" class="headerlink" title="资源管理器"></a>资源管理器</h3><p>双击”博客文章”图标打开的资源管理器，模仿了 Windows XP 的文件浏览体验：</p>
+<ul>
+<li><strong>左栏</strong>：大图标网格，每个文件一个图标（<code>.md</code> 用传真封面图标，<code>.html</code> 用 HTML 文档图标）</li>
+<li><strong>右栏</strong>：预览面板，显示选中文件的标题、类型、日期、摘要</li>
+<li><strong>状态栏</strong>：显示文件数量</li>
+<li><strong>交互</strong>：单击选中 + 预览，双击打开</li>
+</ul>
+<p>文章内容通过 <code>fetch(&#39;posts/index.json&#39;)</code> 动态加载，然后用 <code>marked.js</code> 渲染 Markdown。这个设计让博客变成了一个模拟的”文件夹”。</p>
+<h3 id="控制面板"><a href="#控制面板" class="headerlink" title="控制面板"></a>控制面板</h3><p>一个不可缩放的设置窗口，包含两个配置项：</p>
+<ul>
+<li><strong>字体大小滑块</strong>（6 档，10px–20px）：通过 CSS 自定义属性 <code>--content-font-size</code> 实现，<code>localStorage</code> 持久化</li>
+<li><strong>文字可选开关</strong>：通过 <code>--content-select</code> 属性切换 <code>text</code> &#x2F; <code>none</code>，同样持久化</li>
+</ul>
+<p>所有窗口内的正文区域都响应这两个 CSS 变量，无需刷新页面。</p>
+<h3 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a>移动端</h3><p>手机版走的是完全不同的路线 —— 没有桌面、没有窗口、没有拖拽。就是一个简洁的 XP 风格文章列表：</p>
+<ul>
+<li>顶部蓝白渐变标题栏</li>
+<li>文章卡片用 XP 凸起边框（<code>inset</code> box-shadow）</li>
+<li>点击卡片跳转到 <code>post.html?slug=xxx</code></li>
+<li>底部字体大小下拉框</li>
+</ul>
+<p><code>post.html</code> 是一个全屏窗口阅读器：<code>100vw × 100vh</code>，标题栏 32px，同样用 <code>marked.js</code> 渲染，同样响应字体大小和文字可选设置。</p>
+<hr>
+<h2 id="第二季：Hexo-重构"><a href="#第二季：Hexo-重构" class="headerlink" title="第二季：Hexo 重构"></a>第二季：Hexo 重构</h2><h3 id="为什么要重构"><a href="#为什么要重构" class="headerlink" title="为什么要重构"></a>为什么要重构</h3><p>第一季的桌面模拟虽然交互很酷，但有一些天生的问题：</p>
+<ul>
+<li><strong>SEO 为零</strong>：所有内容靠 JavaScript 动态加载，搜索引擎什么也看不到</li>
+<li><strong>没有真正的页面</strong>：每篇”文章”本质上是 JS 动态渲染的，没有独立的 URL</li>
+<li><strong>维护困难</strong>：每次新增文章要手动更新 <code>index.json</code></li>
+<li><strong>桌面模拟很重</strong>：窗口管理器 + 拖拽 + 缩放接近 600 行 JS，对静态博客来说太重了</li>
+</ul>
+<p>所以决定用 <strong>Hexo</strong> 重建，保留 XP 风格但去掉桌面模拟，让每篇文章都是一个真正的独立页面。</p>
+<h3 id="Hexo-是什么"><a href="#Hexo-是什么" class="headerlink" title="Hexo 是什么"></a>Hexo 是什么</h3><p><a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 是一个 Node.js 静态站点生成器。它把 Markdown 文章 + EJS 模板 + 配置文件 → 编译成纯静态 HTML 文件。</p>
+<p>核心概念：</p>
+<ul>
+<li><strong>Source</strong>：<code>source/_posts/</code> 下的 <code>.md</code> 文件，带 YAML Front Matter（标题、日期、标签等）</li>
+<li><strong>Theme</strong>：<code>themes/&lt;name&gt;/</code> 下的 EJS 模板，定义页面结构</li>
+<li><strong>Generate</strong>：<code>hexo generate</code> 一键构建，输出到 <code>public/</code> 目录</li>
+<li><strong>Server</strong>：<code>hexo server</code> 启动本地开发服务器，支持热重载</li>
+</ul>
+<h3 id="主题架构"><a href="#主题架构" class="headerlink" title="主题架构"></a>主题架构</h3><p>自定义主题 <code>xp-blog</code> 的文件结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">themes/xp-blog/</span><br><span class="line">├── _config.yml              ← 主题配置（标题、导航、作者等）</span><br><span class="line">├── layout/</span><br><span class="line">│   ├── layout.ejs           ← 基础骨架（HTML5 + head + body 容器）</span><br><span class="line">│   ├── index.ejs            ← 首页（文章列表 + 分页）</span><br><span class="line">│   ├── post.ejs             ← 文章详情页</span><br><span class="line">│   ├── page.ejs             ← 独立页面（关于）</span><br><span class="line">│   ├── archive.ejs          ← 归档页</span><br><span class="line">│   └── _partial/</span><br><span class="line">│       ├── head.ejs         ← &lt;head&gt; 标签</span><br><span class="line">│       ├── header.ejs       ← 顶部导航栏窗口</span><br><span class="line">│       ├── footer.ejs       ← 底部状态栏窗口</span><br><span class="line">│       ├── sidebar-left.ejs ← 左侧作者卡片</span><br><span class="line">│       ├── sidebar-right.ejs← 右侧 TOC + 最新文章</span><br><span class="line">│       ├── post-card.ejs    ← 文章列表卡片组件</span><br><span class="line">│       └── post-meta.ejs    ← 文章元信息行</span><br><span class="line">├── scripts/</span><br><span class="line">│   └── toc-helper.js        ← 自定义 Hexo 辅助函数</span><br><span class="line">└── source/</span><br><span class="line">    ├── css/style.css        ← 366 行主题样式</span><br><span class="line">    └── images/              ← bliss.jpg, avatar.jpg, 各种图标</span><br></pre></td></tr></table></figure>
+
+<h3 id="三栏多窗口布局"><a href="#三栏多窗口布局" class="headerlink" title="三栏多窗口布局"></a>三栏多窗口布局</h3><p>跟第一季的单窗口不同，Hexo 版采用了<strong>三栏多窗口</strong>布局 —— 每个区域都是一个独立的 XP 窗口：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────┐</span><br><span class="line">│  [导航栏]  Home  Archives  Tags  About            [_][□][×] │</span><br><span class="line">├──────────┬──────────────────────────────────┬───────────────┤</span><br><span class="line">│ [作者]   │                                  │ [目录]        │</span><br><span class="line">│ ┌──────┐ │  [文章内容]                      │   ├ 第一章     │</span><br><span class="line">│ │ 头像 │ │                                  │   ├ 1.1       │</span><br><span class="line">│ └──────┘ │  文章正文在这里渲染                │   └ 1.2       │</span><br><span class="line">│ LCH      │                                  │               │</span><br><span class="line">│ 3 篇文章 │                                  │ [最新文章]    │</span><br><span class="line">│ 5 个标签 │                                  │   文章 A      │</span><br><span class="line">│ 1 个分类 │                                  │   文章 B      │</span><br><span class="line">│ ─────── │                                  │   文章 C      │</span><br><span class="line">│ 韶华休笑 │                                  │               │</span><br><span class="line">│ 本无根   │                                  │               │</span><br><span class="line">├──────────┴──────────────────────────────────┴───────────────┤</span><br><span class="line">│  [状态栏]  © LCH · Powered by Hexo &amp; xp.css                  │</span><br><span class="line">└────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>这个布局参考了一个叫 wenjie-astro 的博客。左边是作者信息，中间是文章正文，右边是目录和最新文章。所有区块都用 XP 窗口包裹，标题栏高度统一 30px（导航栏 32px）。</p>
+<p>CSS Grid 布局参数经过多次调整：最初是 <code>220px 1fr 240px</code>，后来扩容到 <code>260px 1fr 280px</code>，最大宽度从 760px → 1100px → 最终 1480px。在 860px 以下折叠为单栏布局。</p>
+<h3 id="自定义辅助函数"><a href="#自定义辅助函数" class="headerlink" title="自定义辅助函数"></a>自定义辅助函数</h3><p>Hexo 的 EJS 模板本身不提供 TOC、字数统计等功能，于是写了一个 <code>toc-helper.js</code> 来扩展：</p>
+<ul>
+<li>**<code>toc(content)</code>**：解析文章 HTML 中的 <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> 标签，生成嵌套的 <code>&lt;ul class=&quot;tree-view&quot;&gt;</code> 目录树。XP.css 的 <code>tree-view</code> 组件原生支持折叠展开，视觉效果完美</li>
+<li>**<code>word_count(content)</code>**：统计纯文本字数（去除 HTML 标签），中文按字符数计算</li>
+<li>**<code>reading_time(content)</code>**：按 300 字&#x2F;分钟估算阅读时间</li>
+</ul>
+<p>这三个函数通过 Hexo 的 <code>hexo.extend.helper.register()</code> 注册后，就能在 EJS 模板里直接调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;%= toc(post.content) %&gt;</span><br><span class="line">&lt;%= word_count(post.content) %&gt; 字</span><br><span class="line">&lt;%= reading_time(post.content) %&gt; 分钟</span><br></pre></td></tr></table></figure>
+
+<p>TOC 生成是这里面最棘手的 —— 文章里不一定有 <code>&lt;h2&gt;</code>，可能有 <code>&lt;h3&gt;</code> 没有 <code>&lt;h2&gt;</code>，或者 <code>&lt;h2&gt;</code> &#x2F; <code>&lt;h3&gt;</code> 交替出现。经过三次迭代才正确处理了所有嵌套情况：从第一个出现的标题级别开始编号，兄弟标题之间看级别升降决定是开新子列表还是闭合回到上层。</p>
+<h3 id="细节打磨"><a href="#细节打磨" class="headerlink" title="细节打磨"></a>细节打磨</h3><p><strong>图标替换</strong>：Hexo 版的每个窗口标题栏都有对应的 XP 图标 —— 导航栏用 Internet 快捷方式图标，作者窗口用信息图标，文章用传真封面图标，TOC 和最新文章用 XML 图标。</p>
+<p><strong>Bliss 壁纸</strong>：从 CSS 渐变换成了真正的 <code>bliss.jpg</code> 照片 —— 就是那张 Charles O’Rear 在加州索诺玛县拍下的绿色山丘和蓝天白云。这是世界上观看次数最多的照片之一。<code>background: url(&#39;/images/bliss.jpg&#39;) center/cover no-repeat</code> 铺满整个桌面背景。</p>
+<p><strong>文章元信息</strong>：每篇文章页面显示日期、更新日期、分类、字数、阅读时间、标签，底部有 CC BY-NC-SA 4.0 版权声明。</p>
+<hr>
+<h2 id="两个版本对比"><a href="#两个版本对比" class="headerlink" title="两个版本对比"></a>两个版本对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>第一季（桌面模拟）</th>
+<th>第二季（Hexo + xp-blog）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>架构</strong></td>
+<td>纯静态 HTML&#x2F;CSS&#x2F;JS</td>
+<td>Hexo 静态站点生成器</td>
+</tr>
+<tr>
+<td><strong>页面数</strong></td>
+<td>4 个 HTML 文件</td>
+<td>28 个生成页面</td>
+</tr>
+<tr>
+<td><strong>JS 体积</strong></td>
+<td>~600 行（窗口管理器）</td>
+<td>~80 行（辅助函数）</td>
+</tr>
+<tr>
+<td><strong>SEO</strong></td>
+<td>无</td>
+<td>完整</td>
+</tr>
+<tr>
+<td><strong>文章管理</strong></td>
+<td>手动维护 JSON</td>
+<td>Front Matter + <code>hexo new</code></td>
+</tr>
+<tr>
+<td><strong>布局</strong></td>
+<td>桌面 + 浮动窗口</td>
+<td>三栏多窗口 Grid</td>
+</tr>
+<tr>
+<td><strong>桌面模拟</strong></td>
+<td>完整（拖拽&#x2F;缩放&#x2F;最大化）</td>
+<td>无</td>
+</tr>
+<tr>
+<td><strong>移动端</strong></td>
+<td>独立 <code>mobile.html</code></td>
+<td>响应式 CSS 折叠</td>
+</tr>
+<tr>
+<td><strong>壁纸</strong></td>
+<td>CSS 渐变</td>
+<td>真正的 bliss.jpg</td>
+</tr>
+</tbody></table>
+<p>两个版本各有各的好：桌面模拟版交互极其有趣 —— 你可以拖窗口、缩放、双击最大化，像个真正的操作系统。Hexo 版则更像一个”正经”博客 —— 有独立 URL、有 RSS、搜索引擎能收录。</p>
+<hr>
+<h2 id="技术演进线"><a href="#技术演进线" class="headerlink" title="技术演进线"></a>技术演进线</h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">空白 index.html</span><br><span class="line">    │</span><br><span class="line">    ├─→ 引入 xp.css ──→ 第一个 XP 窗口</span><br><span class="line">    │       │</span><br><span class="line">    │       ├─→ 桌面图标 + 选中交互</span><br><span class="line">    │       ├─→ 窗口管理器（拖拽/缩放/最大化）</span><br><span class="line">    │       ├─→ 资源管理器（文件列表 + 预览面板）</span><br><span class="line">    │       ├─→ 控制面板（字体/文字可选设置）</span><br><span class="line">    │       ├─→ IE 浏览器（内嵌 iframe）</span><br><span class="line">    │       └─→ 移动端（简化文章列表 + 阅读器）</span><br><span class="line">    │</span><br><span class="line">    ├─→ 决定重构 ──→ 引入 Hexo</span><br><span class="line">    │       │</span><br><span class="line">    │       ├─→ 创建 xp-blog 主题</span><br><span class="line">    │       ├─→ 单窗口 → 三栏多窗口布局</span><br><span class="line">    │       ├─→ TOC 目录树（tree-view 组件）</span><br><span class="line">    │       ├─→ 字数统计 + 阅读时间</span><br><span class="line">    │       ├─→ 图标全部替换为 XP PNG</span><br><span class="line">    │       ├─→ CSS 渐变 → 真正 bliss.jpg</span><br><span class="line">    │       └─→ 响应式折叠（860px 断点）</span><br><span class="line">    │</span><br><span class="line">    └──→ 当前版本：Hexo + xp-blog 主题</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="数字总结"><a href="#数字总结" class="headerlink" title="数字总结"></a>数字总结</h2><ul>
+<li><strong>Git commits</strong>：30+</li>
+<li><strong>创建的文件</strong>：40+（跨越两个版本）</li>
+<li><strong>手写 JavaScript</strong>：桌面版 ~600 行 + 移动版 ~80 行 + Hexo 辅助函数 ~100 行</li>
+<li><strong>手写 CSS</strong>：桌面版 ~350 行 + Hexo 主题 ~370 行</li>
+<li><strong>图标资源</strong>：来自 Windows XP High Resolution Icon Pack（451 个图标中精选了 16 个）</li>
+<li><strong>文章数量</strong>：从 3 篇测试文章起步，到现在 5 篇（含本篇）</li>
+<li><strong>两季对话总长度</strong>：约 29,000 行（第一季 17,685 行 + 第二季 11,711 行）</li>
+</ul>
+<hr>
+<p>从一张空白 HTML 到一个完整的 XP 风格博客，中间经历了桌面模拟的狂欢和 Hexo 的重构。回头看看整个过程，最有意思的不是最终的页面效果，而是那些迭代中的细节：标题栏高度从 21px 调到 30px，图标选中遮罩的颜色调了多少次，TOC 嵌套逻辑改了三版才正确，最大化窗口拖拽还原的那个 3px 阈值……</p>
+<blockquote>
+<p>Keep it simple. 但那是在你搞清楚什么不该简单之后。</p>
+</blockquote>
+
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong>LCH</p>
+      <p><strong>文章链接：</strong><a href="/2025/06/20/dev-history/">/2025/06/20/dev-history/</a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>
+
+      </main>
+
+      <!-- 右侧栏 -->
+      <aside class="sidebar-right">
+        <!-- 目录窗口：仅在文章页显示 -->
+
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <ul class="tree-view">
+<li><a href="#第一季：纯静态桌面模拟">第一季：纯静态桌面模拟</a>
+<ul>
+<li><a href="#起点：一个空白文件">起点：一个空白文件</a></li>
+<li><a href="#概念诞生">概念诞生</a></li>
+<li><a href="#UI-框架选型">UI 框架选型</a></li>
+<li><a href="#桌面壁纸：Bliss-渐变">桌面壁纸：Bliss 渐变</a></li>
+<li><a href="#图标系统">图标系统</a></li>
+<li><a href="#窗口管理器：整个桌面模拟的核心">窗口管理器：整个桌面模拟的核心</a></li>
+<li><a href="#资源管理器">资源管理器</a></li>
+<li><a href="#控制面板">控制面板</a></li>
+<li><a href="#移动端">移动端</a></li>
+</ul>
+</li>
+<li><a href="#第二季：Hexo-重构">第二季：Hexo 重构</a>
+<ul>
+<li><a href="#为什么要重构">为什么要重构</a></li>
+<li><a href="#Hexo-是什么">Hexo 是什么</a></li>
+<li><a href="#主题架构">主题架构</a></li>
+<li><a href="#三栏多窗口布局">三栏多窗口布局</a></li>
+<li><a href="#自定义辅助函数">自定义辅助函数</a></li>
+<li><a href="#细节打磨">细节打磨</a></li>
+</ul>
+</li>
+<li><a href="#两个版本对比">两个版本对比</a></li>
+<li><a href="#技术演进线">技术演进线</a></li>
+<li><a href="#数字总结">数字总结</a></li>
+</ul>
+
+    
+  </div>
+</div>
+
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2025/06/20/dev-history/">这个博客是怎么写出来的</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-19</span>
+          <a href="/2025/06/19/furong-nuer-lei/">芙蓉女儿诔·十三词</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-05</span>
+          <a href="/2025/06/05/tech-stack/">技术栈</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-03</span>
+          <a href="/2025/06/03/about-xp/">关于 Windows XP</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-01</span>
+          <a href="/2025/06/01/hello/">你好，世界！</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+      </aside>
+
+    </div>
+
+    <!-- 底部状态栏 -->
+    <!-- 底部状态栏 -->
+<div class="window status-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false">
+    </div>
+  </div>
+  <div class="status-bar site-statusbar">
+    <p class="status-bar-field">© LCH · Powered by Hexo &amp; xp.css</p>
+    <p class="status-bar-field">
+      
+        
+        
+          <a href="/">Home</a> · 
+        
+          <a href="/archives/">Archives</a> · 
+        
+          <a href="/tags/">Tags</a> · 
+        
+          <a href="/about/">About</a>
+        
+      
+    </p>
+  </div>
+</div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,521 @@
+/* ═══════════════════════════════════════════
+   xp-blog 主题样式 — 三栏多窗口桌面布局
+   基于 xp.css，每个功能块独立 XP 窗口
+   ═══════════════════════════════════════════ */
+
+/* ── 重置 ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Bliss 壁纸 ── */
+.desktop-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background: url('/images/bliss.jpg') center/cover no-repeat;
+  /* 兜底：图片加载前使用经典 XP 渐变 */
+  background-color: #3a6bc5;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Tahoma, Arial, "Microsoft YaHei", sans-serif;
+  background: transparent;
+}
+
+/* ── 桌面容器 ── */
+.desktop-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 18px 18px 28px;
+}
+
+/* ── 所有窗口控件纯装饰 ── */
+.window .title-bar-controls button {
+  pointer-events: none;
+}
+
+/* 全局标题栏高度（覆盖 xp.css 默认值） */
+.window > .title-bar {
+  height: 30px;
+  flex-shrink: 0;
+}
+/* 标题栏图标对齐 */
+.window .title-bar-text img {
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   顶部导航窗口
+   ═══════════════════════════════════════════ */
+.nav-window {
+  width: 100%;
+  margin-bottom: 14px;
+}
+.nav-window .title-bar {
+  height: 32px;
+  font-size: 15px;
+}
+.nav-window .title-bar-text {
+  display: flex; align-items: center; gap: 8px;
+  padding-left: 6px;
+}
+.nav-window .title-bar-text .title-icon {
+  font-size: 18px;
+}
+.nav-body {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  flex-wrap: wrap;
+}
+.nav-body a {
+  text-decoration: none;
+}
+.nav-body button {
+  min-width: 80px;
+  font-size: 13px;
+  padding: 4px 12px;
+}
+.nav-body button.focused {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+
+/* ═══════════════════════════════════════════
+   三栏布局
+   ═══════════════════════════════════════════ */
+.desktop-columns {
+  display: grid;
+  grid-template-columns: 260px 1fr 280px;
+  gap: 14px;
+  align-items: start;
+}
+
+.sidebar-left,
+.sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.content-main {
+  min-width: 0;
+}
+
+/* ═══════════════════════════════════════════
+   侧边栏窗口通用
+   ═══════════════════════════════════════════ */
+.sidebar-window {
+  width: 100%;
+}
+.sidebar-window .title-bar {
+  font-size: 13px;
+  height: 30px;
+}
+.sidebar-window .title-bar .title-bar-text {
+  display: flex; align-items: center; gap: 5px;
+  padding-left: 5px;
+  font-size: 13px;
+}
+.sidebar-window .title-bar-controls button {
+  min-width: 21px; min-height: 21px;
+}
+
+/* ── 作者窗口 ── */
+.author-body {
+  text-align: center;
+  padding: 18px 14px;
+}
+.author-avatar {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid #d4d0c8;
+}
+.author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  background: #ece9d8;
+}
+.author-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #003399;
+  margin-bottom: 6px;
+}
+.author-bio {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 10px;
+}
+.author-stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 10px 0;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-num {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #003399;
+}
+.stat-label {
+  font-size: 11px;
+  color: #808080;
+}
+.author-motto {
+  font-size: 12px;
+  color: #808080;
+  font-style: italic;
+  margin-top: 8px;
+  padding: 8px 4px 0;
+  border-top: 1px dotted #d4d0c8;
+}
+
+/* ── TOC 窗口 ── */
+.toc-body {
+  padding: 4px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+.toc-body .tree-view {
+  font-size: 12px;
+}
+.toc-body .tree-view a {
+  color: #000;
+  text-decoration: none;
+}
+.toc-body .tree-view a:hover {
+  color: #003399;
+  text-decoration: underline;
+}
+.toc-empty {
+  font-size: 12px;
+  color: #aaa;
+  font-style: italic;
+  text-align: center;
+  padding: 14px;
+}
+
+/* ── 最新文章窗口 ── */
+.latest-body {
+  padding: 8px 12px;
+}
+.latest-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.latest-list li {
+  padding: 7px 0;
+  border-bottom: 1px dotted #d4d0c8;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.latest-list li:last-child {
+  border-bottom: none;
+}
+.latest-date {
+  font-size: 11px;
+  color: #808080;
+}
+.latest-list a {
+  font-size: 13px;
+  color: #003399;
+  text-decoration: none;
+  display: block;
+  line-height: 1.5;
+}
+.latest-list a:hover {
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════
+   文章窗口（主内容）
+   ═══════════════════════════════════════════ */
+.article-window {
+  width: 100%;
+}
+.article-window .title-bar .title-bar-text {
+  display: flex; align-items: center; gap: 5px;
+  padding-left: 4px;
+  font-size: 13px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── 文章元信息 ── */
+.article-body {
+  padding: 0;
+}
+.post-meta-line {
+  padding: 10px 18px;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #d4d0c8;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.post-meta-line a {
+  color: #003399;
+  text-decoration: none;
+}
+.post-meta-line a:hover {
+  text-decoration: underline;
+}
+.post-meta-cats a {
+  background: #ece9d8;
+  padding: 1px 6px;
+  border: 1px solid #d4d0c8;
+  margin: 0 2px;
+}
+.post-meta-stats {
+  font-size: 12px;
+  color: #808080;
+  gap: 10px;
+}
+.post-meta-tags a {
+  background: #ece9d8;
+  padding: 1px 6px;
+  border: 1px solid #d4d0c8;
+  margin: 0 2px;
+}
+
+/* ── 文章正文 ── */
+.post-content {
+  padding: 20px 24px 28px;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #222;
+}
+.post-content h1 { font-size: 1.5em; margin: 8px 0 12px; }
+.post-content h2 { font-size: 1.2em; margin: 20px 0 10px; color: #003399;
+  border-bottom: 1px solid #d4d0c8; padding-bottom: 4px; }
+.post-content h3 { font-size: 1.05em; margin: 16px 0 8px; }
+.post-content p  { margin: 8px 0; }
+.post-content ul,
+.post-content ol { margin: 8px 0 8px 24px; }
+.post-content li { margin: 4px 0; }
+.post-content a { color: #0000ff; }
+.post-content a:visited { color: #800080; }
+.post-content code {
+  font-family: "Perfect DOS VGA 437 Win", "Courier New", monospace;
+  background: #d4d0c8; padding: 1px 5px; font-size: 0.9em;
+}
+.post-content pre {
+  background: #000; color: #c0c0c0; padding: 12px; overflow-x: auto;
+  font-family: "Perfect DOS VGA 437 Win", "Courier New", monospace;
+  font-size: 0.85em; margin: 10px 0; border: 1px solid #808080;
+}
+.post-content pre code { background: none; padding: 0; color: inherit; }
+.post-content blockquote {
+  border-left: 3px solid #7f9db9; padding: 4px 12px; margin: 10px 0;
+  color: #555; background: #f0f0f0;
+}
+.post-content table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+.post-content th, .post-content td { border: 1px solid #808080; padding: 4px 8px; text-align: left; }
+.post-content th { background: #d4d0c8; font-weight: bold; }
+.post-content hr { border: none; border-top: 1px solid #808080; margin: 16px 0; }
+.post-content img { max-width: 100%; height: auto; }
+
+/* ── 版权声明 ── */
+.post-copyright {
+  margin: 0 18px 18px;
+  padding: 12px 16px;
+  background: #ece9d8;
+  border: 1px solid #d4d0c8;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.8;
+}
+.post-copyright p { margin: 2px 0; }
+.post-copyright a { color: #003399; }
+
+/* ═══════════════════════════════════════════
+   文章列表（首页）
+   ═══════════════════════════════════════════ */
+.post-list {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── 文章卡片 ── */
+.post-card {
+  background: #fff;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff,
+              inset -2px -2px grey, inset 2px 2px #dfdfdf;
+  padding: 16px 18px;
+}
+.post-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.post-card-title {
+  font-size: 17px;
+  font-weight: bold;
+}
+.post-card-title a {
+  color: #003399;
+  text-decoration: none;
+}
+.post-card-title a:hover { text-decoration: underline; }
+.post-card-date {
+  font-size: 12px;
+  color: #808080;
+  white-space: nowrap;
+}
+.post-card-excerpt {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.post-card-excerpt p { margin: 2px 0; }
+.post-card-more { text-decoration: none; }
+
+/* ── 分页 ── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  border-top: 1px solid #d4d0c8;
+}
+.pagination a { text-decoration: none; }
+.pagination .page-info { font-size: 12px; color: #555; }
+
+/* ── 空状态 ── */
+.post-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #808080;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════
+   归档列表
+   ═══════════════════════════════════════════ */
+.archive-list {
+  padding: 10px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.archive-item {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px dotted #d4d0c8;
+}
+.archive-date {
+  font-size: 13px;
+  color: #808080;
+  white-space: nowrap;
+  min-width: 85px;
+}
+.archive-item a {
+  color: #003399;
+  text-decoration: none;
+  font-size: 15px;
+}
+.archive-item a:hover { text-decoration: underline; }
+
+/* ═══════════════════════════════════════════
+   底部状态栏
+   ═══════════════════════════════════════════ */
+.status-window {
+  margin-top: 14px;
+  width: 100%;
+}
+.site-statusbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+.site-statusbar a {
+  color: inherit;
+  text-decoration: none;
+}
+.site-statusbar a:hover {
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════
+   响应式：小屏折叠为单列
+   ═══════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .desktop-container {
+    padding: 6px 6px 12px;
+  }
+
+  .desktop-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-left {
+    order: 2;
+  }
+  .content-main {
+    order: 1;
+  }
+  .sidebar-right {
+    order: 3;
+  }
+
+  /* 侧边栏变为水平排列 */
+  .sidebar-left,
+  .sidebar-right {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .author-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    padding: 10px;
+  }
+  .author-avatar {
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .author-stats {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .post-content {
+    padding: 10px 12px 16px;
+    font-size: 13px;
+  }
+}

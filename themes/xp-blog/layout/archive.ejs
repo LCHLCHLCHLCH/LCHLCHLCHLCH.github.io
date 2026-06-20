@@ -1,0 +1,36 @@
+<!-- 归档窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/fax-cover-page.png') %>" alt="" width="16" height="16" draggable="false">
+      <% if (page.category) { %>
+        分类：<%= page.category %>
+      <% } else if (page.tag) { %>
+        标签：<%= page.tag %>
+      <% } else { %>
+        归档
+      <% } %>
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <div class="archive-list">
+      <% page.posts.each(function(post) { %>
+        <div class="archive-item">
+          <span class="archive-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
+          <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+        </div>
+      <% }) %>
+    </div>
+
+    <% if (page.posts.length === 0) { %>
+    <div class="post-empty">
+      <p>暂无文章。</p>
+    </div>
+    <% } %>
+  </div>
+</div>

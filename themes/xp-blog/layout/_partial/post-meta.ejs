@@ -1,0 +1,24 @@
+<div class="post-meta-line">
+  <span>发表于 <%= date(page.date, theme.date_format || 'YYYY-MM-DD') %></span>
+  <% if (page.updated && page.updated !== page.date) { %>
+    <span> | 更新于 <%= date(page.updated, theme.date_format || 'YYYY-MM-DD') %></span>
+  <% } %>
+  <% if (page.categories && page.categories.length > 0) { %>
+    <span class="post-meta-cats">
+      <% page.categories.each(function(cat) { %>
+        <a href="<%= url_for(cat.path) %>"><%= cat.name %></a>
+      <% }) %>
+    </span>
+  <% } %>
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: <%= word_count(page.content) %></span>
+  <span>| 阅读时长: <%= reading_time(page.content) %> 分钟</span>
+  <% if (page.tags && page.tags.length > 0) { %>
+    <span class="post-meta-tags">
+      <% page.tags.each(function(tag) { %>
+        <a href="<%= url_for(tag.path) %>"><%= tag.name %></a>
+      <% }) %>
+    </span>
+  <% } %>
+</div>

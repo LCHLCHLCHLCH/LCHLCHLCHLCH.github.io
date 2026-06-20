@@ -1,0 +1,20 @@
+<article class="post-card">
+  <div class="post-card-header">
+    <h2 class="post-card-title">
+      <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+    </h2>
+    <div class="post-card-date"><%= date(post.date, theme.date_format || 'YYYY-MM-DD') %></div>
+  </div>
+  <% if (post.excerpt) { %>
+  <div class="post-card-excerpt">
+    <%- post.excerpt %>
+  </div>
+  <% } else if (post.description) { %>
+  <div class="post-card-excerpt">
+    <p><%= post.description %></p>
+  </div>
+  <% } %>
+  <a href="<%= url_for(post.path) %>" class="post-card-more">
+    <button>阅读全文</button>
+  </a>
+</article>
