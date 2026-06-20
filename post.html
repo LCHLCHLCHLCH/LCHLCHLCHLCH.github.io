@@ -15,6 +15,7 @@
       min-height: 100vh;
       overflow: hidden;
       --content-font-size: 14px;
+      --content-select: text;
     }
     .window {
       width: 100vw;
@@ -42,6 +43,7 @@
       margin: 0 3px; padding: 14px 18px;
       flex: 1; overflow-y: auto;
       font-size: var(--content-font-size);
+      user-select: var(--content-select);
     }
 
     /* Markdown 渲染内容样式 */
@@ -99,12 +101,16 @@
   </div>
 
   <script>
-    // 恢复字体大小设置
+    // 恢复设置
     (function() {
       try {
         var saved = localStorage.getItem('xp-mobile-font-size');
         if (saved) {
           document.body.style.setProperty('--content-font-size', saved);
+        }
+        var savedSelect = localStorage.getItem('xp-blog-content-select');
+        if (savedSelect) {
+          document.body.style.setProperty('--content-select', savedSelect);
         }
       } catch(e) {}
     })();

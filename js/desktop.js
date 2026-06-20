@@ -440,6 +440,14 @@ function openControlPanel() {
     optionsHtml += '<option value="' + sizes[i] + '"' + sel + '>' + sizeLabels[i] + '</option>';
   }
 
+  var currentSelect = getComputedStyle(document.body).getPropertyValue('--content-select').trim();
+  var selectOptions = '';
+  ['none', 'text'].forEach(function(val) {
+    var label = val === 'text' ? '允许选中' : '禁止选中';
+    var sel = val === currentSelect ? ' selected' : '';
+    selectOptions += '<option value="' + val + '"' + sel + '>' + label + '</option>';
+  });
+
   body.innerHTML =
     '<div class="control-panel-body">' +
       '<h3>显示设置</h3>' +
@@ -447,6 +455,12 @@ function openControlPanel() {
         '<span class="cp-label">文章字体大小</span>' +
         '<div class="cp-control">' +
           '<select id="fontSizeSelect">' + optionsHtml + '</select>' +
+        '</div>' +
+      '</div>' +
+      '<div class="control-panel-item">' +
+        '<span class="cp-label">文字可选</span>' +
+        '<div class="cp-control">' +
+          '<select id="selectToggle">' + selectOptions + '</select>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -458,14 +472,26 @@ function openControlPanel() {
       try { localStorage.setItem('xp-blog-font-size', select.value); } catch(e) {}
     });
   }
+
+  var selToggle = body.querySelector('#selectToggle');
+  if (selToggle) {
+    selToggle.addEventListener('change', function() {
+      document.body.style.setProperty('--content-select', selToggle.value);
+      try { localStorage.setItem('xp-blog-content-select', selToggle.value); } catch(e) {}
+    });
+  }
 }
 
-// 启动时恢复字体大小设置
+// 启动时恢复设置
 (function() {
   try {
     var saved = localStorage.getItem('xp-blog-font-size');
     if (saved) {
       document.body.style.setProperty('--content-font-size', saved);
+    }
+    var savedSelect = localStorage.getItem('xp-blog-content-select');
+    if (savedSelect) {
+      document.body.style.setProperty('--content-select', savedSelect);
     }
   } catch(e) {}
 })();
