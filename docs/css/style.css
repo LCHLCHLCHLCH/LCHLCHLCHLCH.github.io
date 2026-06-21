@@ -764,13 +764,15 @@ body {
   .post-content pre {
     padding: 8px;
     font-size: 0.82em;
-    white-space: pre-wrap;
-    word-break: break-all;
+    white-space: pre;
+    word-break: normal;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .post-content figure.highlight pre code,
   .post-content pre code {
-    white-space: pre-wrap;
-    word-break: break-all;
+    white-space: pre;
+    word-break: normal;
   }
   .post-content table {
     font-size: 0.8em;
