@@ -568,8 +568,7 @@ body {
 @media (max-width: 1100px) {
   .widgets-row { grid-template-columns: 1fr; }
   .welcome-screen { padding: 0; }
-  .welcome-screen-window { width: 100%; border-radius: 0; }
-  .welcome-screen-window .title-bar { border-radius: 0; }
+  .welcome-screen-window { width: 100%; }
 }
 
 /* ═══════════════════════════════════════════
