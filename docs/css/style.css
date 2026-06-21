@@ -651,6 +651,46 @@ body {
 /* ═══════════════════════════════════════════
    归档列表
    ═══════════════════════════════════════════ */
+.tags-body { padding: 0; }
+.tags-header {
+  padding: 20px 24px 14px;
+  border-bottom: 1px solid #d4d0c8;
+}
+.tags-header h2 {
+  font-size: 18px;
+  color: #003399;
+  margin-bottom: 4px;
+}
+.tags-header p {
+  font-size: 12px;
+  color: #808080;
+}
+.tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 24px;
+}
+.tags-btn {
+  display: inline-block;
+  font-size: 12px;
+  padding: 5px 14px;
+  text-decoration: none;
+  min-width: 60px;
+  text-align: center;
+}
+.tags-btn span {
+  background: #fff;
+  color: #555;
+  padding: 0 4px;
+  margin-left: 4px;
+  font-size: 10px;
+  border: 1px solid #d4d0c8;
+}
+
+/* ═══════════════════════════════════════════
+   归档列表
+   ═══════════════════════════════════════════ */
 .archive-list {
   padding: 10px 18px 18px;
   display: flex;
