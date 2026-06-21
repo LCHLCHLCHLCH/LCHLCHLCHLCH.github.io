@@ -11,56 +11,54 @@
     </div>
   </div>
   <div class="window-body welcome-body">
+    <div class="welcome-layout">
 
-    <!-- 头图区域 -->
-    <div class="welcome-hero">
-      <div class="welcome-title"><%= config.title %></div>
-    </div>
-
-    <!-- 统计卡片 -->
-    <div class="welcome-stats">
-      <div class="welcome-stat">
-        <span class="welcome-stat-num"><%= site.posts.length %></span>
-        <span class="welcome-stat-label">篇文章</span>
+      <!-- 左侧：欢迎信息 -->
+      <div class="welcome-main">
+        <div class="welcome-hero">
+          <div class="welcome-title"><%= config.title %></div>
+        </div>
+        <div class="welcome-stats">
+          <div class="welcome-stat">
+            <span class="welcome-stat-num"><%= site.posts.length %></span>
+            <span class="welcome-stat-label">篇文章</span>
+          </div>
+          <div class="welcome-stat">
+            <span class="welcome-stat-num"><%= site.tags.length %></span>
+            <span class="welcome-stat-label">个标签</span>
+          </div>
+          <div class="welcome-stat">
+            <span class="welcome-stat-num"><%= site.categories.length %></span>
+            <span class="welcome-stat-label">个分类</span>
+          </div>
+        </div>
+        <div class="welcome-nav">
+          <a href="<%= url_for('/archives/') %>"><button>📂 浏览归档</button></a>
+          <a href="<%= url_for('/tags/') %>"><button>🏷️ 查看标签</button></a>
+          <a href="<%= url_for('/about/') %>"><button>ℹ️ 关于本站</button></a>
+        </div>
+        <% if (theme.author && theme.author.motto) { %>
+        <div class="welcome-motto">« <%= theme.author.motto %> »</div>
+        <% } %>
       </div>
-      <div class="welcome-stat">
-        <span class="welcome-stat-num"><%= site.tags.length %></span>
-        <span class="welcome-stat-label">个标签</span>
+
+      <!-- 右侧：最新文章 -->
+      <% if (site.posts.length > 0) { %>
+      <div class="welcome-sidebar">
+        <div class="welcome-recent">
+          <div class="welcome-recent-header">最新文章</div>
+          <ul class="welcome-recent-list">
+            <% site.posts.sort('date', -1).limit(6).each(function(post) { %>
+              <li>
+                <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+                <span class="welcome-recent-date"><%= date(post.date, 'MM-DD') %></span>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
       </div>
-      <div class="welcome-stat">
-        <span class="welcome-stat-num"><%= site.categories.length %></span>
-        <span class="welcome-stat-label">个分类</span>
-      </div>
+      <% } %>
+
     </div>
-
-    <!-- 快捷导航 -->
-    <div class="welcome-nav">
-      <a href="<%= url_for('/archives/') %>"><button>📂 浏览归档</button></a>
-      <a href="<%= url_for('/tags/') %>"><button>🏷️ 查看标签</button></a>
-      <a href="<%= url_for('/about/') %>"><button>ℹ️ 关于本站</button></a>
-      <a href="<%= url_for('/home-b/') %>"><button style="background:#f0c060">B·欢迎屏幕</button></a>
-      <a href="<%= url_for('/home-c/') %>"><button style="background:#f0c060">C·小部件</button></a>
-    </div>
-
-    <!-- 最新文章预览 -->
-    <% if (site.posts.length > 0) { %>
-    <div class="welcome-recent">
-      <div class="welcome-recent-header">最新文章</div>
-      <ul class="welcome-recent-list">
-        <% site.posts.sort('date', -1).limit(5).each(function(post) { %>
-          <li>
-            <a href="<%= url_for(post.path) %>"><%= post.title %></a>
-            <span class="welcome-recent-date"><%= date(post.date, 'MM-DD') %></span>
-          </li>
-        <% }) %>
-      </ul>
-    </div>
-    <% } %>
-
-    <!-- 格言 -->
-    <% if (theme.author && theme.author.motto) { %>
-    <div class="welcome-motto">« <%= theme.author.motto %> »</div>
-    <% } %>
-
   </div>
 </div>

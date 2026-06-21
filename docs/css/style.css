@@ -461,6 +461,19 @@ body {
    欢迎页（首页门面）
    ═══════════════════════════════════════════ */
 .welcome-body { padding: 0; }
+.welcome-layout {
+  display: flex;
+  align-items: stretch;
+}
+.welcome-main {
+  flex: 1;
+  min-width: 0;
+}
+.welcome-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  border-left: 1px solid #d4d0c8;
+}
 .welcome-hero {
   text-align: center;
   padding: 32px 24px 20px;
@@ -485,7 +498,7 @@ body {
   border-bottom: 1px solid #d4d0c8;
 }
 .welcome-nav button { min-width: 120px; font-size: 13px; padding: 6px 16px; }
-.welcome-recent { padding: 18px 24px 10px; background: #fff; }
+.welcome-recent { padding: 16px; height: 100%; }
 .welcome-recent-header {
   font-size: 14px; font-weight: bold; color: #003399;
   margin-bottom: 10px; padding-bottom: 6px;
@@ -493,92 +506,14 @@ body {
 }
 .welcome-recent-list { list-style: none; margin: 0; padding: 0; }
 .welcome-recent-list li {
-  display: flex; justify-content: space-between; align-items: baseline;
+  display: flex; flex-direction: column; gap: 2px;
   padding: 7px 0; border-bottom: 1px dotted #ece9d8;
 }
 .welcome-recent-list li:last-child { border-bottom: none; }
-.welcome-recent-list a { font-size: 14px; color: #003399; text-decoration: none; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.welcome-recent-list a { font-size: 13px; color: #003399; text-decoration: none; line-height: 1.4; }
 .welcome-recent-list a:hover { text-decoration: underline; }
-.welcome-recent-date { font-size: 11px; color: #aaa; margin-left: 12px; white-space: nowrap; }
+.welcome-recent-date { font-size: 11px; color: #aaa; }
 .welcome-motto { text-align: center; padding: 14px 24px 20px; font-size: 13px; color: #808080; font-style: italic; background: #fff; }
-
-/* ═══════════════════════════════════════════
-   方案 B：XP 欢迎屏幕（居中窗口）
-   ═══════════════════════════════════════════ */
-.welcome-screen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  min-height: 400px;
-}
-.welcome-screen-window {
-  width: 400px;
-  max-width: 100%;
-}
-.welcome-screen-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 28px 24px 20px;
-  text-align: center;
-}
-.welcome-screen-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 2px solid #d4d0c8;
-  margin-bottom: 16px;
-}
-.welcome-screen-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.welcome-screen-stats {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 16px;
-}
-.welcome-screen-stats .sep { margin: 0 6px; color: #ccc; }
-.welcome-screen-nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
-.welcome-screen-nav button { min-width: 90px; font-size: 13px; padding: 5px 14px; }
-.welcome-screen-motto {
-  font-size: 12px;
-  color: #808080;
-  font-style: italic;
-}
-
-/* ═══════════════════════════════════════════
-   方案 C：桌面小部件（三窗并排）
-   ═══════════════════════════════════════════ */
-.widgets-row {
-  display: grid;
-  grid-template-columns: 260px 1fr 260px;
-  gap: 14px;
-  align-items: start;
-}
-.widget-window { width: 100%; }
-.widget-window .title-bar { font-size: 13px; }
-.widget-window .title-bar .title-bar-text { display: flex; align-items: center; gap: 5px; padding-left: 4px; }
-.widget-body { padding: 14px; }
-.widget-body .author-avatar { width: 60px; height: 60px; margin: 0 auto 10px; border-radius: 4px; overflow: hidden; border: 2px solid #d4d0c8; }
-.widget-body .author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.widget-body .author-name { font-size: 15px; font-weight: bold; color: #003399; margin-bottom: 4px; text-align: center; }
-.widget-body .author-stats { display: flex; justify-content: center; gap: 16px; margin: 10px 0; }
-.widget-body .stat-item { text-align: center; }
-.widget-body .stat-num { display: block; font-size: 18px; font-weight: bold; color: #003399; }
-.widget-body .stat-label { font-size: 10px; color: #808080; }
-.widget-body .author-motto { font-size: 11px; color: #808080; font-style: italic; margin-top: 6px; padding-top: 6px; border-top: 1px dotted #d4d0c8; text-align: center; }
-.widget-welcome-body .welcome-hero { padding: 12px 16px 10px; border-bottom: none; background: none; }
-.widget-welcome-body .welcome-title { font-size: 22px; }
-.widget-welcome-body .welcome-subtitle { font-size: 13px; }
-.widget-welcome-body .welcome-desc { font-size: 12px; max-width: none; }
-.widget-welcome-body .welcome-nav { padding: 10px 16px; border-bottom: none; background: none; border-top: 1px dotted #d4d0c8; }
-.widget-welcome-body .welcome-nav button { min-width: 80px; font-size: 12px; padding: 4px 10px; }
-
-@media (max-width: 1100px) {
-  .widgets-row { grid-template-columns: 1fr; }
-  .welcome-screen { padding: 0; }
-  .welcome-screen-window { width: 100%; }
-}
 
 /* ═══════════════════════════════════════════
    文章列表（首页）
@@ -772,12 +707,14 @@ body {
     justify-content: flex-start;
   }
 
+  .welcome-layout { flex-direction: column; }
+  .welcome-sidebar { width: 100%; border-left: none; border-top: 1px solid #d4d0c8; }
   .welcome-title { font-size: 22px; }
   .welcome-hero { padding: 20px 12px 14px; }
   .welcome-stats { padding: 10px 8px; }
   .welcome-nav { padding: 12px 8px; gap: 8px; }
   .welcome-nav button { min-width: 90px; font-size: 12px; }
-  .welcome-recent { padding: 12px 12px 8px; }
+  .welcome-recent { padding: 12px; }
   .welcome-motto { padding: 10px 12px 14px; }
 
   .tags-nav { padding: 10px 12px; gap: 8px; }
