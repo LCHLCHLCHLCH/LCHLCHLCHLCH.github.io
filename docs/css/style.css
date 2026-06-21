@@ -36,13 +36,14 @@ body {
 /* ── 所有窗口控件纯装饰 ── */
 .window .title-bar-controls button {
   pointer-events: none;
-  box-sizing: content-box;
 }
 
 /* 全局标题栏高度（覆盖 xp.css 默认值） */
 .window > .title-bar {
   height: 30px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 /* 标题栏图标对齐 */
 .window .title-bar-text img {
@@ -192,7 +193,6 @@ body {
 }
 .sidebar-window .title-bar-controls button {
   min-width: 21px; min-height: 21px;
-  box-sizing: content-box;
 }
 
 /* ── 作者窗口 ── */
