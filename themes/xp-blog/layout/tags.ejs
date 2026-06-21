@@ -1,0 +1,27 @@
+<!-- 标签列表页 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/XML.png') %>" alt="" width="16" height="16" draggable="false"> 所有标签
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <div class="post-list">
+      <% site.tags.each(function(tag) { %>
+        <div class="post-card">
+          <div class="post-card-header">
+            <div class="post-card-title">
+              <a href="<%= url_for(tag.path) %>"><%= tag.name %></a>
+            </div>
+            <span class="post-card-date"><%= tag.posts.length %> 篇</span>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>

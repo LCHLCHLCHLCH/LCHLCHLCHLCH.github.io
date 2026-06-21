@@ -1,0 +1,24 @@
+<!-- 标签页 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="<%= url_for('/images/XML.png') %>" alt="" width="16" height="16" draggable="false"> 标签：<%= page.tag %>
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body">
+    <% if (page.posts && page.posts.length > 0) { %>
+    <div class="post-list">
+      <% page.posts.each(function(post) { %>
+        <%- partial('_partial/post-card', { post: post }) %>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <div class="post-empty"><p>暂无文章。</p></div>
+    <% } %>
+  </div>
+</div>
