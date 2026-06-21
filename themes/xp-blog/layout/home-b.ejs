@@ -1,22 +1,33 @@
-<!-- XP 欢迎屏幕 —— 无窗口框，直铺 Bliss 壁纸上 -->
+<!-- XP 欢迎屏幕 —— 居中 XP 窗口 -->
 <div class="welcome-screen">
-  <div class="welcome-screen-avatar">
-    <img src="<%= url_for('/images/avatar.jpg') %>" alt="avatar" onerror="this.style.display='none'">
+  <div class="window welcome-screen-window">
+    <div class="title-bar">
+      <div class="title-bar-text">
+        <img src="<%= url_for('/images/information.png') %>" alt="" width="16" height="16" draggable="false"> <%= config.title %>
+      </div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body welcome-screen-body">
+      <div class="welcome-screen-avatar">
+        <img src="<%= url_for('/images/avatar.jpg') %>" alt="avatar" onerror="this.style.display='none'">
+      </div>
+      <div class="welcome-screen-stats">
+        <span><%= site.posts.length %> 篇文章</span>
+        <span class="sep">·</span>
+        <span><%= site.tags.length %> 个标签</span>
+      </div>
+      <div class="welcome-screen-nav">
+        <a href="<%= url_for('/archives/') %>"><button>📂 归档</button></a>
+        <a href="<%= url_for('/tags/') %>"><button>🏷️ 标签</button></a>
+        <a href="<%= url_for('/about/') %>"><button>ℹ️ 关于</button></a>
+      </div>
+      <% if (theme.author && theme.author.motto) { %>
+      <div class="welcome-screen-motto">« <%= theme.author.motto %> »</div>
+      <% } %>
+    </div>
   </div>
-  <div class="welcome-screen-name"><%= config.title %></div>
-  <div class="welcome-screen-sub"><%= config.subtitle %></div>
-  <div class="welcome-screen-desc"><%= config.description %></div>
-  <div class="welcome-screen-stats">
-    <span><%= site.posts.length %> 篇文章</span>
-    <span class="sep">·</span>
-    <span><%= site.tags.length %> 个标签</span>
-  </div>
-  <div class="welcome-screen-nav">
-    <a href="<%= url_for('/archives/') %>"><button>📂 归档</button></a>
-    <a href="<%= url_for('/tags/') %>"><button>🏷️ 标签</button></a>
-    <a href="<%= url_for('/about/') %>"><button>ℹ️ 关于</button></a>
-  </div>
-  <% if (theme.author && theme.author.motto) { %>
-  <div class="welcome-screen-motto">« <%= theme.author.motto %> »</div>
-  <% } %>
 </div>

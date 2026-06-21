@@ -59,27 +59,38 @@
 
       <!-- 中间：主内容区 -->
       <main class="content-main full">
-        <!-- XP 欢迎屏幕 —— 无窗口框，直铺 Bliss 壁纸上 -->
+        <!-- XP 欢迎屏幕 —— 居中 XP 窗口 -->
 <div class="welcome-screen">
-  <div class="welcome-screen-avatar">
-    <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+  <div class="window welcome-screen-window">
+    <div class="title-bar">
+      <div class="title-bar-text">
+        <img src="/images/information.png" alt="" width="16" height="16" draggable="false"> LCH 的博客
+      </div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="window-body welcome-screen-body">
+      <div class="welcome-screen-avatar">
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      </div>
+      <div class="welcome-screen-stats">
+        <span>6 篇文章</span>
+        <span class="sep">·</span>
+        <span>18 个标签</span>
+      </div>
+      <div class="welcome-screen-nav">
+        <a href="/archives/"><button>📂 归档</button></a>
+        <a href="/tags/"><button>🏷️ 标签</button></a>
+        <a href="/about/"><button>ℹ️ 关于</button></a>
+      </div>
+      
+      <div class="welcome-screen-motto">« 韶华休笑本无根 »</div>
+      
+    </div>
   </div>
-  <div class="welcome-screen-name">LCH 的博客</div>
-  <div class="welcome-screen-sub">Windows XP 风格</div>
-  <div class="welcome-screen-desc">一个怀旧 XP 风格的个人博客</div>
-  <div class="welcome-screen-stats">
-    <span>6 篇文章</span>
-    <span class="sep">·</span>
-    <span>18 个标签</span>
-  </div>
-  <div class="welcome-screen-nav">
-    <a href="/archives/"><button>📂 归档</button></a>
-    <a href="/tags/"><button>🏷️ 标签</button></a>
-    <a href="/about/"><button>ℹ️ 关于</button></a>
-  </div>
-  
-  <div class="welcome-screen-motto">« 韶华休笑本无根 »</div>
-  
 </div>
 
       </main>

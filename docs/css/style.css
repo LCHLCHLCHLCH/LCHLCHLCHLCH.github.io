@@ -494,58 +494,47 @@ body {
 .welcome-motto { text-align: center; padding: 14px 24px 20px; font-size: 13px; color: #808080; font-style: italic; background: #fff; }
 
 /* ═══════════════════════════════════════════
-   方案 B：XP 欢迎屏幕（无窗口框）
+   方案 B：XP 欢迎屏幕（居中窗口）
    ═══════════════════════════════════════════ */
 .welcome-screen {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 40px 40px;
-  text-align: center;
+  padding: 40px 20px;
   min-height: 400px;
 }
+.welcome-screen-window {
+  width: 400px;
+  max-width: 100%;
+}
+.welcome-screen-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 20px;
+  text-align: center;
+}
 .welcome-screen-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 6px;
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
   overflow: hidden;
-  border: 3px solid rgba(255,255,255,0.7);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  margin-bottom: 20px;
+  border: 2px solid #d4d0c8;
+  margin-bottom: 16px;
 }
 .welcome-screen-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.welcome-screen-name {
-  font-size: 30px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-  margin-bottom: 6px;
-}
-.welcome-screen-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.85);
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-  margin-bottom: 14px;
-}
-.welcome-screen-desc {
-  font-size: 13px;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 18px;
-}
 .welcome-screen-stats {
   font-size: 13px;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 22px;
+  color: #555;
+  margin-bottom: 16px;
 }
-.welcome-screen-stats .sep { margin: 0 8px; opacity: 0.5; }
-.welcome-screen-nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+.welcome-screen-stats .sep { margin: 0 6px; color: #ccc; }
+.welcome-screen-nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
 .welcome-screen-nav button { min-width: 90px; font-size: 13px; padding: 5px 14px; }
 .welcome-screen-motto {
-  font-size: 13px;
-  color: rgba(255,255,255,0.65);
+  font-size: 12px;
+  color: #808080;
   font-style: italic;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 /* ═══════════════════════════════════════════
@@ -578,8 +567,7 @@ body {
 
 @media (max-width: 1100px) {
   .widgets-row { grid-template-columns: 1fr; }
-  .welcome-screen { padding: 30px 16px 24px; }
-  .welcome-screen-name { font-size: 24px; }
+  .welcome-screen { padding: 16px 8px; }
 }
 
 /* ═══════════════════════════════════════════
