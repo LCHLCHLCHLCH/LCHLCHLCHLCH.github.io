@@ -661,28 +661,33 @@
   var spacer = document.createElement('div');
   spacer.style.display = 'none';
   toc.parentNode.insertBefore(spacer, toc.nextSibling);
-  var rect = toc.getBoundingClientRect();
-  var origTop = rect.top + window.scrollY;
-  var origRight = window.innerWidth - rect.right;
-  var origWidth = rect.offsetWidth;
-  var origHeight = rect.height;
+  function measure() {
+    var r = toc.getBoundingClientRect();
+    return {
+      top: r.top + window.scrollY,
+      left: r.left,
+      width: r.width,
+      height: r.height
+    };
+  }
+  var m = measure();
   var gap = 14;
   function onScroll() {
     if (window.innerWidth <= 1100) return;
-    if (window.scrollY > origTop - 40) {
+    if (window.scrollY > m.top - 40) {
       if (toc.style.position !== 'fixed') {
         spacer.style.display = 'block';
-        spacer.style.height = (origHeight + gap) + 'px';
+        spacer.style.height = (m.height + gap) + 'px';
       }
       toc.style.position = 'fixed';
       toc.style.top = '40px';
-      toc.style.right = origRight + 'px';
-      toc.style.width = origWidth + 'px';
+      toc.style.left = m.left + 'px';
+      toc.style.width = m.width + 'px';
       toc.style.zIndex = '10';
     } else {
       toc.style.position = '';
       toc.style.top = '';
-      toc.style.right = '';
+      toc.style.left = '';
       toc.style.width = '';
       toc.style.zIndex = '';
       spacer.style.display = 'none';
@@ -690,19 +695,14 @@
   }
   window.addEventListener('scroll', onScroll);
   window.addEventListener('resize', function() {
-    var wasFixed = toc.style.position === 'fixed';
     toc.style.position = '';
     toc.style.top = '';
-    toc.style.right = '';
+    toc.style.left = '';
     toc.style.width = '';
     toc.style.zIndex = '';
     spacer.style.display = 'none';
-    var r = toc.getBoundingClientRect();
-    origTop = r.top + window.scrollY;
-    origRight = window.innerWidth - r.right;
-    origWidth = r.width;
-    origHeight = r.height;
-    if (wasFixed) onScroll();
+    m = measure();
+    onScroll();
   });
 })();
 </script>
