@@ -497,6 +497,7 @@ body {
   border-bottom: 1px solid #d4d0c8;
 }
 .welcome-nav button { min-width: 120px; font-size: 13px; padding: 6px 16px; }
+.welcome-nav button img { vertical-align: middle; margin-right: 4px; }
 .welcome-recent { padding: 16px; height: 100%; }
 .welcome-recent-header {
   font-size: 14px; font-weight: bold; color: #003399;
