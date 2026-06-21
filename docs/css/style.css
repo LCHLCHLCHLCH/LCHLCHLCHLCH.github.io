@@ -69,7 +69,7 @@ body {
 }
 .taskbar-left {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   height: 100%;
   flex-shrink: 0;
 }
@@ -78,10 +78,10 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  width: 50px;
+  padding: 0;
+  margin: 0;
   text-decoration: none;
   border-radius: 0;
-  position: relative;
 }
 .taskbar-start:hover {
   filter: brightness(105%);
@@ -90,10 +90,10 @@ body {
   filter: brightness(85%);
 }
 .taskbar-start img {
-  height: 100%;
+  display: block;
+  height: 20px;
   width: auto;
-  padding: 3px 8px;
-  box-sizing: border-box;
+  margin: 0 10px;
 }
 .taskbar-nav {
   display: flex;
@@ -624,10 +624,10 @@ body {
   .xp-taskbar {
     margin-bottom: 6px;
   }
-  .taskbar-start span { display: none; }
   .taskbar-nav { gap: 1px; padding: 0 4px; }
   .taskbar-btn { padding: 0 6px; font-size: 10px; }
   .taskbar-right { padding: 0 6px; }
+  .taskbar-start img { margin: 0 6px; height: 16px; }
 
   .desktop-container {
     padding: 6px 6px 12px;
