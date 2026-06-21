@@ -164,6 +164,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  position: sticky;
+  top: 40px;
 }
 
 .content-main {
@@ -725,6 +727,7 @@ body {
   .sidebar-right {
     flex-direction: column;
     gap: 8px;
+    position: static;
   }
 
   .author-body {
