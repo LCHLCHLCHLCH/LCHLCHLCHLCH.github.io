@@ -4,7 +4,7 @@
     <a href="<%= url_for('/') %>"><img src="<%= url_for('/images/start.png') %>" alt="Start" class="taskbar-start" draggable="false"></a>
     <% if (theme.nav) { %>
       <% for (const [label, url] of Object.entries(theme.nav)) { %>
-        <a href="<%= url_for(url) %>" class="taskbar-btn<%= (page.path === url || (url === '/' && is_home())) ? ' focus' : ' cover' %>"><%= label %></a>
+        <a href="<%= url_for(url) %>" class="taskbar-btn<%= (url_for(page.path) === url_for(url) || (url === '/' && is_home())) ? ' focus' : ' cover' %>"><%= label %></a>
       <% } %>
     <% } %>
   </div>
