@@ -1,14 +1,10 @@
-<!-- XP 任务栏导航 -->
+<!-- XP 任务栏导航（严格参照 winXP Footer 结构） -->
 <div class="xp-taskbar">
   <div class="taskbar-left">
-    <a href="<%= url_for('/') %>" class="taskbar-start<%= is_home() ? ' active' : '' %>">
-      <img src="<%= url_for('/images/start.png') %>" alt="Start" draggable="false">
-    </a>
-  </div>
-  <div class="taskbar-nav">
+    <a href="<%= url_for('/') %>"><img src="<%= url_for('/images/start.png') %>" alt="Start" class="taskbar-start" draggable="false"></a>
     <% if (theme.nav) { %>
       <% for (const [label, url] of Object.entries(theme.nav)) { %>
-        <a href="<%= url_for(url) %>" class="taskbar-btn<%= (page.path === url || (url === '/' && is_home())) ? ' active' : '' %>"><%= label %></a>
+        <a href="<%= url_for(url) %>" class="taskbar-btn<%= (page.path === url || (url === '/' && is_home())) ? ' focus' : ' cover' %>"><%= label %></a>
       <% } %>
     <% } %>
   </div>
