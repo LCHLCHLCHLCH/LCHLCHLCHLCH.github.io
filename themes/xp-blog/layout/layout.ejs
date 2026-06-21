@@ -17,19 +17,23 @@
     <div class="desktop-columns">
 
       <!-- 左侧栏 -->
+      <% if (!page.nosidebar) { %>
       <aside class="sidebar-left">
         <%- partial('_partial/sidebar-left') %>
       </aside>
+      <% } %>
 
       <!-- 中间：主内容区 -->
-      <main class="content-main">
+      <main class="content-main<% if (page.nosidebar) { %> full<% } %>">
         <%- body %>
       </main>
 
       <!-- 右侧栏 -->
+      <% if (!page.nosidebar) { %>
       <aside class="sidebar-right">
         <%- partial('_partial/sidebar-right') %>
       </aside>
+      <% } %>
 
     </div>
 
