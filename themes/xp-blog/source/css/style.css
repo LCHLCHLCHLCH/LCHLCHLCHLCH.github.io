@@ -39,8 +39,8 @@ body {
 }
 
 /* 全局标题栏高度（覆盖 xp.css 默认值） */
-/* 保持 xp.css 默认 21px，避免按钮图标偏移 */
 .window > .title-bar {
+  height: 30px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -184,6 +184,7 @@ body {
 }
 .sidebar-window .title-bar {
   font-size: 13px;
+  height: 30px;
 }
 .sidebar-window .title-bar .title-bar-text {
   display: flex; align-items: center; gap: 5px;
