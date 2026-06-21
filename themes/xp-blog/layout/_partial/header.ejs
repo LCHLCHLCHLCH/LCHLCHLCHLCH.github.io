@@ -1,22 +1,21 @@
-<!-- 顶部导航窗口 -->
-<div class="window nav-window">
-  <div class="title-bar">
-    <div class="title-bar-text">
-      <img src="<%= url_for('/images/Internet-Shortcut.png') %>" alt="" width="16" height="16" draggable="false">
-    </div>
-    <div class="title-bar-controls">
-      <button aria-label="Minimize"></button>
-      <button aria-label="Maximize"></button>
-      <button aria-label="Close"></button>
-    </div>
+<!-- XP 任务栏导航 -->
+<div class="xp-taskbar">
+  <div class="taskbar-left">
+    <a href="<%= url_for('/') %>" class="taskbar-start<%= is_home() ? ' active' : '' %>">
+      <img src="<%= url_for('/images/Internet-Shortcut.png') %>" alt="" draggable="false">
+      <span>LCH 的博客</span>
+    </a>
   </div>
-  <div class="window-body nav-body">
+  <div class="taskbar-nav">
     <% if (theme.nav) { %>
       <% for (const [label, url] of Object.entries(theme.nav)) { %>
-        <a href="<%= url_for(url) %>">
-          <button class="<%= (page.path === url || (url === '/' && is_home())) ? 'focused' : '' %>"><%= label %></button>
-        </a>
+        <% if (url !== '/') { %>
+        <a href="<%= url_for(url) %>" class="taskbar-btn<%= page.path === url ? ' active' : '' %>"><%= label %></a>
+        <% } %>
       <% } %>
     <% } %>
+  </div>
+  <div class="taskbar-right">
+    <span class="taskbar-time" id="taskbarTime"></span>
   </div>
 </div>

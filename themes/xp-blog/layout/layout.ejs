@@ -37,4 +37,21 @@
     <%- partial('_partial/footer') %>
   </div>
 </body>
+<script>
+(function() {
+  var el = document.getElementById('taskbarTime');
+  if (!el) return;
+  function tick() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
 </html>

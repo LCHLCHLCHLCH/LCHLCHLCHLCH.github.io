@@ -29,38 +29,35 @@
   <div class="desktop-container">
 
     <!-- 顶部：导航栏窗口 -->
-    <!-- 顶部导航窗口 -->
-<div class="window nav-window">
-  <div class="title-bar">
-    <div class="title-bar-text">
-      <img src="/images/Internet-Shortcut.png" alt="" width="16" height="16" draggable="false">
-    </div>
-    <div class="title-bar-controls">
-      <button aria-label="Minimize"></button>
-      <button aria-label="Maximize"></button>
-      <button aria-label="Close"></button>
-    </div>
+    <!-- XP 任务栏导航 -->
+<div class="xp-taskbar">
+  <div class="taskbar-left">
+    <a href="/" class="taskbar-start">
+      <img src="/images/Internet-Shortcut.png" alt="" draggable="false">
+      <span>LCH 的博客</span>
+    </a>
   </div>
-  <div class="window-body nav-body">
+  <div class="taskbar-nav">
     
       
-        <a href="/">
-          <button class="">Home</button>
-        </a>
+        
       
-        <a href="/archives/">
-          <button class="">Archives</button>
-        </a>
+        
+        <a href="/archives/" class="taskbar-btn">Archives</a>
+        
       
-        <a href="/tags/">
-          <button class="">Tags</button>
-        </a>
+        
+        <a href="/tags/" class="taskbar-btn">Tags</a>
+        
       
-        <a href="/about/">
-          <button class="">About</button>
-        </a>
+        
+        <a href="/about/" class="taskbar-btn">About</a>
+        
       
     
+  </div>
+  <div class="taskbar-right">
+    <span class="taskbar-time" id="taskbarTime"></span>
   </div>
 </div>
 
@@ -228,4 +225,21 @@
 
   </div>
 </body>
+<script>
+(function() {
+  var el = document.getElementById('taskbarTime');
+  if (!el) return;
+  function tick() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
 </html>
