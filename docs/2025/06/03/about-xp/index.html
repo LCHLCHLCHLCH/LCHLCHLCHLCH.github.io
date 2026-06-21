@@ -655,5 +655,44 @@
   tick();
   setInterval(tick, 1000);
 })();
+(function() {
+  var toc = document.querySelector('.toc-window');
+  if (!toc) return;
+  var rect = toc.getBoundingClientRect();
+  var origTop = rect.top + window.scrollY;
+  var origRight = window.innerWidth - rect.right;
+  var origWidth = rect.offsetWidth;
+  function onScroll() {
+    if (window.scrollY > origTop - 40) {
+      toc.style.position = 'fixed';
+      toc.style.top = '40px';
+      toc.style.right = origRight + 'px';
+      toc.style.width = origWidth + 'px';
+      toc.style.zIndex = '10';
+    } else {
+      toc.style.position = '';
+      toc.style.top = '';
+      toc.style.right = '';
+      toc.style.width = '';
+      toc.style.zIndex = '';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', function() {
+    if (toc.style.position === 'fixed') {
+      toc.style.position = '';
+      var r = toc.getBoundingClientRect();
+      origTop = r.top + window.scrollY;
+      origRight = window.innerWidth - r.right;
+      origWidth = r.width;
+      onScroll();
+    } else {
+      var r = toc.getBoundingClientRect();
+      origTop = r.top + window.scrollY;
+      origRight = window.innerWidth - r.right;
+      origWidth = r.width;
+    }
+  });
+})();
 </script>
 </html>
