@@ -10,14 +10,13 @@
       <button aria-label="Close"></button>
     </div>
   </div>
-  <div class="window-body tags-body">
+  <div class="window-body">
     <div class="tags-header">
-      <h2>标签</h2>
       <p><%= site.tags.length %> 个标签</p>
     </div>
-    <div class="tags-grid">
+    <div class="tags-nav">
       <% site.tags.each(function(tag) { %>
-        <a href="<%= url_for(tag.path) %>" class="tags-btn"><%= tag.name %> <span><%= tag.posts.length %></span></a>
+        <a href="<%= url_for(tag.path) %>"><button><%= tag.name %> · <%= tag.posts.length %></button></a>
       <% }) %>
     </div>
   </div>

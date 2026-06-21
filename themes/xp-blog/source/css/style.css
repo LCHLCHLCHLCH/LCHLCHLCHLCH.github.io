@@ -649,43 +649,25 @@ body {
 }
 
 /* ═══════════════════════════════════════════
-   归档列表
+   标签页
    ═══════════════════════════════════════════ */
-.tags-body { padding: 0; }
 .tags-header {
-  padding: 20px 24px 14px;
-  border-bottom: 1px solid #d4d0c8;
-}
-.tags-header h2 {
-  font-size: 18px;
-  color: #003399;
-  margin-bottom: 4px;
+  padding: 20px 24px 0;
 }
 .tags-header p {
   font-size: 12px;
   color: #808080;
 }
-.tags-grid {
+.tags-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   padding: 16px 24px;
 }
-.tags-btn {
-  display: inline-block;
-  font-size: 12px;
-  padding: 5px 14px;
-  text-decoration: none;
-  min-width: 60px;
-  text-align: center;
-}
-.tags-btn span {
-  background: #fff;
-  color: #555;
-  padding: 0 4px;
-  margin-left: 4px;
-  font-size: 10px;
-  border: 1px solid #d4d0c8;
+.tags-nav button {
+  min-width: 80px;
+  font-size: 13px;
+  padding: 6px 16px;
 }
 
 /* ═══════════════════════════════════════════
@@ -797,6 +779,9 @@ body {
   .welcome-nav button { min-width: 90px; font-size: 12px; }
   .welcome-recent { padding: 12px 12px 8px; }
   .welcome-motto { padding: 10px 12px 14px; }
+
+  .tags-nav { padding: 10px 12px; gap: 8px; }
+  .tags-nav button { min-width: 60px; font-size: 12px; padding: 4px 10px; }
 
   .post-content {
     padding: 10px 12px 16px;

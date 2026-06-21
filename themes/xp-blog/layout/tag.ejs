@@ -1,4 +1,4 @@
-<!-- 标签页 -->
+<!-- 单个标签页 -->
 <div class="window article-window">
   <div class="title-bar">
     <div class="title-bar-text">
@@ -11,13 +11,15 @@
     </div>
   </div>
   <div class="window-body">
-    <% if (page.posts && page.posts.length > 0) { %>
-    <div class="post-list">
+    <div class="archive-list">
       <% page.posts.each(function(post) { %>
-        <%- partial('_partial/post-card', { post: post }) %>
+        <div class="archive-item">
+          <span class="archive-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
+          <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+        </div>
       <% }) %>
     </div>
-    <% } else { %>
+    <% if (page.posts.length === 0) { %>
     <div class="post-empty"><p>暂无文章。</p></div>
     <% } %>
   </div>
