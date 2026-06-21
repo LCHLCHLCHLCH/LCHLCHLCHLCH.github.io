@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NESP &amp; NESP2 — 把 NES 塞进单片机，两次 - LCH 的博客</title>
+
+<!-- xp.css Luna 样式库 -->
+
+<link rel="stylesheet" href="https://unpkg.com/xp.css">
+
+
+<!-- 主题自定义样式 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- SEO -->
+
+<meta name="description" content="一个怀旧 XP 风格的个人博客">
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 顶部任务栏（紧贴边缘） -->
+  <!-- XP 任务栏导航（严格参照 winXP Footer 结构） -->
+<div class="xp-taskbar">
+  <div class="taskbar-left">
+    <a href="/"><img src="/images/start.png" alt="Start" class="taskbar-start" draggable="false"></a>
+    
+      
+        
+        <a href="/" class="taskbar-btn cover">Home</a>
+      
+        
+        <a href="/archives/" class="taskbar-btn cover">Archives</a>
+      
+        
+        <a href="/tags/" class="taskbar-btn cover">Tags</a>
+      
+        
+        <a href="/about/" class="taskbar-btn cover">About</a>
+      
+    
+  </div>
+  <div class="taskbar-right">
+    <span class="taskbar-time" id="taskbarTime"></span>
+  </div>
+</div>
+
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      
+      <aside class="sidebar-left">
+        <!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      
+    </div>
+    <div class="author-name">LCH</div>
+    
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num">7</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">19</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    
+      <div class="author-motto">« 韶华休笑本无根 »</div>
+    
+  </div>
+</div>
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      
+      
+        <li>
+          <span class="latest-date">06-25</span>
+          <a href="/2025/06/25/nesp-nesp2/">NESP &amp; NESP2 — 把 NES 塞进单片机，两次</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2025/06/20/ccleste4esp/">ccleste4esp — 在单片机上跑 Celeste Classic</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2025/06/20/dev-history/">这个博客是怎么写出来的</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-19</span>
+          <a href="/2025/06/19/furong-nuer-lei/">芙蓉女儿诔·十三词</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-05</span>
+          <a href="/2025/06/05/tech-stack/">技术栈</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+      </aside>
+      
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false">
+      NESP &amp; NESP2 — 把 NES 塞进单片机，两次
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <div class="post-meta-line">
+  <span>发表于 2025 年 6 月 25 日</span>
+  
+    <span> | 更新于 2026 年 6 月 21 日</span>
+  
+  
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: 6558</span>
+  <span>| 阅读时长: 22 分钟</span>
+  
+    <span class="post-meta-tags">
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+      
+        <a href="/tags/ESP32/">ESP32</a>
+      
+        <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
+      
+        <a href="/tags/%E7%A7%BB%E6%A4%8D/">移植</a>
+      
+        <a href="/tags/NES/">NES</a>
+      
+    </span>
+  
+</div>
+
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <p>在 ccleste4esp 把 Celeste Classic 塞进 ESP32-S3 之后，一个自然的问题是：能不能跑 NES？Celeste Classic 毕竟是 PICO-8 游戏——128×128 分辨率、16 色调色板、不依赖文件系统——天生适合单片机。而 NES 是正儿八经的游戏主机：256×240 分辨率、6502 CPU + PPU 双芯片架构、数十种 Mapper 芯片、64 色调色板、音频处理器。把这一套搬上同一块芯片，要解决的问题多得多。</p>
+<hr>
+<h2 id="NESP：同一块硬件，全新的挑战"><a href="#NESP：同一块硬件，全新的挑战" class="headerlink" title="NESP：同一块硬件，全新的挑战"></a>NESP：同一块硬件，全新的挑战</h2><h3 id="硬件（与-ccleste4esp-完全相同）"><a href="#硬件（与-ccleste4esp-完全相同）" class="headerlink" title="硬件（与 ccleste4esp 完全相同）"></a>硬件（与 ccleste4esp 完全相同）</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>规格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主控</td>
+<td>ESP32-S3（双核 240MHz, 8MB Flash, 8MB PSRAM）</td>
+</tr>
+<tr>
+<td>屏幕</td>
+<td>ST7735R 1.44” 128×128 SPI TFT</td>
+</tr>
+<tr>
+<td>按键</td>
+<td>6 个（左&#x2F;右&#x2F;上&#x2F;下&#x2F;跳&#x2F;冲）</td>
+</tr>
+<tr>
+<td>帧率</td>
+<td>~60fps（模拟速度），实际渲染 ~30fps（FrameSkip&#x3D;1）</td>
+</tr>
+<tr>
+<td>音频</td>
+<td>未实现</td>
+</tr>
+</tbody></table>
+<h3 id="模拟器核心：infoNES"><a href="#模拟器核心：infoNES" class="headerlink" title="模拟器核心：infoNES"></a>模拟器核心：infoNES</h3><p>选择 <a target="_blank" rel="noopener" href="https://github.com/jay-kumogata/InfoNES">InfoNES</a> 作为模拟核心。InfoNES 用 C++ 写成，约 15,000 行，支持 86 种 Mapper。最关键的是：它的架构天然适合移植——所有平台相关代码通过 <code>InfoNES_System.h</code> 中的回调函数解耦，只需实现十几个函数就可以在新平台上运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">InfoNES 架构：</span><br><span class="line">  ┌────────────────────────────┐</span><br><span class="line">  │  InfoNES.cpp  主循环/PPU   │</span><br><span class="line">  │  K6502.cpp    6502 模拟    │</span><br><span class="line">  │  InfoNES_Mapper.cpp 86种Mapper│</span><br><span class="line">  └──────────┬─────────────────┘</span><br><span class="line">             │ InfoNES_System.h 回调</span><br><span class="line">  ┌──────────▼─────────────────┐</span><br><span class="line">  │  nes_frontend.cpp          │  ← 唯一需要写的文件</span><br><span class="line">  │  ├── ROM 加载 (从 Flash)    │</span><br><span class="line">  │  ├── 画面缩放 (256→128)     │</span><br><span class="line">  │  ├── 按键映射 (GPIO→NES手柄) │</span><br><span class="line">  │  └── 存档管理 (NVS Flash)   │</span><br><span class="line">  └────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="画面缩放"><a href="#画面缩放" class="headerlink" title="画面缩放"></a>画面缩放</h3><p>NES 原生分辨率 256×240，但屏幕只有 128×128。方案：<strong>整数 2:1 缩放</strong>——每 2×2 的源像素合并为 1 个输出像素，得到 128×120 的画面，上下各留 4px 黑边居中。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 2:1 整数缩放，取偶数行/列</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> dy = <span class="number">0</span>; dy &lt; <span class="number">120</span>; dy++) &#123;</span><br><span class="line">    <span class="type">int</span> sy = dy * <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> dx = <span class="number">0</span>; dx &lt; <span class="number">128</span>; dx++) &#123;</span><br><span class="line">        <span class="type">int</span> sx = dx * <span class="number">2</span>;</span><br><span class="line">        dst[dy+<span class="number">4</span>][dx] = src[sy][sx];  <span class="comment">// 无插值，纯采样</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>无闪烁、无锯齿——比任何插值算法都干净。</p>
+<h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><p>ESP32-S3 有 512KB 内部 SRAM + 8MB 外部 PSRAM。内存分配是关键决策：</p>
+<table>
+<thead>
+<tr>
+<th>数据</th>
+<th>大小</th>
+<th>位置</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ROM</code> (PRG)</td>
+<td>32-393KB</td>
+<td>内部 SRAM（优先）&#x2F; PSRAM（fallback）</td>
+<td>CPU 每指令取指，需低延迟</td>
+</tr>
+<tr>
+<td><code>VROM</code> (CHR)</td>
+<td>8KB</td>
+<td>内部 SRAM</td>
+<td>PPU 每像素读 tile</td>
+</tr>
+<tr>
+<td><code>WorkFrame</code></td>
+<td>256×240×2 &#x3D; 120KB</td>
+<td>PSRAM (<code>EXT_RAM_BSS_ATTR</code>)</td>
+<td>太大，放外部</td>
+</tr>
+<tr>
+<td><code>ChrBuf</code></td>
+<td>32KB</td>
+<td>内部 SRAM</td>
+<td>sprite 0 命中检测需随机访问</td>
+</tr>
+<tr>
+<td><code>display_mem</code></td>
+<td>128×128×2 &#x3D; 32KB</td>
+<td>内部 SRAM</td>
+<td>DMA 推屏</td>
+</tr>
+<tr>
+<td><code>DRAM</code></td>
+<td>40KB</td>
+<td>PSRAM</td>
+<td>Mapper 扩展 RAM</td>
+</tr>
+</tbody></table>
+<h3 id="ROM-如何存在于单片机里"><a href="#ROM-如何存在于单片机里" class="headerlink" title="ROM 如何存在于单片机里"></a>ROM 如何存在于单片机里</h3><p>没有文件系统。ROM 通过 <strong>编译时嵌入</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zelda.nes (ROM 文件, 128KB)</span><br><span class="line">     │  python convert_rom.py</span><br><span class="line">     ▼</span><br><span class="line">main/nes_rom.h (C 头文件, ~2.5MB)</span><br><span class="line">┌──────────────────────────────┐</span><br><span class="line">│ static const unsigned char   │</span><br><span class="line">│   nes_rom_data[131088] = &#123;   │</span><br><span class="line">│     0x4E, 0x45, 0x53, ...    │  ← 整个 ROM 的 hex 数组</span><br><span class="line">│   &#125;;                         │</span><br><span class="line">└──────────────────────────────┘</span><br><span class="line">     │  #include &quot;nes_rom.h&quot;</span><br><span class="line">     ▼</span><br><span class="line">编译进固件 → 烧录到 Flash</span><br></pre></td></tr></table></figure>
+
+<p>替换 ROM 只需三步：<code>python convert_rom.py</code>（指定新 .nes 文件）→ 编译 → 烧录。</p>
+<hr>
+<h2 id="九个关键-Bug"><a href="#九个关键-Bug" class="headerlink" title="九个关键 Bug"></a>九个关键 Bug</h2><h3 id="Bug-1：长按跳跃-暂停"><a href="#Bug-1：长按跳跃-暂停" class="headerlink" title="Bug 1：长按跳跃 &#x3D; 暂停"></a>Bug 1：长按跳跃 &#x3D; 暂停</h3><p><strong>现象</strong>：马里奥跳高时游戏突然”卡死”。</p>
+<p><strong>根因</strong>：只有 6 个按键，需要映射 NES 的 8 个功能键。最初方案是<strong>长按跳跃键 0.67 秒触发 Start</strong>。马里奥跳高时玩家自然会按住跳跃键——0.67 秒刚好触发暂停。更糟的是，NES 游戏的暂停是乒乓切换：Start 按下一次 &#x3D; 暂停，再按一次 &#x3D; 恢复。但长按逻辑只在帧 40-55 发送 Start 脉冲，之后就永远不再触发——游戏永久卡在暂停状态，必须 Reset。</p>
+<p><strong>修复</strong>：改为边沿触发——按住跳跃键 90 帧（约 1.5-2.5 秒）发一帧 Start 脉冲后计数器归零，继续按住会再次计时、再次触发。这样按住不动就能反复切换暂停&#x2F;恢复。</p>
+<h3 id="Bug-2：黑色背景变红色"><a href="#Bug-2：黑色背景变红色" class="headerlink" title="Bug 2：黑色背景变红色"></a>Bug 2：黑色背景变红色</h3><p><strong>现象</strong>：游戏本应是黑色的背景区域显示为中等红色。</p>
+<p><strong>根因</strong>：infoNES 用 <code>PalTable</code> 的 bit 15（<code>0x8000</code>）作为”背景透明像素”的标志位，所有 color-0 调色板入口被写为 <code>NesPalette[color] | 0x8000</code>。这在 PC 版的 <strong>RGB555</strong> 格式下完全无害——RGB555 的最高位恰好是空闲位。但在 ESP32 的 <strong>RGB565</strong> 格式下，bit 15 是红色通道的最高位。<code>0x0000 | 0x8000 = 0x8000</code>，在 RGB565 中解码为 R&#x3D;16, G&#x3D;0, B&#x3D;0 → <strong>中等红色</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RGB555 (PC):  [X][RRRRR][GGGGG][BBBBB]   bit15 = 空闲!</span><br><span class="line">RGB565 (ESP): [RRRRR][GGGGGG][BBBBB]     bit15 = 红色 MSB!</span><br></pre></td></tr></table></figure>
+
+<p><strong>修复</strong>：在 <code>InfoNES_LoadFrame</code> 中添加 <code>&amp; 0x7FFF</code> 剥离标志位。</p>
+<h3 id="Bug-3：精灵穿透砖块"><a href="#Bug-3：精灵穿透砖块" class="headerlink" title="Bug 3：精灵穿透砖块"></a>Bug 3：精灵穿透砖块</h3><p><strong>现象</strong>：蘑菇从问号块冒出来时，渲染在已被顶的砖块上面；马里奥从水管钻出时出现在砖块上面。图层顺序错乱。</p>
+<p><strong>根因</strong>：更深层的 RGB565 vs RGB555 问题。精灵优先级检查用 <code>pPoint[nX] &amp; 0x8000</code> 判断背景像素是否透明。但 Firebrandx 调色板中<strong>大量红&#x2F;橙&#x2F;棕色系的 bit 15 本来就是 1</strong>——这些颜色的砖块和问号块被误判为”透明”，导致 sprite 穿透显示。</p>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>NES 索引</th>
+<th>RGB565</th>
+<th>bit15</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>暗红</td>
+<td>$06</td>
+<td><code>0x9240</code></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>亮红</td>
+<td>$16</td>
+<td><code>0xF812</code></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>紫红</td>
+<td>$04</td>
+<td><code>0xB00D</code></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>淡橙</td>
+<td>$17</td>
+<td><code>0xDB60</code></td>
+<td><strong>1</strong></td>
+</tr>
+</tbody></table>
+<p><strong>修复</strong>：彻底弃用 <code>0x8000</code> 标志位。改为直接比较颜色值——所有 color-0 入口都镜像到 <code>PalTable[0]</code>，用 <code>pPoint[nX] == PalTable[0]</code> 替代 <code>pPoint[nX] &amp; 0x8000</code>。</p>
+<h3 id="Bug-4：Zelda-存档丢失"><a href="#Bug-4：Zelda-存档丢失" class="headerlink" title="Bug 4：Zelda 存档丢失"></a>Bug 4：Zelda 存档丢失</h3><p><strong>现象</strong>：塞尔达传说存档后重启丢失。</p>
+<p><strong>根因</strong>：NES 卡带使用电池供电的 SRAM 保存存档。ESP32 没有电池备份的 SRAM，SRAM 在掉电后清零。</p>
+<p><strong>修复</strong>：使用 ESP32 的 <strong>NVS</strong>（非易失性存储）——将 8KB SRAM 分两片存入 Flash。启动时自动加载，游戏过程中每 5 秒自动保存（CRC32 校验，只在变化时写入，避免磨损 Flash）。</p>
+<h3 id="Bug-5：SMB3-花屏"><a href="#Bug-5：SMB3-花屏" class="headerlink" title="Bug 5：SMB3 花屏"></a>Bug 5：SMB3 花屏</h3><p><strong>现象</strong>：Super Mario Bros. 3 画面大面积花屏、瓦片错乱。</p>
+<p><strong>根因</strong>：MMC3 mapper 是 NES 最复杂的 mapper 之一，通过扫描线计数器在 HBlank 期间切换 CHR bank。SMB3 的状态栏和游戏区使用不同的 CHR bank，如果 MMC3 的 IRQ 时序不准确，bank 切换就会错位。</p>
+<p><strong>修复</strong>：调整 <code>sdkconfig</code> 中的 FreeRTOS tick 频率和任务优先级，确保 <code>MapperHSync()</code> 在正确的时机被调用。</p>
+<h3 id="Bug-6：SPI-字节序"><a href="#Bug-6：SPI-字节序" class="headerlink" title="Bug 6：SPI 字节序"></a>Bug 6：SPI 字节序</h3><p>ESP32 是小端序，ST7735 期望大端序。最初方案是每次 DMA 前后对整个 framebuffer 做 <code>bswap16</code>——每帧两次 16KB 遍历。优化方案：在 <code>InfoNES_LoadFrame</code> 中直接写入 BE 格式的像素值，省去单独的全帧 swap 循环。</p>
+<h3 id="Bug-7：帧率不足"><a href="#Bug-7：帧率不足" class="headerlink" title="Bug 7：帧率不足"></a>Bug 7：帧率不足</h3><p><strong>现象</strong>：游戏运行速度明显慢于原版 NES，长按触发 Start 需要近 7 秒。</p>
+<p><strong>根因</strong>：CPU 模拟 + PPU 渲染 + SPI DMA 在一帧内无法在 16.67ms 内完成。</p>
+<p><strong>修复</strong>：设置 <code>FrameSkip=1</code>——PPU 渲染隔帧执行，但 6502 模拟全速运行。画面刷新降到 ~30fps，但游戏逻辑速度回归正常。这是”最大幅度的单行改动提速”。</p>
+<h3 id="Bug-8：ChrBuf-缓存一致性问题"><a href="#Bug-8：ChrBuf-缓存一致性问题" class="headerlink" title="Bug 8：ChrBuf 缓存一致性问题"></a>Bug 8：ChrBuf 缓存一致性问题</h3><p>PPU 的 sprite 0 命中检测需要随机访问 pattern table 数据。将 <code>ChrBuf</code> 放在 PSRAM 中时，缓存未命中导致 sprite 0 hit 偶尔丢失，游戏随机卡死等待 sprite 0 hit。修复：将 <code>ChrBuf</code> 强制放在内部 SRAM。</p>
+<h3 id="Bug-9：PC-卡死无诊断"><a href="#Bug-9：PC-卡死无诊断" class="headerlink" title="Bug 9：PC 卡死无诊断"></a>Bug 9：PC 卡死无诊断</h3><p>NES 游戏有时会因未被发现的模拟 bug 而卡死在无限循环中（如等待 sprite 0 hit）。加入 PC 卡死检测：每 30 帧采样一次 Program Counter，连续 4 次不变则打印 CPU&#x2F;PPU 状态诊断（寄存器、扫描线、sprite 状态等）。</p>
+<hr>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><p>infoNES 支持 <strong>86 种 Mapper</strong>，覆盖绝大多数经典 NES 游戏：</p>
+<table>
+<thead>
+<tr>
+<th>游戏</th>
+<th>Mapper</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Super Mario Bros.</strong></td>
+<td>0 (NROM)</td>
+<td>✅ 流畅</td>
+</tr>
+<tr>
+<td><strong>The Legend of Zelda</strong></td>
+<td>1 (MMC1)</td>
+<td>✅ 流畅（支持存档）</td>
+</tr>
+<tr>
+<td><strong>Super Mario Bros. 3</strong></td>
+<td>4 (MMC3)</td>
+<td>✅ 流畅（自动跳帧）</td>
+</tr>
+<tr>
+<td>Contra（魂斗罗）</td>
+<td>2 (UNROM)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Mega Man 2（洛克人 2）</td>
+<td>1 (MMC1)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Castlevania（恶魔城）</td>
+<td>2 (UNROM)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Kirby’s Adventure</td>
+<td>4 (MMC3)</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="NESP2：全分辨率-NES"><a href="#NESP2：全分辨率-NES" class="headerlink" title="NESP2：全分辨率 NES"></a>NESP2：全分辨率 NES</h2><p>NESP 把 NES 跑起来了，但 128×128 屏幕上的 2:1 缩放画面始终是一种妥协——每个像素都是 4 合 1，细节被抹平。于是有了 NESP2。</p>
+<h3 id="新硬件"><a href="#新硬件" class="headerlink" title="新硬件"></a>新硬件</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>NESP</th>
+<th>NESP2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>屏幕</td>
+<td>ST7735R 128×128</td>
+<td><strong>320×240 TFT</strong></td>
+</tr>
+<tr>
+<td>SPI 模式</td>
+<td>Mode 3, 80MHz</td>
+<td>Mode 0, 60MHz</td>
+</tr>
+<tr>
+<td>按键</td>
+<td>6 个（复用 Start&#x2F;Select）</td>
+<td><strong>8 个</strong>（独立 Start&#x2F;Select）</td>
+</tr>
+<tr>
+<td>显示方式</td>
+<td>2:1 缩放 + 上下黑边</td>
+<td><strong>1:1 像素</strong> + 左右黑边</td>
+</tr>
+</tbody></table>
+<p>核心升级是 <strong>320×240 屏幕</strong>。NES 原生 256×240 可以<strong>点对点</strong>显示——不需要任何缩放。画面居中，左右各留 32px 黑边。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// NESP2: 直接推送 WorkFrame 到 LCD 的 32..287 列</span></span><br><span class="line">LCD_Address_Set(<span class="number">32</span>, <span class="number">0</span>, <span class="number">287</span>, <span class="number">239</span>);  <span class="comment">// 居中显示</span></span><br><span class="line"><span class="comment">// WorkFrame 像素 1:1 映射，无缩放！</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="架构改进"><a href="#架构改进" class="headerlink" title="架构改进"></a>架构改进</h3><p>相比 NESP，NESP2 做了多项架构优化：</p>
+<p><strong>独立的 Start&#x2F;Select 按键</strong>：8 个 GPIO 按键直接映射 NES 手柄的全部 8 个功能键，不再需要长按组合键这种 hack。</p>
+<p><strong>调色板预交换</strong>：<code>NesPalette</code> 在编译时就存储为 BE（大端序）格式。<code>WorkFrame</code> 中的每个像素是 <code>PalTable</code> 查表得到的值，直接就是 DMA 可发送的格式——不再需要任何 <code>bswap16</code>。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// NESP2: NesPalette 直接就是 BE 格式</span></span><br><span class="line">WORD NesPalette[<span class="number">64</span>] = &#123;</span><br><span class="line">    <span class="number">0x6D6B</span>, <span class="number">0x3201</span>, <span class="number">0x1B00</span>, ...  <span class="comment">// BE: 高字节在前，DMA 可直接发送</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>队列化 DMA</strong>：NESP 用单次 <code>spi_device_polling_transmit</code> 传输整个 framebuffer。NESP2 将 320×240 的帧拆分为多个 4KB 的 chunk，通过 <code>spi_device_queue_trans</code> 排队——DMA 引擎自动连续处理多个 chunk，CPU 在传输期间可以继续做其他事情。</p>
+<p><strong>PSRAM 缓存一致性</strong>：NESP2 的 <code>WorkFrame</code> 在 PSRAM 中，DMA 传输前用 <code>esp_cache_msync</code> 确保缓存中的数据已写回物理内存。</p>
+<p><strong>FPS 计数器</strong>：在右侧黑边区域绘制实时帧率，方便调试性能。</p>
+<p><strong>启动画面</strong>：<code>lotus.jpg</code> → <code>lotus_img.h</code> → 上电时显示一张 320×240 的启动图。</p>
+<h3 id="NESP2-的目录结构"><a href="#NESP2-的目录结构" class="headerlink" title="NESP2 的目录结构"></a>NESP2 的目录结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NESP2/</span><br><span class="line">├── main/</span><br><span class="line">│   ├── main.cpp              # 入口</span><br><span class="line">│   ├── nes_frontend.cpp      # InfoNES 系统层 (320×240 1:1 输出)</span><br><span class="line">│   ├── esp32_frontend.c      # Celeste PICO-8 前端 (保留)</span><br><span class="line">│   ├── font_data.h           # PICO-8 字体 (保留)</span><br><span class="line">│   ├── lotus_img.h           # 启动画面 (320×240 RGB565)</span><br><span class="line">│   ├── nes_rom.h             # 嵌入式 ROM</span><br><span class="line">│   ├── InfoNES/              # NES 模拟器核心 (同 NESP)</span><br><span class="line">│   └── Drivers/</span><br><span class="line">│       └── LCD/              # 320×240 LCD 驱动</span><br><span class="line">│           ├── lcd.c         # 像素/线条/文字/填充</span><br><span class="line">│           ├── lcd_init.c    # SPI+DMA 初始化 (Mode 0, 60MHz)</span><br><span class="line">│           ├── lcdfont.h     # ASCII 字体</span><br><span class="line">│           └── pic.h         # 图片数据</span><br><span class="line">├── convert_rom.py            # ROM 转换工具</span><br><span class="line">├── convert_lotus.py          # 启动图转换工具</span><br><span class="line">├── lotus.jpg                 # 启动图源文件</span><br><span class="line">└── _build.bat / _flash.bat   # 一键编译烧录</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="两个版本的对比"><a href="#两个版本的对比" class="headerlink" title="两个版本的对比"></a>两个版本的对比</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>NESP</th>
+<th>NESP2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>屏幕</td>
+<td>128×128</td>
+<td><strong>320×240</strong></td>
+</tr>
+<tr>
+<td>NES 画面</td>
+<td>2:1 缩放（128×120）</td>
+<td><strong>1:1 点对点（256×240）</strong></td>
+</tr>
+<tr>
+<td>像素细节</td>
+<td>4 合 1，模糊</td>
+<td><strong>完全保留</strong></td>
+</tr>
+<tr>
+<td>按键</td>
+<td>6 键（Start&#x2F;Select 需长按）</td>
+<td><strong>8 键独立</strong></td>
+</tr>
+<tr>
+<td>调色板格式</td>
+<td>LE，每像素需 bswap</td>
+<td><strong>BE 预交换，零开销</strong></td>
+</tr>
+<tr>
+<td>DMA 方式</td>
+<td>单次传输</td>
+<td><strong>队列化多 chunk</strong></td>
+</tr>
+<tr>
+<td>缓存一致性</td>
+<td>无</td>
+<td><strong>esp_cache_msync</strong></td>
+</tr>
+<tr>
+<td>FPS 显示</td>
+<td>无</td>
+<td><strong>右侧栏实时显示</strong></td>
+</tr>
+<tr>
+<td>启动画面</td>
+<td>无</td>
+<td><strong>Lotus 启动图</strong></td>
+</tr>
+<tr>
+<td>Celeste 支持</td>
+<td>代码保留但未编译</td>
+<td><strong>代码保留</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="技术要点总结"><a href="#技术要点总结" class="headerlink" title="技术要点总结"></a>技术要点总结</h2><h3 id="infoNES-为什么适合移植"><a href="#infoNES-为什么适合移植" class="headerlink" title="infoNES 为什么适合移植"></a>infoNES 为什么适合移植</h3><ul>
+<li><strong>回调架构</strong>：所有 I&#x2F;O 通过 7 个函数指针回调——<code>ReadRom</code>、<code>LoadFrame</code>、<code>PadState</code>、<code>SoundOutput</code> 等</li>
+<li><strong>零依赖</strong>：不调操作系统 API，不用文件系统，<code>malloc</code> 可以替换为静态分配</li>
+<li><strong>Mapper 覆盖广</strong>：86 种 Mapper，涵盖几乎所有经典游戏</li>
+<li><strong>C++ 写成，C 可调用</strong>：<code>extern &quot;C&quot;</code> 接口，直接嵌入 C 项目</li>
+</ul>
+<h3 id="移植中最深刻的教训"><a href="#移植中最深刻的教训" class="headerlink" title="移植中最深刻的教训"></a>移植中最深刻的教训</h3><p>回顾两个项目，一条主线贯穿始终：<strong>PC 上的假设在裸机上不成立</strong>。</p>
+<ol>
+<li><p><strong>RGB555 vs RGB565</strong>：infoNES 用 <code>0x8000</code> 做 backdrop 标志，在 RGB555（PC 上常见的 16 位色格式）中 bit 15 是空闲位，完全不干扰颜色。但在 RGB565 中 bit 15 是红色 MSB——一个”巧妙”的设计在格式变化后变成了两个 bug（黑色变红 + 砖块穿透）。</p>
+</li>
+<li><p><strong>字节序</strong>：x86 和 ESP32 都是小端，但 ST7735&#x2F;ST7789 期望大端。每一帧的每个像素都要转换。</p>
+</li>
+<li><p><strong>PSRAM 的隐藏成本</strong>：PSRAM 带宽远低于内部 SRAM，而且有缓存一致性问题。哪些数据放内部、哪些放外部，需要根据访问模式仔细权衡——不是”大的放外部”那么简单。</p>
+</li>
+<li><p><strong>时序假设</strong>：PC 上的模拟器假设 VBlank 期间有充足时间完成所有渲染。ESP32 上渲染本身可能跨越 VBlank 边界，导致下一帧的 sprite 0 数据尚未就绪。</p>
+</li>
+</ol>
+<h3 id="移植中最危险的-bug-模式"><a href="#移植中最危险的-bug-模式" class="headerlink" title="移植中最危险的 bug 模式"></a>移植中最危险的 bug 模式</h3><ol>
+<li><strong>“刚好能用”的巧合</strong>：RGB555 的 bit 15 是空闲位，RGB565 不是——一个在其他平台上”刚好能用”的设计，在新平台上产生两个独立 bug</li>
+<li><strong>资源饥饿</strong>：内部 SRAM 不够用，PSRAM 太慢——在”不够快”和”不够大”之间反复权衡</li>
+<li><strong>硬件协议的隐性约束</strong>：SPI 时序、LCD 初始化序列、DMA 字节对齐——偏差一点就全屏花</li>
+</ol>
+<hr>
+<blockquote>
+<p>从 Celeste Classic 到 Super Mario Bros.，从 128×128 到 320×240，从 6 键复用到 8 键独立——每一次迭代都在逼近真正的掌机体验。而所有这些，运行在一颗连 MMU 都没有的微控制器上。NES 诞生于 1983 年，ESP32-S3 诞生于 2023 年——四十年后，它们在同一块 PCB 上相遇了。</p>
+</blockquote>
+
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong>LCH</p>
+      <p><strong>文章链接：</strong><a href="/2025/06/25/nesp-nesp2/">/2025/06/25/nesp-nesp2/</a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>
+
+      </main>
+
+      <!-- 右侧栏 -->
+      
+      <aside class="sidebar-right">
+        <!-- 目录窗口：仅在文章页显示 -->
+
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <ul class="tree-view">
+<li><a href="#NESP：同一块硬件，全新的挑战">NESP：同一块硬件，全新的挑战</a>
+<ul>
+<li><a href="#硬件（与-ccleste4esp-完全相同）">硬件（与 ccleste4esp 完全相同）</a></li>
+<li><a href="#模拟器核心：infoNES">模拟器核心：infoNES</a></li>
+<li><a href="#画面缩放">画面缩放</a></li>
+<li><a href="#内存布局">内存布局</a></li>
+<li><a href="#ROM-如何存在于单片机里">ROM 如何存在于单片机里</a></li>
+</ul>
+</li>
+<li><a href="#九个关键-Bug">九个关键 Bug</a>
+<ul>
+<li><a href="#Bug-1：长按跳跃-暂停">Bug 1：长按跳跃 &#x3D; 暂停</a></li>
+<li><a href="#Bug-2：黑色背景变红色">Bug 2：黑色背景变红色</a></li>
+<li><a href="#Bug-3：精灵穿透砖块">Bug 3：精灵穿透砖块</a></li>
+<li><a href="#Bug-4：Zelda-存档丢失">Bug 4：Zelda 存档丢失</a></li>
+<li><a href="#Bug-5：SMB3-花屏">Bug 5：SMB3 花屏</a></li>
+<li><a href="#Bug-6：SPI-字节序">Bug 6：SPI 字节序</a></li>
+<li><a href="#Bug-7：帧率不足">Bug 7：帧率不足</a></li>
+<li><a href="#Bug-8：ChrBuf-缓存一致性问题">Bug 8：ChrBuf 缓存一致性问题</a></li>
+<li><a href="#Bug-9：PC-卡死无诊断">Bug 9：PC 卡死无诊断</a></li>
+</ul>
+</li>
+<li><a href="#兼容性">兼容性</a></li>
+<li><a href="#NESP2：全分辨率-NES">NESP2：全分辨率 NES</a>
+<ul>
+<li><a href="#新硬件">新硬件</a></li>
+<li><a href="#架构改进">架构改进</a></li>
+<li><a href="#NESP2-的目录结构">NESP2 的目录结构</a></li>
+</ul>
+</li>
+<li><a href="#两个版本的对比">两个版本的对比</a></li>
+<li><a href="#技术要点总结">技术要点总结</a>
+<ul>
+<li><a href="#infoNES-为什么适合移植">infoNES 为什么适合移植</a></li>
+<li><a href="#移植中最深刻的教训">移植中最深刻的教训</a></li>
+<li><a href="#移植中最危险的-bug-模式">移植中最危险的 bug 模式</a></li>
+</ul>
+</li>
+</li>
+</ul>
+
+    
+  </div>
+</div>
+
+
+      </aside>
+      
+
+    </div>
+
+    <!-- 底部状态栏 -->
+    <!-- 底部状态栏 -->
+<div class="window status-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false">
+    </div>
+  </div>
+  <div class="status-bar site-statusbar">
+    <p class="status-bar-field">© LCH · Powered by Hexo &amp; xp.css</p>
+    <p class="status-bar-field">
+      
+        
+        
+          <a href="/">Home</a> · 
+        
+          <a href="/archives/">Archives</a> · 
+        
+          <a href="/tags/">Tags</a> · 
+        
+          <a href="/about/">About</a>
+        
+      
+    </p>
+  </div>
+</div>
+
+  </div>
+</body>
+<script>
+(function() {
+  var el = document.getElementById('taskbarTime');
+  if (!el) return;
+  function tick() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+(function() {
+  var toc = document.querySelector('.toc-window');
+  if (!toc) return;
+  var spacer = document.createElement('div');
+  spacer.style.display = 'none';
+  toc.parentNode.insertBefore(spacer, toc.nextSibling);
+  function measure() {
+    var r = toc.getBoundingClientRect();
+    return {
+      top: r.top + window.scrollY,
+      left: r.left,
+      width: r.width,
+      height: r.height
+    };
+  }
+  var m = measure();
+  var gap = 14;
+  function onScroll() {
+    if (window.innerWidth <= 1100) return;
+    if (window.scrollY > m.top - 40) {
+      if (toc.style.position !== 'fixed') {
+        spacer.style.display = 'block';
+        spacer.style.height = (m.height + gap) + 'px';
+      }
+      toc.style.position = 'fixed';
+      toc.style.top = '40px';
+      toc.style.left = m.left + 'px';
+      toc.style.width = m.width + 'px';
+      toc.style.zIndex = '10';
+    } else {
+      toc.style.position = '';
+      toc.style.top = '';
+      toc.style.left = '';
+      toc.style.width = '';
+      toc.style.zIndex = '';
+      spacer.style.display = 'none';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', function() {
+    toc.style.position = '';
+    toc.style.top = '';
+    toc.style.left = '';
+    toc.style.width = '';
+    toc.style.zIndex = '';
+    spacer.style.display = 'none';
+    m = measure();
+    onScroll();
+  });
+})();
+</script>
+</html>

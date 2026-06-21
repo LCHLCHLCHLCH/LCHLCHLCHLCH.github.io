@@ -16,6 +16,6 @@ layout: page
 
 ### 作者
 
-LCH — 热爱古典文学与怀旧技术。
+ALCH ：[github 主页:github.com/LCHLCHLCHLCH](https://github.com/LCHLCHLCHLCH)
 
-> 「芙蓉生在秋江际」
+> 韶华休笑本无根
