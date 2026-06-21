@@ -165,9 +165,6 @@ body {
   flex-direction: column;
   gap: 14px;
 }
-.sidebar-right {
-  align-self: stretch;
-}
 
 .content-main {
   min-width: 0;
@@ -262,10 +259,6 @@ body {
 }
 
 /* ── TOC 窗口 ── */
-.toc-window {
-  position: sticky;
-  top: 40px;
-}
 .toc-body {
   padding: 4px;
   max-height: 500px;
@@ -708,13 +701,6 @@ body {
   .taskbar-btn { padding: 0 5px; font-size: 10px; max-width: 110px; }
   .taskbar-right { padding: 0 6px; }
   .taskbar-start { display: none; }
-
-  .sidebar-right {
-    flex-direction: column;
-    gap: 8px;
-    align-self: auto;
-  }
-  .toc-window { position: static; }
 
   .desktop-container {
     padding: 8px 6px 12px;
