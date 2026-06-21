@@ -4,8 +4,8 @@
     <img src="<%= url_for('/images/avatar.jpg') %>" alt="avatar" onerror="this.style.display='none'">
   </div>
   <div class="welcome-screen-name"><%= config.title %></div>
-  <div class="welcome-screen-sub"><%= config.subtitle %></div>
-  <div class="welcome-screen-desc"><%= config.description %></div>
+  <% if (config.subtitle) { %><div class="welcome-screen-sub"><%= config.subtitle %></div><% } %>
+  <% if (config.description) { %><div class="welcome-screen-desc"><%= config.description %></div><% } %>
   <div class="welcome-screen-stats">
     <span><%= site.posts.length %> 篇文章</span>
     <span class="sep">·</span>

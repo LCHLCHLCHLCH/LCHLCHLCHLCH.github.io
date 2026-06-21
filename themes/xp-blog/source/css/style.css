@@ -709,7 +709,7 @@ body {
   }
   .taskbar-btn { padding: 0 5px; font-size: 10px; max-width: 110px; }
   .taskbar-right { padding: 0 6px; }
-  .taskbar-start { margin-right: 6px; }
+  .taskbar-start { display: none; }
 
   .desktop-container {
     padding: 6px 6px 12px;
