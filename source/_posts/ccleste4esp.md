@@ -12,6 +12,8 @@ tags: [技术, ESP32, 嵌入式, 游戏, PICO-8, 移植]
 
 **ccleste4esp** 把 Celeste Classic（PICO-8 原版《蔚蓝》）移植到了 ESP32-S3 微控制器上。游戏引擎来自 [lemon32767/ccleste](https://github.com/lemon32767/ccleste)——一个用 C 语言逐行从 PICO-8 Lua 代码手工翻译的版本，不依赖任何标准库以外的代码，不做动态内存分配。
 
+> **GitHub**：[LCHLCHLCHLCH/ccleste4esp](https://github.com/LCHLCHLCHLCH/ccleste4esp)
+
 | 组件 | 型号 / 规格 |
 |---|---|
 | 主控 | ESP32-S3（双核 240MHz, 8MB Flash, 8MB PSRAM） |

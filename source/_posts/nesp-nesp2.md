@@ -4,6 +4,8 @@ date: 2025-06-25
 tags: [技术, ESP32, 嵌入式, 游戏, 移植, NES]
 ---
 
+> **GitHub**：[LCHLCHLCHLCH/NES4esp](https://github.com/LCHLCHLCHLCH/NES4esp)（NESP 在 `main` 分支，NESP2 在 [`esp32-s3-320x240`](https://github.com/LCHLCHLCHLCH/NES4esp/tree/esp32-s3-320x240) 分支）
+
 在 ccleste4esp 把 Celeste Classic 塞进 ESP32-S3 之后，一个自然的问题是：能不能跑 NES？Celeste Classic 毕竟是 PICO-8 游戏——128×128 分辨率、16 色调色板、不依赖文件系统——天生适合单片机。而 NES 是正儿八经的游戏主机：256×240 分辨率、6502 CPU + PPU 双芯片架构、数十种 Mapper 芯片、64 色调色板、音频处理器。把这一套搬上同一块芯片，要解决的问题多得多。
 
 ---
