@@ -30,7 +30,7 @@ body {
 .desktop-container {
   max-width: 1480px;
   margin: 0 auto;
-  padding: 0 18px 28px;
+  padding: 10px 18px 28px;
 }
 
 /* ── 所有窗口控件纯装饰 ── */
@@ -703,7 +703,7 @@ body {
   .taskbar-start { display: none; }
 
   .desktop-container {
-    padding: 0 6px 12px;
+    padding: 8px 6px 12px;
   }
 
   .desktop-columns {
