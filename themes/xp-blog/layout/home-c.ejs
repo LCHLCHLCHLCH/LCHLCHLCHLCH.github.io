@@ -52,8 +52,8 @@
     <div class="window-body widget-body widget-welcome-body">
       <div class="welcome-hero">
         <div class="welcome-title"><%= config.title %></div>
-        <% if (config.subtitle) { %><div class="welcome-subtitle"><%= config.subtitle %></div><% } %>
-        <% if (config.description) { %><p class="welcome-desc"><%= config.description %></p><% } %>
+        <div class="welcome-subtitle"><%= config.subtitle %></div>
+        <p class="welcome-desc"><%= config.description %></p>
       </div>
       <div class="welcome-nav">
         <a href="<%= url_for('/archives/') %>"><button>📂 归档</button></a>
