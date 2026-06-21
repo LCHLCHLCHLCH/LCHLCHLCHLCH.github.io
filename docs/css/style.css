@@ -76,27 +76,22 @@ body {
 .taskbar-start {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   height: 100%;
-  padding: 0 10px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: bold;
+  width: 48px;
   text-decoration: none;
   border-radius: 0 2px 2px 0;
-  background: linear-gradient(to bottom, #3c9a3c 0%, #38a838 50%, #34b434 100%);
-  box-shadow: inset 1px 0 1px rgba(255,255,255,0.3);
-  cursor: default;
+  position: relative;
 }
 .taskbar-start:hover {
-  filter: brightness(110%);
+  filter: brightness(105%);
 }
 .taskbar-start:active {
   filter: brightness(85%);
 }
 .taskbar-start img {
-  width: 18px;
-  height: 18px;
+  height: 70%;
+  width: auto;
 }
 .taskbar-nav {
   display: flex;
@@ -108,12 +103,13 @@ body {
   gap: 2px;
 }
 .taskbar-btn {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
+  max-width: 150px;
   height: 22px;
   color: #fff;
   font-size: 11px;
   text-decoration: none;
-  padding: 0 10px;
+  padding: 0 8px;
   border-radius: 2px;
   display: flex;
   align-items: center;

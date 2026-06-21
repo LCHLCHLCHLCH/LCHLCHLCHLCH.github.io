@@ -2,16 +2,13 @@
 <div class="xp-taskbar">
   <div class="taskbar-left">
     <a href="<%= url_for('/') %>" class="taskbar-start<%= is_home() ? ' active' : '' %>">
-      <img src="<%= url_for('/images/Internet-Shortcut.png') %>" alt="" draggable="false">
-      <span>LCH 的博客</span>
+      <img src="<%= url_for('/images/start.png') %>" alt="Start" draggable="false">
     </a>
   </div>
   <div class="taskbar-nav">
     <% if (theme.nav) { %>
       <% for (const [label, url] of Object.entries(theme.nav)) { %>
-        <% if (url !== '/') { %>
-        <a href="<%= url_for(url) %>" class="taskbar-btn<%= page.path === url ? ' active' : '' %>"><%= label %></a>
-        <% } %>
+        <a href="<%= url_for(url) %>" class="taskbar-btn<%= (page.path === url || (url === '/' && is_home())) ? ' active' : '' %>"><%= label %></a>
       <% } %>
     <% } %>
   </div>
