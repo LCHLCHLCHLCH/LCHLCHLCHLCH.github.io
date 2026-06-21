@@ -114,11 +114,11 @@
 
       <!-- 中间：主内容区 -->
       <main class="content-main">
-        <!-- 文章列表窗口 -->
-<div class="window article-window">
+        <!-- 欢迎窗口 —— 博客门面 -->
+<div class="window article-window welcome-window">
   <div class="title-bar">
     <div class="title-bar-text">
-      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false"> 博文
+      <img src="/images/information.png" alt="" width="16" height="16" draggable="false"> 欢迎
     </div>
     <div class="title-bar-controls">
       <button aria-label="Minimize"></button>
@@ -126,101 +126,76 @@
       <button aria-label="Close"></button>
     </div>
   </div>
-  <div class="window-body">
+  <div class="window-body welcome-body">
 
-    <!-- 文章列表 -->
-    <div class="post-list">
-      
-        <article class="post-card">
-  <div class="post-card-header">
-    <h2 class="post-card-title">
-      <a href="/2025/06/20/dev-history/">这个博客是怎么写出来的</a>
-    </h2>
-    <div class="post-card-date">2025 年 6 月 20 日</div>
-  </div>
-  
-  <a href="/2025/06/20/dev-history/" class="post-card-more">
-    <button>阅读全文</button>
-  </a>
-</article>
-
-      
-        <article class="post-card">
-  <div class="post-card-header">
-    <h2 class="post-card-title">
-      <a href="/2025/06/20/ccleste4esp/">ccleste4esp — 在单片机上跑 Celeste Classic</a>
-    </h2>
-    <div class="post-card-date">2025 年 6 月 20 日</div>
-  </div>
-  
-  <a href="/2025/06/20/ccleste4esp/" class="post-card-more">
-    <button>阅读全文</button>
-  </a>
-</article>
-
-      
-        <article class="post-card">
-  <div class="post-card-header">
-    <h2 class="post-card-title">
-      <a href="/2025/06/19/furong-nuer-lei/">芙蓉女儿诔·十三词</a>
-    </h2>
-    <div class="post-card-date">2025 年 6 月 19 日</div>
-  </div>
-  
-  <a href="/2025/06/19/furong-nuer-lei/" class="post-card-more">
-    <button>阅读全文</button>
-  </a>
-</article>
-
-      
-        <article class="post-card">
-  <div class="post-card-header">
-    <h2 class="post-card-title">
-      <a href="/2025/06/05/tech-stack/">技术栈</a>
-    </h2>
-    <div class="post-card-date">2025 年 6 月 5 日</div>
-  </div>
-  
-  <a href="/2025/06/05/tech-stack/" class="post-card-more">
-    <button>阅读全文</button>
-  </a>
-</article>
-
-      
-        <article class="post-card">
-  <div class="post-card-header">
-    <h2 class="post-card-title">
-      <a href="/2025/06/03/about-xp/">关于 Windows XP</a>
-    </h2>
-    <div class="post-card-date">2025 年 6 月 3 日</div>
-  </div>
-  
-  <a href="/2025/06/03/about-xp/" class="post-card-more">
-    <button>阅读全文</button>
-  </a>
-</article>
-
-      
-        <article class="post-card">
-  <div class="post-card-header">
-    <h2 class="post-card-title">
-      <a href="/2025/06/01/hello/">你好，世界！</a>
-    </h2>
-    <div class="post-card-date">2025 年 6 月 1 日</div>
-  </div>
-  
-  <a href="/2025/06/01/hello/" class="post-card-more">
-    <button>阅读全文</button>
-  </a>
-</article>
-
-      
+    <!-- 头图区域 -->
+    <div class="welcome-hero">
+      <div class="welcome-title">LCH 的博客</div>
+      <div class="welcome-subtitle">Windows XP 风格</div>
+      <p class="welcome-desc">一个怀旧 XP 风格的个人博客</p>
     </div>
 
-    <!-- 分页 -->
+    <!-- 统计卡片 -->
+    <div class="welcome-stats">
+      <div class="welcome-stat">
+        <span class="welcome-stat-num">6</span>
+        <span class="welcome-stat-label">篇文章</span>
+      </div>
+      <div class="welcome-stat">
+        <span class="welcome-stat-num">18</span>
+        <span class="welcome-stat-label">个标签</span>
+      </div>
+      <div class="welcome-stat">
+        <span class="welcome-stat-num">0</span>
+        <span class="welcome-stat-label">个分类</span>
+      </div>
+    </div>
+
+    <!-- 快捷导航 -->
+    <div class="welcome-nav">
+      <a href="/archives/"><button>📂 浏览归档</button></a>
+      <a href="/tags/"><button>🏷️ 查看标签</button></a>
+      <a href="/about/"><button>ℹ️ 关于本站</button></a>
+    </div>
+
+    <!-- 最新文章预览 -->
+    
+    <div class="welcome-recent">
+      <div class="welcome-recent-header">最新文章</div>
+      <ul class="welcome-recent-list">
+        
+          <li>
+            <a href="/2025/06/20/dev-history/">这个博客是怎么写出来的</a>
+            <span class="welcome-recent-date">06-20</span>
+          </li>
+        
+          <li>
+            <a href="/2025/06/20/ccleste4esp/">ccleste4esp — 在单片机上跑 Celeste Classic</a>
+            <span class="welcome-recent-date">06-20</span>
+          </li>
+        
+          <li>
+            <a href="/2025/06/19/furong-nuer-lei/">芙蓉女儿诔·十三词</a>
+            <span class="welcome-recent-date">06-19</span>
+          </li>
+        
+          <li>
+            <a href="/2025/06/05/tech-stack/">技术栈</a>
+            <span class="welcome-recent-date">06-05</span>
+          </li>
+        
+          <li>
+            <a href="/2025/06/03/about-xp/">关于 Windows XP</a>
+            <span class="welcome-recent-date">06-03</span>
+          </li>
+        
+      </ul>
+    </div>
     
 
-    <!-- 没有文章时 -->
+    <!-- 格言 -->
+    
+    <div class="welcome-motto">« 韶华休笑本无根 »</div>
     
 
   </div>
