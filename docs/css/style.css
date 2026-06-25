@@ -261,6 +261,14 @@ body {
   padding: 8px 4px 0;
   border-top: 1px dotted #d4d0c8;
 }
+.author-status {
+  font-size: 10px;
+  color: #aaa;
+  text-align: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dotted #d4d0c8;
+}
 
 /* ── TOC 窗口 ── */
 .toc-body {
@@ -633,27 +641,6 @@ body {
   font-size: 15px;
 }
 .archive-item a:hover { text-decoration: underline; }
-
-/* ═══════════════════════════════════════════
-   底部状态栏
-   ═══════════════════════════════════════════ */
-.status-window {
-  margin-top: 14px;
-  width: 100%;
-}
-.site-statusbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 12px;
-  font-size: 12px;
-}
-.site-statusbar a {
-  color: inherit;
-  text-decoration: none;
-}
-.site-statusbar a:hover {
-  text-decoration: underline;
-}
 
 /* ═══════════════════════════════════════════
    响应式：小屏折叠为单列
