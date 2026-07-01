@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术栈 - LCH 的博客</title>
+
+<!-- xp.css Luna 样式库 -->
+
+<link rel="stylesheet" href="https://unpkg.com/xp.css">
+
+
+<!-- 主题自定义样式 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- SEO -->
+
+<meta name="description" content="一个怀旧 XP 风格的个人博客">
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 顶部任务栏（紧贴边缘） -->
+  <!-- XP 任务栏导航（严格参照 winXP Footer 结构） -->
+<div class="xp-taskbar">
+  <div class="taskbar-left">
+    <a href="/"><img src="/images/start.png" alt="Start" class="taskbar-start" draggable="false"></a>
+    
+      
+        
+        <a href="/" class="taskbar-btn cover">Home</a>
+      
+        
+        <a href="/archives/" class="taskbar-btn cover">Archives</a>
+      
+        
+        <a href="/tags/" class="taskbar-btn cover">Tags</a>
+      
+        
+        <a href="/about/" class="taskbar-btn cover">About</a>
+      
+    
+  </div>
+  <div class="taskbar-right">
+    <span class="taskbar-time" id="taskbarTime"></span>
+  </div>
+</div>
+
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      
+      <aside class="sidebar-left">
+        <!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/Authorization%20Manager.png" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      
+    </div>
+    <div class="author-name">LCH</div>
+    
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num">8</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">23</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    
+      <div class="author-motto">« 韶华休笑本无根 »</div>
+    
+    <div class="author-status">© LCH · Powered by Hexo &amp; xp.css</div>
+  </div>
+</div>
+
+      </aside>
+      
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false">
+      技术栈
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <div class="post-meta-line">
+  <span>发表于 2026 年 6 月 5 日</span>
+  
+    <span> | 更新于 2026 年 7 月 1 日</span>
+  
+  
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: 7296</span>
+  <span>| 阅读时长: 25 分钟</span>
+  
+    <span class="post-meta-tags">
+      
+        <a href="/tags/%E8%AE%BE%E8%AE%A1/">设计</a>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+      
+        <a href="/tags/Hexo/">Hexo</a>
+      
+        <a href="/tags/xp-css/">xp.css</a>
+      
+        <a href="/tags/EJS/">EJS</a>
+      
+    </span>
+  
+</div>
+
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <p>本博客从一张空白 HTML 起步，历经桌面模拟器和 Hexo 两季重构。这里记录当前版本的技术选型、架构决策和每一层的取舍。</p>
+<hr>
+<h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">source/_posts/*.md          ←  Markdown 文章（你写的）</span><br><span class="line">        │</span><br><span class="line">        ▼</span><br><span class="line">      Hexo                    ←  静态站点生成器</span><br><span class="line">        │</span><br><span class="line">        ▼</span><br><span class="line">themes/xp-blog/              ←  自定义主题（EJS 模板 + CSS）</span><br><span class="line">        │</span><br><span class="line">        ▼</span><br><span class="line">docs/                        ←  构建输出（纯静态 HTML/CSS/图片）</span><br><span class="line">        │</span><br><span class="line">        ▼</span><br><span class="line">GitHub Pages                 ←  托管 &amp; CDN</span><br></pre></td></tr></table></figure>
+
+<p>一条线走到底：写完 Markdown，<code>npm run build</code>，推送，上线。没有数据库，没有后端服务，没有运行时。</p>
+<hr>
+<h2 id="Hexo：静态站点生成器"><a href="#Hexo：静态站点生成器" class="headerlink" title="Hexo：静态站点生成器"></a>Hexo：静态站点生成器</h2><h3 id="为什么选-Hexo"><a href="#为什么选-Hexo" class="headerlink" title="为什么选 Hexo"></a>为什么选 Hexo</h3><p>静态站点生成器（SSG）的选择很多 —— Jekyll、Hugo、Gatsby、Astro、Next.js…… 选 Hexo 有几个原因：</p>
+<table>
+<thead>
+<tr>
+<th>考量</th>
+<th>Hexo 的表现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>语言</strong></td>
+<td>Node.js 生态，npm 安装，对前端开发者友好</td>
+</tr>
+<tr>
+<td><strong>模板引擎</strong></td>
+<td>支持 EJS &#x2F; Pug &#x2F; Nunjucks 等多种，EJS 最接近纯 HTML</td>
+</tr>
+<tr>
+<td><strong>主题系统</strong></td>
+<td>每个主题是一个独立目录，结构与项目分离，方便定制</td>
+</tr>
+<tr>
+<td><strong>生成速度</strong></td>
+<td>中等站点毫秒级；本博客 5 篇文章 29 个文件，&lt;30ms 完成</td>
+</tr>
+<tr>
+<td><strong>Markdown 渲染</strong></td>
+<td>内置 marked.js，GFM 表格&#x2F;代码块&#x2F;任务列表均可渲染</td>
+</tr>
+<tr>
+<td><strong>插件生态</strong></td>
+<td>归档、标签、分类、分页等常用功能有官方插件</td>
+</tr>
+<tr>
+<td><strong>学习成本</strong></td>
+<td>极低。<code>hexo init</code> → 写 md → <code>hexo generate</code></td>
+</tr>
+</tbody></table>
+<p>相比之下：Jekyll 需要 Ruby 环境，Gatsby&#x2F;Next 对纯内容站点太重，Hugo 的模板语法（Go template）不够直观。Hexo 在”简单”和”够用”之间恰好踩中了平衡点。</p>
+<h3 id="Hexo-工作流"><a href="#Hexo-工作流" class="headerlink" title="Hexo 工作流"></a>Hexo 工作流</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new &quot;文章标题&quot;        →  在 source/_posts/ 创建 标题.md</span><br><span class="line">hexo server                →  本地预览 localhost:4000，支持热重载</span><br><span class="line">hexo generate              →  构建到 docs/ 目录</span><br><span class="line">hexo clean                 →  清除缓存和构建输出</span><br></pre></td></tr></table></figure>
+
+<p>实际日常只需要两条命令：<code>hexo server</code> 本地写文章，写完 <code>npm run build &amp;&amp; git push</code> 上线。<code>hexo new</code> 会按照 <code>scaffolds/post.md</code> 模板自动填入 Front Matter 骨架：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> &#123;&#123; <span class="string">title</span> &#125;&#125;</span><br><span class="line"><span class="attr">date:</span> <span class="number">2026-06-05</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Hexo-的核心概念"><a href="#Hexo-的核心概念" class="headerlink" title="Hexo 的核心概念"></a>Hexo 的核心概念</h3><p><strong>Front Matter</strong>：每篇 <code>.md</code> 文件顶部的 YAML 块，定义文章的元数据。Hexo 解析它来决定文章标题、日期、标签、分类、永久链接等。模板中通过 <code>page.title</code>、<code>page.date</code>、<code>page.tags</code> 等变量访问。</p>
+<p><strong>Scaffolds</strong>：文章模板。<code>scaffolds/post.md</code> 定义了新文章的默认 Front Matter，<code>hexo new</code> 时自动套用。</p>
+<p><strong>Source vs Public</strong>：<code>source/</code> 是你编辑的源文件，<code>docs/</code>（原 <code>public/</code>）是构建产物。两者之间是单向编译 —— 永远不要在 <code>docs/</code> 里手动改东西。</p>
+<hr>
+<h2 id="XP-css：Windows-XP-的-CSS-复刻"><a href="#XP-css：Windows-XP-的-CSS-复刻" class="headerlink" title="XP.css：Windows XP 的 CSS 复刻"></a>XP.css：Windows XP 的 CSS 复刻</h2><h3 id="它是什么"><a href="#它是什么" class="headerlink" title="它是什么"></a>它是什么</h3><p><a target="_blank" rel="noopener" href="https://botoxparty.github.io/XP.css/">XP.css</a> 是一个纯 CSS 库，用现代 CSS 技术逐像素还原了 Windows XP 的 Luna 主题视觉。没有一行 JavaScript，所有组件都是原生 HTML 元素加上特定类名。</p>
+<h3 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>HTML 结构</th>
+<th>本博客用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Window</strong></td>
+<td><code>.window &gt; .title-bar + .window-body</code></td>
+<td>每一个”窗口”：导航栏、作者卡片、文章正文、TOC、最新文章、状态栏</td>
+</tr>
+<tr>
+<td><strong>Title Bar</strong></td>
+<td><code>.title-bar &gt; .title-bar-text</code> + <code>.title-bar-controls &gt; button</code></td>
+<td>窗口标题栏，蓝白渐变是 Luna 的灵魂</td>
+</tr>
+<tr>
+<td><strong>Button</strong></td>
+<td><code>&lt;button&gt;</code></td>
+<td>导航按钮、分页按钮、文章卡片中的链接</td>
+</tr>
+<tr>
+<td><strong>Status Bar</strong></td>
+<td><code>.status-bar &gt; .status-bar-field</code></td>
+<td>底部状态栏</td>
+</tr>
+<tr>
+<td><strong>Tree View</strong></td>
+<td><code>ul.tree-view &gt; li</code></td>
+<td>TOC 目录树（可折叠展开）</td>
+</tr>
+<tr>
+<td><strong>Checkbox &#x2F; Radio</strong></td>
+<td><code>&lt;input type=&quot;checkbox&quot;&gt;</code></td>
+<td>原生 XP 风格表单控件</td>
+</tr>
+<tr>
+<td><strong>Fieldset</strong></td>
+<td><code>&lt;fieldset&gt; &lt;legend&gt;</code></td>
+<td>（预留）分组框</td>
+</tr>
+</tbody></table>
+<p>标题栏的蓝白渐变是 XP.css 最核心的视觉资产：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">180deg</span>,</span><br><span class="line">  <span class="number">#0997ff</span> <span class="number">0%</span>, <span class="number">#0053ee</span> <span class="number">8%</span>, <span class="number">#0050ee</span> <span class="number">40%</span>,</span><br><span class="line">  <span class="number">#0066ff</span> <span class="number">88%</span>, <span class="number">#005bff</span> <span class="number">95%</span>, <span class="number">#003dd7</span> <span class="number">100%</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>上半高光、下半深蓝，配合右上角三个按钮（最小化&#x2F;最大化&#x2F;关闭），一看到就回到 2002 年。</p>
+<h3 id="窗口凸起边框"><a href="#窗口凸起边框" class="headerlink" title="窗口凸起边框"></a>窗口凸起边框</h3><p>XP 的窗口边框不是简单的 1px 线条，而是用多层 <code>box-shadow</code> 模拟的立体凹槽效果：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.window</span> &#123;</span><br><span class="line">  <span class="attribute">box-shadow</span>: inset -<span class="number">1px</span> -<span class="number">1px</span> <span class="number">#0a0a0a</span>, inset <span class="number">1px</span> <span class="number">1px</span> <span class="number">#dfdfdf</span>,</span><br><span class="line">              inset -<span class="number">2px</span> -<span class="number">2px</span> grey, inset <span class="number">2px</span> <span class="number">2px</span> <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个”内阴影浮雕边框”是 XP 窗口区别于扁平化设计的核心特征。本博客的文章卡片 (<code>post-card</code>) 复用了同样的 <code>box-shadow</code>，让列表项也有 XP 凸起按钮的质感。</p>
+<h3 id="为什么用-CDN-而不是打包"><a href="#为什么用-CDN-而不是打包" class="headerlink" title="为什么用 CDN 而不是打包"></a>为什么用 CDN 而不是打包</h3><p>主题配置 <code>use_cdn: true</code>，从 <code>unpkg.com/xp.css</code> 加载。原因很简单：</p>
+<ul>
+<li>xp.css 是纯 CSS，没有构建环节，CDN 直链零开销</li>
+<li>文件小（~30KB gzipped），unpkg + jsDelivr 双 CDN 保障</li>
+<li>不需要跟着项目一起编译，升级只需改版本号</li>
+</ul>
+<p>如果哪天 CDN 不可用，<code>use_cdn: false</code> 即可切到本地打包。</p>
+<hr>
+<h2 id="自定义主题：xp-blog"><a href="#自定义主题：xp-blog" class="headerlink" title="自定义主题：xp-blog"></a>自定义主题：xp-blog</h2><h3 id="主题结构"><a href="#主题结构" class="headerlink" title="主题结构"></a>主题结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">themes/xp-blog/</span><br><span class="line">├── _config.yml                 ←  主题级配置（导航、作者、CDN 开关）</span><br><span class="line">├── layout/</span><br><span class="line">│   ├── layout.ejs              ←  页面骨架（HTML5 + Bliss 背景 + 桌面容器）</span><br><span class="line">│   ├── index.ejs               ←  首页：文章列表 + 分页</span><br><span class="line">│   ├── post.ejs                ←  文章详情：窗口包裹正文 + 元信息 + 版权</span><br><span class="line">│   ├── page.ejs                ←  独立页面（&quot;关于&quot;等）</span><br><span class="line">│   ├── archive.ejs             ←  归档：按年月分组</span><br><span class="line">│   └── _partial/</span><br><span class="line">│       ├── head.ejs            ←  &lt;head&gt; 标签（meta、CDN、SEO）</span><br><span class="line">│       ├── header.ejs          ←  顶部导航栏（XP 窗口包裹的按钮组）</span><br><span class="line">│       ├── footer.ejs          ←  底部状态栏窗口</span><br><span class="line">│       ├── sidebar-left.ejs    ←  左侧栏：作者卡片窗口</span><br><span class="line">│       ├── sidebar-right.ejs   ←  右侧栏：TOC 窗口 + 最新文章窗口</span><br><span class="line">│       ├── post-card.ejs       ←  文章列表卡片（凸起按钮风格）</span><br><span class="line">│       └── post-meta.ejs       ←  文章元信息行（日期/分类/字数/标签）</span><br><span class="line">├── scripts/</span><br><span class="line">│   └── toc-helper.js           ←  Hexo 辅助函数（TOC 生成/字数/阅读时间）</span><br><span class="line">└── source/</span><br><span class="line">    ├── css/style.css           ←  370 行主题样式</span><br><span class="line">    └── images/                 ←  bliss.jpg、avatar.jpg、XP 图标</span><br></pre></td></tr></table></figure>
+
+<h3 id="三栏多窗口布局"><a href="#三栏多窗口布局" class="headerlink" title="三栏多窗口布局"></a>三栏多窗口布局</h3><p>从参考博客（wenjie-astro）获得启发，采用了 <strong>Grid 三栏 + 每块独立 XP 窗口</strong> 的设计：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">┌──────────────────────────────────────────────────────┐</span><br><span class="line">│  [导航栏窗口]  Home  Archives  Tags  About    [_][□][×] │</span><br><span class="line">├─────────┬────────────────────────────┬───────────────┤</span><br><span class="line">│ [作者]  │                            │ [目录]         │</span><br><span class="line">│ 头像    │  [文章窗口]                │  tree-view     │</span><br><span class="line">│ LCH     │                            │                │</span><br><span class="line">│ 统计    │  正文内容在这里             │ [最新文章]     │</span><br><span class="line">│ 格言    │                            │  文章1         │</span><br><span class="line">│         │                            │  文章2         │</span><br><span class="line">│         │                            │  ...           │</span><br><span class="line">├─────────┴────────────────────────────┴───────────────┤</span><br><span class="line">│  [状态栏窗口]  © LCH · Powered by Hexo &amp; xp.css       │</span><br><span class="line">└──────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p>Grid 参数：<code>grid-template-columns: 260px 1fr 280px</code>，gap: 14px，最大宽度 1480px，居中。在 1100px 以下折叠为单栏，侧边栏移到文章下方。</p>
+<p>每个”窗口”的标题栏按钮（最小化&#x2F;最大化&#x2F;关闭）是纯装饰性的——<code>pointer-events: none</code>。既保持了 XP 视觉完整性，又不误导用户以为它们真的可交互。</p>
+<h3 id="EJS-模板引擎"><a href="#EJS-模板引擎" class="headerlink" title="EJS 模板引擎"></a>EJS 模板引擎</h3><p>Hexo 默认支持 EJS（Embedded JavaScript），语法就是 <code>&lt;% ... %&gt;</code> 里写 JS。比如文章列表的渲染逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;% page.posts.each(function(post) &#123; %&gt;</span><br><span class="line">  &lt;%- partial(&#x27;_partial/post-card&#x27;, &#123; post: post &#125;) %&gt;</span><br><span class="line">&lt;% &#125;) %&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>partial()</code> 引入子模板，传参清晰。和 React&#x2F;Vue 的组件化异曲同工，但不需要任何构建工具——Hexo 在生成阶段直接执行 EJS，输出纯 HTML。</p>
+<h3 id="自定义辅助函数"><a href="#自定义辅助函数" class="headerlink" title="自定义辅助函数"></a>自定义辅助函数</h3><p>Hexo 的 EJS 模板本身不提供目录生成、字数统计、阅读时间估计等功能。通过 <code>scripts/toc-helper.js</code> 注册了三个辅助函数：</p>
+<p>**<code>toc(content)</code>**：解析文章 HTML 中的 <code>&amp;lt;h1&amp;gt;</code> 到 <code>&amp;lt;h3&amp;gt;</code> 标签，用栈追踪嵌套层级，生成 xp.css 的 <code>&amp;lt;ul class=&quot;tree-view&quot;&amp;gt;</code> 结构。处理了跳过级别（直接 h1→h3）、兄弟标题并列、深度回退等边界情况。生成的树状目录自带折叠展开功能。</p>
+<p>**<code>word_count(content)</code>**：去除 HTML 标签和空白后计算纯文本长度，中文按字符数算（因为中文没有空格分词）。</p>
+<p>**<code>reading_time(content)</code>**：字数 ÷ 300 ≈ 阅读分钟数，最少显示 1 分钟。</p>
+<p>这三个函数通过 <code>hexo.extend.helper.register()</code> 注册后，模板里可以直接调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;%= toc(post.content) %&gt;</span><br><span class="line">&lt;%= word_count(post.content) %&gt; 字 · 阅读约 &lt;%= reading_time(post.content) %&gt; 分钟</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="样式系统"><a href="#样式系统" class="headerlink" title="样式系统"></a>样式系统</h2><h3 id="CSS-自定义属性"><a href="#CSS-自定义属性" class="headerlink" title="CSS 自定义属性"></a>CSS 自定义属性</h3><p>使用了两个 CSS 自定义属性来控制文章正文的表现：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.post-content</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="built_in">var</span>(--content-font-size, <span class="number">15px</span>);</span><br><span class="line">  <span class="attribute">user-select</span>: <span class="built_in">var</span>(--content-select, text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是从第一季桌面模拟器遗留下来的设计——控制面板里的字体大小滑块和文字可选开关就是通过这两个变量实现的。在 Hexo 版本中，它们被保留但没有 UI 调节入口（默认值直接写在 CSS 里），为将来可能的设置面板留下接口。</p>
+<h3 id="Bliss-壁纸"><a href="#Bliss-壁纸" class="headerlink" title="Bliss 壁纸"></a>Bliss 壁纸</h3><p>桌面背景使用了真正的 <code>bliss.jpg</code>——那张 Charles O’Rear 在加州索诺玛县拍下的照片：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.desktop-bg</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: fixed; <span class="attribute">inset</span>: <span class="number">0</span>; <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">&#x27;/images/bliss.jpg&#x27;</span>) center/cover no-repeat;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#3a6bc5</span>;  <span class="comment">/* 图片加载前的兜底色 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>position: fixed</code> 保持背景不随滚动移动，<code>cover</code> 保证填满整个屏幕，<code>z-index: -1</code> 让所有窗口浮在壁纸之上。</p>
+<h3 id="响应式策略"><a href="#响应式策略" class="headerlink" title="响应式策略"></a>响应式策略</h3><p>不是 mobile-first 也不是 desktop-first，而是按内容可读性来决定断点。核心逻辑：</p>
+<ul>
+<li><strong>&gt; 1100px</strong>：三栏 Grid 桌面布局，侧边栏在左右，代码块用横向滚动条</li>
+<li><strong>≤ 1100px</strong>：单栏堆叠，侧边栏移到文章下方，代码块强制折行</li>
+</ul>
+<p>断点 1100px 的由来：Grid 列 <code>260px + 1fr + 280px</code> &#x3D; 侧边栏固定 540px + gap 28px + 容器内边距 36px &#x3D; 至少 604px 被固定占走；剩余宽度给中栏放代码块。1100 - 604 &#x3D; 496px，大约能装下 65 个等宽字符（~7.6px&#x2F;char），对大多数代码片段够用。低于这个宽度就折叠，保证阅读体验。</p>
+<hr>
+<h2 id="Markdown-渲染管线"><a href="#Markdown-渲染管线" class="headerlink" title="Markdown 渲染管线"></a>Markdown 渲染管线</h2><p>Hexo 默认使用 <code>hexo-renderer-marked</code>（基于 marked.js）渲染 Markdown。支持的语法：</p>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>渲染结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code># ## ###</code> 标题</td>
+<td><code>&amp;lt;h1&amp;gt;</code> ~ <code>&amp;lt;h6&amp;gt;</code>，自动生成 <code>id</code>，供 TOC 锚点跳转</td>
+</tr>
+<tr>
+<td><code>**粗体**</code> &#x2F; <code>*斜体*</code></td>
+<td><code>&amp;lt;strong&amp;gt;</code> &#x2F; <code>&amp;lt;em&amp;gt;</code></td>
+</tr>
+<tr>
+<td><code>`行内代码`</code></td>
+<td><code>&amp;lt;code&amp;gt;</code> — 灰底等宽字体</td>
+</tr>
+<tr>
+<td><code>``` 围栏代码块 ```</code></td>
+<td><code>&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;</code> — 黑底银字终端风格</td>
+</tr>
+<tr>
+<td><code>&gt; 引用</code></td>
+<td><code>&amp;lt;blockquote&amp;gt;</code> — 左侧蓝色竖线 + 灰底</td>
+</tr>
+<tr>
+<td>&#96;</td>
+<td>表格</td>
+</tr>
+<tr>
+<td><code>- 无序列表</code> &#x2F; <code>1. 有序列表</code></td>
+<td><code>&amp;lt;ul&amp;gt;</code> &#x2F; <code>&amp;lt;ol&amp;gt;</code></td>
+</tr>
+<tr>
+<td><code>[链接](url)</code></td>
+<td><code>&amp;lt;a&amp;gt;</code> — 蓝色 &#x2F; 访问后紫色</td>
+</tr>
+<tr>
+<td><code>![图片](url)</code></td>
+<td><code>&amp;lt;img&amp;gt;</code> — <code>max-width: 100%</code> 自觉不溢出</td>
+</tr>
+</tbody></table>
+<p>Hexo 的 <code>highlight.enable: true</code> 配合 marked 可以给代码块加语法高亮，但目前保持默认关闭状态——代码块只有银字黑底，没有彩色标记。一方面是风格统一（XP 的记事本也没有语法高亮），另一方面是减少 CSS 体积。</p>
+<hr>
+<h2 id="部署：GitHub-Pages"><a href="#部署：GitHub-Pages" class="headerlink" title="部署：GitHub Pages"></a>部署：GitHub Pages</h2><h3 id="发布流程"><a href="#发布流程" class="headerlink" title="发布流程"></a>发布流程</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build      <span class="comment"># hexo generate → docs/</span></span><br><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">&quot;...&quot;</span></span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure>
+
+<p>GitHub Pages 设置为从 <code>docs/</code> 目录提供内容，推送后约 30 秒即可在 <code>lchlchlchlch.github.io</code> 看到更新。</p>
+<h3 id="为什么是-docs-而不是-public"><a href="#为什么是-docs-而不是-public" class="headerlink" title="为什么是 docs&#x2F; 而不是 public&#x2F;"></a>为什么是 docs&#x2F; 而不是 public&#x2F;</h3><p>因为 GitHub Pages 的源目录选项只有两个：<code>/(root)</code> 和 <code>/docs</code>。不存在 <code>public/</code> 选项。所以 Hexo 配置中设 <code>public_dir: docs</code>，构建直接输出到 <code>docs/</code>，省去复制或 GitHub Actions 步骤。</p>
+<h3 id="没有-CI-CD"><a href="#没有-CI-CD" class="headerlink" title="没有 CI&#x2F;CD"></a>没有 CI&#x2F;CD</h3><p>对于一个单人次更新的博客来说，本地 <code>hexo generate</code> + <code>git push</code> 足够简单。不需要 GitHub Actions 在云端跑构建——每次推送的只是纯静态 HTML，不涉及编译环境、依赖安装或安全密钥。</p>
+<hr>
+<h2 id="和第一季桌面模拟器的关系"><a href="#和第一季桌面模拟器的关系" class="headerlink" title="和第一季桌面模拟器的关系"></a>和第一季桌面模拟器的关系</h2><p>第一季是一个完整的 Windows XP 桌面模拟器：桌面图标、可拖拽缩放最大化的窗口管理器（~600 行 JS）、资源管理器、控制面板、IE 浏览器。它被剥离了，但留下了几个设计遗产：</p>
+<table>
+<thead>
+<tr>
+<th>第一季</th>
+<th>第二季（现在）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>桌面 Bliss 渐变 →</td>
+<td>真正 bliss.jpg 壁纸</td>
+</tr>
+<tr>
+<td>窗口管理器 →</td>
+<td>静态多窗口布局（纯 CSS Grid）</td>
+</tr>
+<tr>
+<td><code>--content-font-size</code> 变量 →</td>
+<td>保留在 CSS 中（无 UI）</td>
+</tr>
+<tr>
+<td>图标系统 →</td>
+<td>窗口标题栏图标（传真封面、信息、XML 等）</td>
+</tr>
+<tr>
+<td>字体大小滑块 →</td>
+<td>响应式字号 + CSS 变量</td>
+</tr>
+<tr>
+<td><code>marked.js</code> 前端渲染 →</td>
+<td>Hexo 后端预渲染</td>
+</tr>
+</tbody></table>
+<p>本质的取舍：<strong>交互性 vs 简单性</strong>。桌面模拟器好玩但不实用（SEO 为零、JS 太重、文章管理痛苦），Hexo 版本放弃了可拖拽窗口，换来了真正的博客功能。</p>
+<hr>
+<h2 id="没有用到的技术（以及为什么不）"><a href="#没有用到的技术（以及为什么不）" class="headerlink" title="没有用到的技术（以及为什么不）"></a>没有用到的技术（以及为什么不）</h2><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>为什么不</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>React &#x2F; Vue</strong></td>
+<td>纯静态博客不需要运行时框架</td>
+</tr>
+<tr>
+<td><strong>Tailwind CSS</strong></td>
+<td>XP.css 已经提供了所有需要的组件样式</td>
+</tr>
+<tr>
+<td><strong>TypeScript</strong></td>
+<td>Hexo 脚本只有 100 行，JS 足够</td>
+</tr>
+<tr>
+<td><strong>数据库 &#x2F; CMS</strong></td>
+<td>静态文件 + Git 版本控制比任何 CMS 都简单</td>
+</tr>
+<tr>
+<td><strong>评论系统</strong></td>
+<td>保持纯粹；将来可能通过 GitHub Issues 接入</td>
+</tr>
+<tr>
+<td><strong>RSS</strong></td>
+<td>Hexo 有 <code>hexo-generator-feed</code> 插件，需要时一行配置即可开启</td>
+</tr>
+<tr>
+<td><strong>搜索</strong></td>
+<td>5 篇文章不需要搜索；将来文章多了可以加 <code>hexo-generator-search</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="文件清单（最终形态）"><a href="#文件清单（最终形态）" class="headerlink" title="文件清单（最终形态）"></a>文件清单（最终形态）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LCHLCHLCHLCH.github.io/</span><br><span class="line">├── _config.yml              ←  Hexo 全局配置</span><br><span class="line">├── package.json             ←  依赖：hexo 7.x + 官方插件 + xp.css</span><br><span class="line">├── scaffolds/</span><br><span class="line">│   ├── post.md              ←  新文章模板</span><br><span class="line">│   └── page.md              ←  新页面模板</span><br><span class="line">├── source/</span><br><span class="line">│   ├── _posts/              ←  Markdown 源文章</span><br><span class="line">│   │   ├── hello.md</span><br><span class="line">│   │   ├── about-xp.md</span><br><span class="line">│   │   ├── tech-stack.md</span><br><span class="line">│   │   ├── furong-nuer-lei.md</span><br><span class="line">│   │   └── dev-history.md</span><br><span class="line">│   └── about/</span><br><span class="line">│       └── index.md         ←  &quot;关于&quot;页面</span><br><span class="line">├── themes/xp-blog/          ←  自定义主题（见上文详解）</span><br><span class="line">├── docs/                    ←  构建输出（GitHub Pages 源）</span><br><span class="line">├── .gitignore               ←  node_modules + lock 文件</span><br><span class="line">└── node_modules/            ←  不提交</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>技术选型没有银弹。Hexo + xp.css + EJS 这套组合不是最酷的，也不是最快的，但它是”刚好够用”的——每一层都看得懂、改得动、不锁死。对一个个人博客来说，这比什么都重要。</p>
+</blockquote>
+
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong>LCH</p>
+      <p><strong>文章链接：</strong><a href="/2026/06/05/tech-stack/">/2026/06/05/tech-stack/</a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>
+
+      </main>
+
+      <!-- 右侧栏 -->
+      
+      <aside class="sidebar-right">
+        <!-- 目录窗口：仅在文章页显示 -->
+
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <ul class="tree-view">
+<li><a href="#整体架构">整体架构</a></li>
+<li><a href="#Hexo：静态站点生成器">Hexo：静态站点生成器</a>
+<ul>
+<li><a href="#为什么选-Hexo">为什么选 Hexo</a></li>
+<li><a href="#Hexo-工作流">Hexo 工作流</a></li>
+<li><a href="#Hexo-的核心概念">Hexo 的核心概念</a></li>
+</ul>
+</li>
+<li><a href="#XP-css：Windows-XP-的-CSS-复刻">XP.css：Windows XP 的 CSS 复刻</a>
+<ul>
+<li><a href="#它是什么">它是什么</a></li>
+<li><a href="#核心组件">核心组件</a></li>
+<li><a href="#窗口凸起边框">窗口凸起边框</a></li>
+<li><a href="#为什么用-CDN-而不是打包">为什么用 CDN 而不是打包</a></li>
+</ul>
+</li>
+<li><a href="#自定义主题：xp-blog">自定义主题：xp-blog</a>
+<ul>
+<li><a href="#主题结构">主题结构</a></li>
+<li><a href="#三栏多窗口布局">三栏多窗口布局</a></li>
+<li><a href="#EJS-模板引擎">EJS 模板引擎</a></li>
+<li><a href="#自定义辅助函数">自定义辅助函数</a></li>
+</ul>
+</li>
+<li><a href="#样式系统">样式系统</a>
+<ul>
+<li><a href="#CSS-自定义属性">CSS 自定义属性</a></li>
+<li><a href="#Bliss-壁纸">Bliss 壁纸</a></li>
+<li><a href="#响应式策略">响应式策略</a></li>
+</ul>
+</li>
+<li><a href="#Markdown-渲染管线">Markdown 渲染管线</a></li>
+<li><a href="#部署：GitHub-Pages">部署：GitHub Pages</a>
+<ul>
+<li><a href="#发布流程">发布流程</a></li>
+<li><a href="#为什么是-docs-而不是-public">为什么是 docs&#x2F; 而不是 public&#x2F;</a></li>
+<li><a href="#没有-CI-CD">没有 CI&#x2F;CD</a></li>
+</ul>
+</li>
+<li><a href="#和第一季桌面模拟器的关系">和第一季桌面模拟器的关系</a></li>
+<li><a href="#没有用到的技术（以及为什么不）">没有用到的技术（以及为什么不）</a></li>
+<li><a href="#文件清单（最终形态）">文件清单（最终形态）</a></li>
+</ul>
+
+    
+  </div>
+</div>
+
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      
+      
+        <li>
+          <span class="latest-date">07-01</span>
+          <a href="/2026/07/01/paper-bride-narrative/">当蝴蝶飞走以后——从纸嫁衣2看叙事的&#34;完美结局&#34;与续作困境</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-25</span>
+          <a href="/2026/06/25/nesp-nesp2/">NESP &amp; NESP2 — 把 NES 塞进单片机，两次</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2026/06/20/ccleste4esp/">ccleste4esp — 在单片机上跑 Celeste Classic</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2026/06/20/dev-history/">这个博客是怎么写出来的</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-19</span>
+          <a href="/2026/06/19/furong-nuer-lei/">芙蓉女儿诔·十三词</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+      </aside>
+      
+
+    </div>
+  </div>
+</body>
+<script>
+(function() {
+  var el = document.getElementById('taskbarTime');
+  if (!el) return;
+  function tick() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+(function() {
+  var toc = document.querySelector('.toc-window');
+  if (!toc) return;
+  var spacer = document.createElement('div');
+  spacer.style.display = 'none';
+  toc.parentNode.insertBefore(spacer, toc.nextSibling);
+  function measure() {
+    var r = toc.getBoundingClientRect();
+    return {
+      top: r.top + window.scrollY,
+      left: r.left,
+      width: r.width,
+      height: r.height
+    };
+  }
+  var m = measure();
+  var gap = 14;
+  function onScroll() {
+    if (window.innerWidth <= 1100) return;
+    if (window.scrollY > m.top - 40) {
+      if (toc.style.position !== 'fixed') {
+        spacer.style.display = 'block';
+        spacer.style.height = (m.height + gap) + 'px';
+      }
+      toc.style.position = 'fixed';
+      toc.style.top = '40px';
+      toc.style.left = m.left + 'px';
+      toc.style.width = m.width + 'px';
+      toc.style.zIndex = '10';
+    } else {
+      toc.style.position = '';
+      toc.style.top = '';
+      toc.style.left = '';
+      toc.style.width = '';
+      toc.style.zIndex = '';
+      spacer.style.display = 'none';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', function() {
+    toc.style.position = '';
+    toc.style.top = '';
+    toc.style.left = '';
+    toc.style.width = '';
+    toc.style.zIndex = '';
+    spacer.style.display = 'none';
+    m = measure();
+    onScroll();
+  });
+})();
+</script>
+</html>

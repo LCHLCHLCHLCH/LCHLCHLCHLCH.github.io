@@ -1,6 +1,6 @@
 ---
 title: 关于 Windows XP
-date: 2025-06-03
+date: 2026-06-03
 tags: [Windows XP, 历史, 设计]
 ---
 

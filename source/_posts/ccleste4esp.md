@@ -1,6 +1,6 @@
 ---
 title: ccleste4esp — 在单片机上跑 Celeste Classic
-date: 2025-06-20
+date: 2026-06-20
 tags: [技术, ESP32, 嵌入式, 游戏, PICO-8, 移植]
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 技术栈
-date: 2025-06-05
+date: 2026-06-05
 tags: [技术, Hexo, xp.css, EJS, 设计]
 ---
 本博客从一张空白 HTML 起步，历经桌面模拟器和 Hexo 两季重构。这里记录当前版本的技术选型、架构决策和每一层的取舍。
@@ -61,7 +61,7 @@ hexo clean                 →  清除缓存和构建输出
 ```yaml
 ---
 title: {{ title }}
-date: {{ date }}
+date: 2026-06-05
 tags:
 ---
 ```

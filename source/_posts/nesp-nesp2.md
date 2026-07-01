@@ -1,6 +1,6 @@
 ---
 title: NESP & NESP2 — 把 NES 塞进单片机，两次
-date: 2025-06-25
+date: 2026-06-25
 tags: [技术, ESP32, 嵌入式, 游戏, 移植, NES]
 ---
 
