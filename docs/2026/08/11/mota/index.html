@@ -131,8 +131,8 @@
   
 </div>
 <div class="post-meta-line post-meta-stats">
-  <span>总字数: 3983</span>
-  <span>| 阅读时长: 14 分钟</span>
+  <span>总字数: 3810</span>
+  <span>| 阅读时长: 13 分钟</span>
   
     <span class="post-meta-tags">
       
@@ -167,9 +167,9 @@
 <p>这一版本只能在 Windows 10 上正常显示。Windows 11 的 cmd 默认运行于 Windows Terminal，其字体渲染与 conhost 差异较大，导致画面完全错乱，无法使用。</p>
 <p>在此阶段，基于 conhost 逐步实现了碰撞检测、上下楼、钥匙与门、彩色字符显示、若干基础怪物，并完成了 1~10 层的地图设计。</p>
 <h3 id="阶段二：转向-Windows-Terminal"><a href="#阶段二：转向-Windows-Terminal" class="headerlink" title="阶段二：转向 Windows Terminal"></a>阶段二：转向 Windows Terminal</h3><p>考虑到 conhost 的局限，项目开始同时适配 conhost 与 Windows Terminal，并引入了 ncurses 作为文本 UI 库。ncurses 在 Windows Terminal 下表现正常，但在 conhost 下存在严重的渲染问题，典型表现是字符只显示一半。由于双端适配的维护成本过高，最终放弃 conhost，仅适配 Windows Terminal。</p>
-<p>同一时期，借助 HTML 版魔塔 51 层地图文件（来源：<a target="_blank" rel="noopener" href="https://h5mota.com/tower/?name=51%EF%BC%89%EF%BC%8C%E8%A1%A5%E9%BD%90%E4%BA%86">https://h5mota.com/tower/?name=51），补齐了</a> 50 层的地形、门、宝石、血瓶、楼梯及大部分怪物，并实现了最初的简易背包功能。</p>
+<p>同一时期，借助 <a target="_blank" rel="noopener" href="https://h5mota.com/tower/?name=51">HTML版51层魔塔</a>地图文件，补齐了 50 层的地形、门、宝石、血瓶、楼梯及大部分怪物，并实现了最初的简易背包功能。</p>
 <h3 id="阶段三：SDL3-时代"><a href="#阶段三：SDL3-时代" class="headerlink" title="阶段三：SDL3 时代"></a>阶段三：SDL3 时代</h3><p>随后项目迁移至 SDL 平台。迁移初期的渲染结果基本无法辨认，经修复渲染管线后达到可用状态。借助 SDL_ttf 与中文字体渲染，SDL 版本还原了 conhost 时期的显示效果（此前的 Windows Terminal 版本在字体与配色上存在差异，属于当时做出的取舍）。</p>
-<p>在 SDL3 版本中引入了 Lua，用于地图与事件的定义。此后经过较长周期的事件编写，游戏基本完成，包含第 49 层的假魔王封印机制与第 50 层的剧情反转，以及通关流程。</p>
+<p>在 SDL3 版本中引入了 Lua，用于地图与事件的定义。此后经过较长周期的事件编写，游戏基本完成。</p>
 <h2 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h2><p>项目采用分层结构，目录划分与职责对应如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">src/game/      玩家、地图、怪物、道具状态（纯 C++）</span><br><span class="line">src/event/     事件管理：触发器分发、flag 状态管理</span><br><span class="line">src/script/    Lua 桥接：C API 注册、脚本状态管理</span><br><span class="line">src/render/    渲染：网格显示、状态栏、区域绘制</span><br><span class="line">src/ui/        背包、怪物手册、记事本、通关画面</span><br><span class="line">terminal/      SDL 窗口层：字体、调色板、事件循环、控制台</span><br><span class="line">map/           51 层地图与事件脚本（纯 Lua）</span><br></pre></td></tr></table></figure>
 
@@ -225,8 +225,7 @@
 </ol>
 <figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">    x = <span class="number">6</span>, y = <span class="number">6</span>,</span><br><span class="line">    once = <span class="literal">true</span>,</span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        set(<span class="string">&quot;x&quot;</span>, <span class="number">6</span>); set(<span class="string">&quot;y&quot;</span>, <span class="number">6</span>)</span><br><span class="line">        say(<span class="string">&quot;魔王：你终于来了，我很想与你立刻决斗，但我的部下不同意。&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>第 49 层实现了假魔王封印机制：当正方向四守卫全部被击杀、且对角四守卫仍存活时，假魔王从 8000 血的形态转变为封印形态（地块 <code>134</code>）。该逻辑以 Lua 坐标判断实现。</p>
-<h2 id="战斗与机制"><a href="#战斗与机制" class="headerlink" title="战斗与机制"></a>战斗与机制</h2><p>战斗采用确定性规则，不包含随机数。回合制伤害计算为双方互相扣除”攻击减去对方防御”的差值，先归零者败；攻击力不大于对方防御时判定为无法攻击。部分怪物具有先攻属性，战斗开始时先行动一次，如骑士队长及其 12 个手下。</p>
+<h2 id="战斗与机制"><a href="#战斗与机制" class="headerlink" title="战斗与机制"></a>战斗与机制</h2><p>与经典的50层魔塔相同，战斗采用确定性规则，不包含随机数。回合制伤害计算为双方互相扣除”攻击减去对方防御”的差值，先归零者败；攻击力不大于对方防御时判定为无法攻击。部分怪物具有先攻属性，战斗开始时先行动一次，如骑士队长及其 12 个手下。</p>
 <p>基于确定性规则，所有战斗可在行动前完整预判，UI 层据此实现”怪物手册红绿灯”显示：绿表示无伤可击杀，黄表示有损耗但可击败，红表示无法击败。</p>
 <p>区域伤害包含两类机制：</p>
 <ul>
@@ -234,7 +233,7 @@
 <li><strong>夹击伤害</strong>：两魔法警卫中间格构成夹击位，对扣除领域伤害后的剩余生命取半；</li>
 <li><strong>神圣盾</strong>免疫上述魔法伤害，是流程中的关键装备。</li>
 </ul>
-<p>多格 Boss 占据多个地块（巨型章鱼位于第 15 层，魔龙位于第 35 层），触碰任意身躯格即进入战斗，击败后身躯消失并开启后续通道。</p>
+<p>多格 Boss 占据多个地块（15层的巨型章鱼和35层的魔龙），触碰任意身躯格即进入战斗，击败后身躯消失并开启后续通道。</p>
 <p>存档采用纯文本 <code>.sav</code> 文件，序列化内容包括玩家属性、51×16 的 flag 表、背包及其道具次数、记事本对话记录，以及地图相对初始状态的改动。加载时逐行解析并重建状态。</p>
 <h2 id="渲染与-UI"><a href="#渲染与-UI" class="headerlink" title="渲染与 UI"></a>渲染与 UI</h2><p>SDL3 版本沿用字符游戏的显示形式：28 列 × 22 行字符网格，8 色调色板，以 cell 缓冲逐格渲染。具体实现包括：</p>
 <ul>
@@ -244,7 +243,7 @@
 <li>支持高 DPI 自适应与浅色&#x2F;暗色模式切换。</li>
 </ul>
 <h2 id="工程化"><a href="#工程化" class="headerlink" title="工程化"></a>工程化</h2><p>CMake 构建对 SDL3 进行了最小化配置：仅保留视频、渲染与事件模块，关闭音频、手柄、GPU 等无关子系统；SDL_ttf 仅启用 FreeType。构建后自动复制运行时 DLL 与字体，并执行 strip 去除调试符号。由于纯 Lua 改动不会触发 C++ 重链接，项目单独以 stamp 文件检测地图文件的变更并同步到输出目录。</p>
-<p>CI 使用 GitHub Actions：推送 tag 时触发 MinGW 构建，打包 EXE、DLL、字体与地图为 zip 并发布 Release。git log 中记录了从 V0.0.2 至 v1.0.0 的 15 个版本。</p>
+<p>CI 使用 GitHub Actions：推送 tag 时触发 MinGW 构建，打包 EXE、DLL、字体与地图为 zip 并发布 Release。</p>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>该项目通过三次渲染平台迁移（conhost → Windows Terminal → SDL3），最终形成了”C++ 管能力、Lua 管内容”的分层架构。若对实现细节或 Lua 事件编写感兴趣，可参考仓库内 <code>docs/FLAGS.md</code> 与 <code>docs/LUA_EVENT_GUIDE.md</code>。</p>
 <p>仓库地址：<strong><a target="_blank" rel="noopener" href="https://github.com/LCHLCHLCHLCH/mota">https://github.com/LCHLCHLCHLCH/mota</a></strong></p>
 
