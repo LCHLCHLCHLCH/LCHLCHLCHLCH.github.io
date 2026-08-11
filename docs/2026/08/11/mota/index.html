@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从 conhost 到 SDL3：一个 C++ 魔塔游戏的三代渲染演进 - LCH 的博客</title>
+
+<!-- xp.css Luna 样式库 -->
+
+<link rel="stylesheet" href="https://unpkg.com/xp.css">
+
+
+<!-- 主题自定义样式 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- SEO -->
+
+<meta name="description" content="一个怀旧 XP 风格的个人博客">
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 顶部任务栏（紧贴边缘） -->
+  <!-- XP 任务栏导航（严格参照 winXP Footer 结构） -->
+<div class="xp-taskbar">
+  <div class="taskbar-left">
+    <a href="/"><img src="/images/start.png" alt="Start" class="taskbar-start" draggable="false"></a>
+    
+      
+        
+        <a href="/" class="taskbar-btn cover">Home</a>
+      
+        
+        <a href="/archives/" class="taskbar-btn cover">Archives</a>
+      
+        
+        <a href="/tags/" class="taskbar-btn cover">Tags</a>
+      
+        
+        <a href="/about/" class="taskbar-btn cover">About</a>
+      
+    
+  </div>
+  <div class="taskbar-right">
+    <span class="taskbar-time" id="taskbarTime"></span>
+  </div>
+</div>
+
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      
+      <aside class="sidebar-left">
+        <!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/Authorization%20Manager.png" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      
+    </div>
+    <div class="author-name">LCH</div>
+    
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num">10</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">30</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    
+      <div class="author-motto">« 韶华休笑本无根 »</div>
+    
+    <div class="author-status">© LCH · Powered by Hexo &amp; xp.css</div>
+  </div>
+</div>
+
+      </aside>
+      
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false">
+      从 conhost 到 SDL3：一个 C++ 魔塔游戏的三代渲染演进
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <div class="post-meta-line">
+  <span>发表于 2026 年 8 月 11 日</span>
+  
+    <span> | 更新于 2026 年 8 月 11 日</span>
+  
+  
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: 3983</span>
+  <span>| 阅读时长: 14 分钟</span>
+  
+    <span class="post-meta-tags">
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
+      
+        <a href="/tags/C/">C++</a>
+      
+        <a href="/tags/SDL/">SDL</a>
+      
+        <a href="/tags/Lua/">Lua</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91/">开发</a>
+      
+    </span>
+  
+</div>
+
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <p>经典魔塔游戏（Magic Tower）的 C++ 复刻项目，基于 SDL3 + SDL_ttf 渲染、Lua 脚本驱动。这篇文章记录其从 CMD 字符界面起步、横跨三代渲染平台的开发历程与最终架构。</p>
+<blockquote>
+<p><strong>GitHub</strong>：<a target="_blank" rel="noopener" href="https://github.com/LCHLCHLCHLCH/mota">LCHLCHLCHLCH&#x2F;mota</a></p>
+</blockquote>
+<hr>
+<h2 id="项目概况"><a href="#项目概况" class="headerlink" title="项目概况"></a>项目概况</h2><p><code>mota</code> 是一个基于 SDL3 + SDL_ttf 渲染、Lua 脚本驱动的经典魔塔游戏复刻项目，使用 C++ 编写，以 MIT 协议开源。技术栈为 C++17、SDL3、SDL_ttf、Lua 5.5 与 CMake。</p>
+<p>项目当前规模：0~50 层共 51 张地图，13×13 棋盘，40 余种怪物，20 余件道具，以及覆盖大部分楼层的 Lua 事件脚本。构建由 CMake <code>FetchContent</code> 自动拉取并编译 SDL3&#x2F;SDL_ttf 源码，<code>cmake --build .</code> 一步产出可执行文件，运行时 DLL 与字体由构建脚本统一复制并裁剪。</p>
+<p>这个项目的发展历程横跨三代渲染平台。渲染栈的更迭不仅是技术选择的变化，也在相当程度上决定了整个架构的形态。</p>
+<h2 id="发展历程"><a href="#发展历程" class="headerlink" title="发展历程"></a>发展历程</h2><h3 id="阶段一：conhost-时代"><a href="#阶段一：conhost-时代" class="headerlink" title="阶段一：conhost 时代"></a>阶段一：conhost 时代</h3><p>项目最初只是一个原型：主角能在 13×13 的地图上移动，地图上绘制了墙壁，但墙壁没有任何碰撞逻辑，角色可以穿墙而行。游戏运行于 Windows CMD 的 <code>conhost.exe</code>，采用纯字符渲染。</p>
+<p>这一版本只能在 Windows 10 上正常显示。Windows 11 的 cmd 默认运行于 Windows Terminal，其字体渲染与 conhost 差异较大，导致画面完全错乱，无法使用。</p>
+<p>在此阶段，基于 conhost 逐步实现了碰撞检测、上下楼、钥匙与门、彩色字符显示、若干基础怪物，并完成了 1~10 层的地图设计。</p>
+<h3 id="阶段二：转向-Windows-Terminal"><a href="#阶段二：转向-Windows-Terminal" class="headerlink" title="阶段二：转向 Windows Terminal"></a>阶段二：转向 Windows Terminal</h3><p>考虑到 conhost 的局限，项目开始同时适配 conhost 与 Windows Terminal，并引入了 ncurses 作为文本 UI 库。ncurses 在 Windows Terminal 下表现正常，但在 conhost 下存在严重的渲染问题，典型表现是字符只显示一半。由于双端适配的维护成本过高，最终放弃 conhost，仅适配 Windows Terminal。</p>
+<p>同一时期，借助 HTML 版魔塔 51 层地图文件（来源：<a target="_blank" rel="noopener" href="https://h5mota.com/tower/?name=51%EF%BC%89%EF%BC%8C%E8%A1%A5%E9%BD%90%E4%BA%86">https://h5mota.com/tower/?name=51），补齐了</a> 50 层的地形、门、宝石、血瓶、楼梯及大部分怪物，并实现了最初的简易背包功能。</p>
+<h3 id="阶段三：SDL3-时代"><a href="#阶段三：SDL3-时代" class="headerlink" title="阶段三：SDL3 时代"></a>阶段三：SDL3 时代</h3><p>随后项目迁移至 SDL 平台。迁移初期的渲染结果基本无法辨认，经修复渲染管线后达到可用状态。借助 SDL_ttf 与中文字体渲染，SDL 版本还原了 conhost 时期的显示效果（此前的 Windows Terminal 版本在字体与配色上存在差异，属于当时做出的取舍）。</p>
+<p>在 SDL3 版本中引入了 Lua，用于地图与事件的定义。此后经过较长周期的事件编写，游戏基本完成，包含第 49 层的假魔王封印机制与第 50 层的剧情反转，以及通关流程。</p>
+<h2 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h2><p>项目采用分层结构，目录划分与职责对应如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">src/game/      玩家、地图、怪物、道具状态（纯 C++）</span><br><span class="line">src/event/     事件管理：触发器分发、flag 状态管理</span><br><span class="line">src/script/    Lua 桥接：C API 注册、脚本状态管理</span><br><span class="line">src/render/    渲染：网格显示、状态栏、区域绘制</span><br><span class="line">src/ui/        背包、怪物手册、记事本、通关画面</span><br><span class="line">terminal/      SDL 窗口层：字体、调色板、事件循环、控制台</span><br><span class="line">map/           51 层地图与事件脚本（纯 Lua）</span><br></pre></td></tr></table></figure>
+
+<p>架构原则为：C++ 提供底层能力，Lua 负责玩法内容。引擎负责渲染、输入、战斗判定、存档等稳定功能；楼层结构、事件逻辑、道具效果等玩法数据全部由脚本定义。这一划分使玩法修改无需重新编译，仅修改对应 Lua 文件即可生效。</p>
+<h2 id="Lua-桥接层"><a href="#Lua-桥接层" class="headerlink" title="Lua 桥接层"></a>Lua 桥接层</h2><p>桥接层位于 <code>lua_bridge.cpp</code>，向 Lua 全局注册了 40 余个 C API，按用途可分为几类：</p>
+<ul>
+<li>对话与提示：<code>say</code>、<code>msg</code>、<code>note</code>、<code>show_notebook</code></li>
+<li>地图操作：<code>get_tile</code>、<code>set_tile</code>、<code>replace_all</code>、<code>count_monsters</code></li>
+<li>数值操作：<code>add_health</code>、<code>add_attack</code>、<code>take_money</code>、<code>set</code></li>
+<li>道具接口：<code>backpack_add</code>、<code>backpack_has</code>、<code>battle_monster</code>、<code>freeze_lava</code>、<code>detonate</code></li>
+<li>调试与控制台：<code>tp</code>、<code>give</code>、<code>killall</code>、<code>save</code>、<code>load</code>、<code>light</code></li>
+</ul>
+<p>地图以 Lua 文件定义。每层一个 <code>map/floor_N.lua</code>，返回包含 <code>map</code> 与 <code>events</code> 两个字段的 table，其中 <code>map</code> 为 13×13 的数字矩阵：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    map = &#123;</span><br><span class="line">        &#123; <span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span> &#125;,</span><br><span class="line">        &#123; <span class="number">2</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">101</span>,<span class="number">102</span>,<span class="number">101</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span> &#125;,</span><br><span class="line">        <span class="comment">-- ...</span></span><br><span class="line">    &#125;,</span><br><span class="line">    events = &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>道具同样以 Lua 定义。<code>items.lua</code> 中统一注册，每个道具定义 <code>on_acquire</code> 与 <code>on_use</code> 两个处理函数：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">M.register(<span class="number">74</span>, &#123;</span><br><span class="line">    name = <span class="string">&quot;中心对称飞行器&quot;</span>,</span><br><span class="line">    on_acquire = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        backpack_add(<span class="number">74</span>, <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">    on_use = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        <span class="keyword">local</span> tx = <span class="number">12</span> - player_x()</span><br><span class="line">        <span class="keyword">local</span> ty = <span class="number">12</span> - player_y()</span><br><span class="line">        <span class="keyword">if</span> get_tile(tx, ty) == <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">            set(<span class="string">&quot;x&quot;</span>, tx); set(<span class="string">&quot;y&quot;</span>, ty)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>   <span class="comment">-- 返回 true 表示消耗道具</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>调用链为：玩家接触道具 → C++ 依据 <code>pickup_map</code> 将地块映射为道具 ID → 调用 Lua 的 <code>on_acquire</code> → Lua 再通过 C API 修改玩家状态 → C++ 重新渲染。</p>
+<h2 id="事件系统与-flag"><a href="#事件系统与-flag" class="headerlink" title="事件系统与 flag"></a>事件系统与 flag</h2><p>事件系统支持五种触发器：</p>
+<table>
+<thead>
+<tr>
+<th>触发器</th>
+<th>触发时机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_tile</code></td>
+<td>玩家踩到指定坐标或指定地块</td>
+</tr>
+<tr>
+<td><code>on_guard_kill</code></td>
+<td>指定守卫全部被击杀</td>
+</tr>
+<tr>
+<td><code>on_clear</code></td>
+<td>本层怪物清空</td>
+</tr>
+<tr>
+<td><code>on_step</code></td>
+<td>每次移动或交互后（用于持续检查的谜题）</td>
+</tr>
+<tr>
+<td><code>first_arrive</code></td>
+<td>玩家首次进入某层</td>
+</tr>
+</tbody></table>
+<p>flag 的设计包含两点：</p>
+<ol>
+<li><strong>每层独立空间。</strong> 系统维护 <code>flags_[51][16]</code> 数组，即 51 层 × 每层 16 个 flag，不同楼层互不影响，免除了跨层 flag 编号冲突的问题。</li>
+<li><strong><code>once = true</code> 自动管理。</strong> 事件只需声明 <code>once = true</code>，系统自动分配内部 flag 并记录已触发状态，脚本无需手动维护编号：</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">    x = <span class="number">6</span>, y = <span class="number">6</span>,</span><br><span class="line">    once = <span class="literal">true</span>,</span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        set(<span class="string">&quot;x&quot;</span>, <span class="number">6</span>); set(<span class="string">&quot;y&quot;</span>, <span class="number">6</span>)</span><br><span class="line">        say(<span class="string">&quot;魔王：你终于来了，我很想与你立刻决斗，但我的部下不同意。&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第 49 层实现了假魔王封印机制：当正方向四守卫全部被击杀、且对角四守卫仍存活时，假魔王从 8000 血的形态转变为封印形态（地块 <code>134</code>）。该逻辑以 Lua 坐标判断实现。</p>
+<h2 id="战斗与机制"><a href="#战斗与机制" class="headerlink" title="战斗与机制"></a>战斗与机制</h2><p>战斗采用确定性规则，不包含随机数。回合制伤害计算为双方互相扣除”攻击减去对方防御”的差值，先归零者败；攻击力不大于对方防御时判定为无法攻击。部分怪物具有先攻属性，战斗开始时先行动一次，如骑士队长及其 12 个手下。</p>
+<p>基于确定性规则，所有战斗可在行动前完整预判，UI 层据此实现”怪物手册红绿灯”显示：绿表示无伤可击杀，黄表示有损耗但可击败，红表示无法击败。</p>
+<p>区域伤害包含两类机制：</p>
+<ul>
+<li><strong>领域伤害</strong>：初级巫师（100 点）与高级巫师（200 点）的四向相邻格构成伤害区域，进入即扣除生命；</li>
+<li><strong>夹击伤害</strong>：两魔法警卫中间格构成夹击位，对扣除领域伤害后的剩余生命取半；</li>
+<li><strong>神圣盾</strong>免疫上述魔法伤害，是流程中的关键装备。</li>
+</ul>
+<p>多格 Boss 占据多个地块（巨型章鱼位于第 15 层，魔龙位于第 35 层），触碰任意身躯格即进入战斗，击败后身躯消失并开启后续通道。</p>
+<p>存档采用纯文本 <code>.sav</code> 文件，序列化内容包括玩家属性、51×16 的 flag 表、背包及其道具次数、记事本对话记录，以及地图相对初始状态的改动。加载时逐行解析并重建状态。</p>
+<h2 id="渲染与-UI"><a href="#渲染与-UI" class="headerlink" title="渲染与 UI"></a>渲染与 UI</h2><p>SDL3 版本沿用字符游戏的显示形式：28 列 × 22 行字符网格，8 色调色板，以 cell 缓冲逐格渲染。具体实现包括：</p>
+<ul>
+<li><strong>巨型 Boss 跨格渲染</strong>：检测多格 Boss 地块后，以较大字号在整块区域叠加首领字符；</li>
+<li><strong>怪物手册红绿灯</strong>：持有怪物手册时，地图上每只怪物标记红黄绿状态灯；</li>
+<li><strong>记事本</strong>：自动记录老人与商人的对话，按字符（UTF-8）换行，避免截断汉字；</li>
+<li>支持高 DPI 自适应与浅色&#x2F;暗色模式切换。</li>
+</ul>
+<h2 id="工程化"><a href="#工程化" class="headerlink" title="工程化"></a>工程化</h2><p>CMake 构建对 SDL3 进行了最小化配置：仅保留视频、渲染与事件模块，关闭音频、手柄、GPU 等无关子系统；SDL_ttf 仅启用 FreeType。构建后自动复制运行时 DLL 与字体，并执行 strip 去除调试符号。由于纯 Lua 改动不会触发 C++ 重链接，项目单独以 stamp 文件检测地图文件的变更并同步到输出目录。</p>
+<p>CI 使用 GitHub Actions：推送 tag 时触发 MinGW 构建，打包 EXE、DLL、字体与地图为 zip 并发布 Release。git log 中记录了从 V0.0.2 至 v1.0.0 的 15 个版本。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>该项目通过三次渲染平台迁移（conhost → Windows Terminal → SDL3），最终形成了”C++ 管能力、Lua 管内容”的分层架构。若对实现细节或 Lua 事件编写感兴趣，可参考仓库内 <code>docs/FLAGS.md</code> 与 <code>docs/LUA_EVENT_GUIDE.md</code>。</p>
+<p>仓库地址：<strong><a target="_blank" rel="noopener" href="https://github.com/LCHLCHLCHLCH/mota">https://github.com/LCHLCHLCHLCH/mota</a></strong></p>
+
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong>LCH</p>
+      <p><strong>文章链接：</strong><a href="/2026/08/11/mota/">/2026/08/11/mota/</a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>
+
+      </main>
+
+      <!-- 右侧栏 -->
+      
+      <aside class="sidebar-right">
+        <!-- 目录窗口：仅在文章页显示 -->
+
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <ul class="tree-view">
+<li><a href="#项目概况">项目概况</a></li>
+<li><a href="#发展历程">发展历程</a>
+<ul>
+<li><a href="#阶段一：conhost-时代">阶段一：conhost 时代</a></li>
+<li><a href="#阶段二：转向-Windows-Terminal">阶段二：转向 Windows Terminal</a></li>
+<li><a href="#阶段三：SDL3-时代">阶段三：SDL3 时代</a></li>
+</ul>
+</li>
+<li><a href="#分层架构">分层架构</a></li>
+<li><a href="#Lua-桥接层">Lua 桥接层</a></li>
+<li><a href="#事件系统与-flag">事件系统与 flag</a></li>
+<li><a href="#战斗与机制">战斗与机制</a></li>
+<li><a href="#渲染与-UI">渲染与 UI</a></li>
+<li><a href="#工程化">工程化</a></li>
+<li><a href="#结语">结语</a></li>
+</ul>
+
+    
+  </div>
+</div>
+
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      
+      
+        <li>
+          <span class="latest-date">08-11</span>
+          <a href="/2026/08/11/mota/">从 conhost 到 SDL3：一个 C++ 魔塔游戏的三代渲染演进</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">07-05</span>
+          <a href="/2026/07/05/tarot-divination/">塔罗占卜</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">07-01</span>
+          <a href="/2026/07/01/paper-bride-narrative/">当蝴蝶飞走以后——从纸嫁衣2看叙事的&#34;完美结局&#34;与续作困境</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-25</span>
+          <a href="/2026/06/25/nesp-nesp2/">NESP &amp; NESP2 — 把 NES 塞进单片机，两次</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-20</span>
+          <a href="/2026/06/20/ccleste4esp/">ccleste4esp — 在单片机上跑 Celeste Classic</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+      </aside>
+      
+
+    </div>
+  </div>
+</body>
+<script>
+(function() {
+  var el = document.getElementById('taskbarTime');
+  if (!el) return;
+  function tick() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+(function() {
+  var toc = document.querySelector('.toc-window');
+  if (!toc) return;
+  var spacer = document.createElement('div');
+  spacer.style.display = 'none';
+  toc.parentNode.insertBefore(spacer, toc.nextSibling);
+  function measure() {
+    var r = toc.getBoundingClientRect();
+    return {
+      top: r.top + window.scrollY,
+      left: r.left,
+      width: r.width,
+      height: r.height
+    };
+  }
+  var m = measure();
+  var gap = 14;
+  function onScroll() {
+    if (window.innerWidth <= 1100) return;
+    if (window.scrollY > m.top - 40) {
+      if (toc.style.position !== 'fixed') {
+        spacer.style.display = 'block';
+        spacer.style.height = (m.height + gap) + 'px';
+      }
+      toc.style.position = 'fixed';
+      toc.style.top = '40px';
+      toc.style.left = m.left + 'px';
+      toc.style.width = m.width + 'px';
+      toc.style.zIndex = '10';
+    } else {
+      toc.style.position = '';
+      toc.style.top = '';
+      toc.style.left = '';
+      toc.style.width = '';
+      toc.style.zIndex = '';
+      spacer.style.display = 'none';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', function() {
+    toc.style.position = '';
+    toc.style.top = '';
+    toc.style.left = '';
+    toc.style.width = '';
+    toc.style.zIndex = '';
+    spacer.style.display = 'none';
+    m = measure();
+    onScroll();
+  });
+})();
+</script>
+</html>
