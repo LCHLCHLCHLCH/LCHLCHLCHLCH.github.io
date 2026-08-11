@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魔塔地图与事件脚本指南：Lua 文件结构与编写方法 - LCH 的博客</title>
+
+<!-- xp.css Luna 样式库 -->
+
+<link rel="stylesheet" href="https://unpkg.com/xp.css">
+
+
+<!-- 主题自定义样式 -->
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<!-- SEO -->
+
+<meta name="description" content="一个怀旧 XP 风格的个人博客">
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <!-- Bliss 壁纸背景 -->
+  <div class="desktop-bg"></div>
+
+  <!-- 顶部任务栏（紧贴边缘） -->
+  <!-- XP 任务栏导航（严格参照 winXP Footer 结构） -->
+<div class="xp-taskbar">
+  <div class="taskbar-left">
+    <a href="/"><img src="/images/start.png" alt="Start" class="taskbar-start" draggable="false"></a>
+    
+      
+        
+        <a href="/" class="taskbar-btn cover">Home</a>
+      
+        
+        <a href="/archives/" class="taskbar-btn cover">Archives</a>
+      
+        
+        <a href="/tags/" class="taskbar-btn cover">Tags</a>
+      
+        
+        <a href="/about/" class="taskbar-btn cover">About</a>
+      
+    
+  </div>
+  <div class="taskbar-right">
+    <span class="taskbar-time" id="taskbarTime"></span>
+  </div>
+</div>
+
+
+  <!-- 桌面容器：多窗口布局 -->
+  <div class="desktop-container">
+
+    <!-- 三栏布局 -->
+    <div class="desktop-columns">
+
+      <!-- 左侧栏 -->
+      
+      <aside class="sidebar-left">
+        <!-- 作者信息窗口 -->
+<div class="window sidebar-window author-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/Authorization%20Manager.png" alt="" width="16" height="16" draggable="false"> 关于笔者
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body author-body">
+    <div class="author-avatar">
+      
+        <img src="/images/avatar.jpg" alt="avatar" onerror="this.style.display='none'">
+      
+    </div>
+    <div class="author-name">LCH</div>
+    
+    <div class="author-stats">
+      <div class="stat-item">
+        <span class="stat-num">11</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">31</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">分类</span>
+      </div>
+    </div>
+    
+      <div class="author-motto">« 韶华休笑本无根 »</div>
+    
+    <div class="author-status">© LCH · Powered by Hexo &amp; xp.css</div>
+  </div>
+</div>
+
+      </aside>
+      
+
+      <!-- 中间：主内容区 -->
+      <main class="content-main">
+        <!-- 文章窗口 -->
+<div class="window article-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/fax-cover-page.png" alt="" width="16" height="16" draggable="false">
+      魔塔地图与事件脚本指南：Lua 文件结构与编写方法
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body article-body">
+
+    <!-- 文章元信息 -->
+    <div class="post-meta-line">
+  <span>发表于 2026 年 8 月 11 日</span>
+  
+    <span> | 更新于 2026 年 8 月 11 日</span>
+  
+  
+</div>
+<div class="post-meta-line post-meta-stats">
+  <span>总字数: 6802</span>
+  <span>| 阅读时长: 23 分钟</span>
+  
+    <span class="post-meta-tags">
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+      
+        <a href="/tags/%E6%B8%B8%E6%88%8F/">游戏</a>
+      
+        <a href="/tags/Lua/">Lua</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91/">开发</a>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/">教程</a>
+      
+    </span>
+  
+</div>
+
+
+    <!-- 文章正文 -->
+    <div class="post-content">
+      <p>经典魔塔游戏（Magic Tower）的 C++ 复刻项目将地图与事件全部下沉到 Lua 脚本中。本文介绍地图 Lua 文件的结构、事件系统的触发器与 flag 机制，并给出地块 ID 速查表与完整示例。</p>
+<blockquote>
+<p><strong>GitHub</strong>：<a target="_blank" rel="noopener" href="https://github.com/LCHLCHLCHLCH/mota">LCHLCHLCHLCH&#x2F;mota</a><br><strong>相关阅读</strong>：<a href="/2026/08/11/mota/">从 conhost 到 SDL3：一个 C++ 魔塔游戏的三代渲染演进</a></p>
+</blockquote>
+<hr>
+<h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><p>每个楼层对应一个 Lua 文件：<code>map/floor_N.lua</code>（N 为楼层号，范围 0~50）。文件返回一个 table，包含 <code>map</code> 与 <code>events</code> 两个字段：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    map = &#123;</span><br><span class="line">        <span class="comment">-- 13×13 地图数据</span></span><br><span class="line">    &#125;,</span><br><span class="line">    events = &#123;</span><br><span class="line">        <span class="comment">-- 事件列表</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除 <code>events</code> 外，楼层文件还可定义 <code>on_step</code> 函数，引擎会在每次移动&#x2F;交互后调用它，用于开门谜题等需要持续检查的逻辑。未定义的楼层跳过该钩子。</p>
+<h2 id="地图格式"><a href="#地图格式" class="headerlink" title="地图格式"></a>地图格式</h2><p><code>map</code> 是 13 行 × 13 列的二维数组。数组中每个数字为地块 ID，第 1 行对应 y&#x3D;0，第 1 列对应 x&#x3D;0，每行必须恰好 13 个元素：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">map = &#123;</span><br><span class="line">    &#123; <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span> &#125;,</span><br><span class="line">    &#123; <span class="number">2</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span> &#125;,</span><br><span class="line">    &#123; <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span> &#125;,</span><br><span class="line">    <span class="comment">-- ... 共 13 行</span></span><br><span class="line">    &#123; <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span> &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="事件结构"><a href="#事件结构" class="headerlink" title="事件结构"></a>事件结构</h2><p>每个事件是一个 table。通用字段如下：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>trigger</code></td>
+<td>string</td>
+<td>是</td>
+<td>触发类型：<code>on_tile</code>、<code>on_guard_kill</code>、<code>on_clear</code>、<code>first_arrive</code></td>
+</tr>
+<tr>
+<td><code>once</code></td>
+<td>bool</td>
+<td>否</td>
+<td>设为 <code>true</code> 即自动一次性触发，无需手动管理 flag 编号</td>
+</tr>
+<tr>
+<td><code>condition_flag</code></td>
+<td>int</td>
+<td>否</td>
+<td>前置 flag ID（0~15），仅当本层该 flag 未设置时触发</td>
+</tr>
+<tr>
+<td><code>set_flag</code></td>
+<td>int</td>
+<td>否</td>
+<td>事件执行后设置的本层 flag ID（0~15）</td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td>function</td>
+<td>是</td>
+<td>触发后执行的 Lua 函数，收到参数 <code>(x, y)</code>（触发坐标）</td>
+</tr>
+</tbody></table>
+<p><code>run</code> 函数可调用全部注册的 Lua API。不同 trigger 类型还有额外字段，见下。</p>
+<h2 id="触发器类型"><a href="#触发器类型" class="headerlink" title="触发器类型"></a>触发器类型</h2><h3 id="on-tile-—-踩踏地块触发"><a href="#on-tile-—-踩踏地块触发" class="headerlink" title="on_tile — 踩踏地块触发"></a><code>on_tile</code> — 踩踏地块触发</h3><p>支持两种匹配方式，互斥：同时指定时按坐标优先。</p>
+<ul>
+<li><strong>按坐标匹配</strong>（推荐）：使用 <code>x</code>、<code>y</code> 字段。同一楼层多个相同 NPC 可提供不同服务。</li>
+<li><strong>按 tile ID 匹配</strong>（兼容旧版）：使用 <code>tile</code> 字段。</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">    x = <span class="number">5</span>, y = <span class="number">3</span>,        <span class="comment">-- 精确匹配 (5,3) 的商人</span></span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        say(<span class="string">&quot;买把黄钥匙吧，10金币。&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">    tile = <span class="number">151</span>,          <span class="comment">-- 匹配所有&quot;老人&quot;地块</span></span><br><span class="line">    once = <span class="literal">true</span>,</span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        say(<span class="string">&quot;我可以给你一本怪物手册。&quot;</span>)</span><br><span class="line">        set_tile(<span class="number">11</span>, <span class="number">4</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>消失类 NPC 必须用 <code>tile</code> 匹配</strong>：如果事件会让 NPC 消失（<code>set_tile</code> 改为空地），务必使用 <code>tile</code> 而非 <code>x</code>&#x2F;<code>y</code> 坐标匹配。坐标匹配的事件无论地块变成什么都会一直拦截该位置的移动；按 <code>tile</code> 匹配则只在地块仍是该 NPC 时才拦截。</p>
+<p><strong>约定</strong>：所有老人（tile 151）对话后都会消失。为老人添加对话事件时，在 <code>say()</code> 后调用 <code>set_tile(老人坐标, 1)</code> 将其移除。</p>
+</blockquote>
+<h3 id="on-guard-kill-—-击败全部守卫后触发"><a href="#on-guard-kill-—-击败全部守卫后触发" class="headerlink" title="on_guard_kill — 击败全部守卫后触发"></a><code>on_guard_kill</code> — 击败全部守卫后触发</h3><p>当玩家击败指定的<strong>全部</strong>守卫后触发，引擎检查每个守卫位置是否已变为空地（ID&#x3D;1）。</p>
+<p>额外字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>guards</code></td>
+<td>table</td>
+<td>守卫坐标列表，每个坐标为 <code>&#123;x = 列, y = 行&#125;</code></td>
+</tr>
+</tbody></table>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_guard_kill&quot;</span>,</span><br><span class="line">    guards = &#123;&#123;x = <span class="number">6</span>, y = <span class="number">2</span>&#125;, &#123;x = <span class="number">8</span>, y = <span class="number">2</span>&#125;&#125;,</span><br><span class="line">    once = <span class="literal">true</span>,</span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        replace_all(player_floor(), <span class="number">8</span>, <span class="number">1</span>)   <span class="comment">-- 守卫门 → 空地</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>守卫必须是怪物（ID 101~150），通过战斗或炸药消灭均可触发。每个事件只有一个守卫组；若楼层有多组守卫门，需创建多个事件各配不同的 <code>condition_flag</code> 或 <code>once</code>。</p>
+<h3 id="on-clear-—-楼层怪物清空后触发"><a href="#on-clear-—-楼层怪物清空后触发" class="headerlink" title="on_clear — 楼层怪物清空后触发"></a><code>on_clear</code> — 楼层怪物清空后触发</h3><p>楼层中所有怪物被消灭后自动触发，没有额外字段：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_clear&quot;</span>,</span><br><span class="line">    once = <span class="literal">true</span>,</span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        say(<span class="string">&quot;你已消灭了本层所有怪物！&quot;</span>)</span><br><span class="line">        replace_all(player_floor(), <span class="number">8</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>on_clear</code> 在每次击杀怪物后都会检查。若一个楼层有多个 <code>on_clear</code> 事件，只会执行第一个未标记 flag 的事件。</p>
+<h3 id="first-arrive-—-首次到达触发"><a href="#first-arrive-—-首次到达触发" class="headerlink" title="first_arrive — 首次到达触发"></a><code>first_arrive</code> — 首次到达触发</h3><p>玩家第一次进入该楼层时触发（无论走楼梯、楼传还是 Lua 传送），同一楼层只触发一次。适合开局演出、守层 NPC 对话。</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;first_arrive&quot;</span>,</span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        say(<span class="string">&quot;骑士队长：啊！又是你！！（转身逃跑）&quot;</span>)</span><br><span class="line">        set_tile(<span class="number">6</span>, <span class="number">10</span>, <span class="number">1</span>)</span><br><span class="line">        say(<span class="string">&quot;魔王：来与我决斗吧！&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>引擎内部用独立的”已到达”标记（每层 1 bit）控制只触发一次，该标记随存档保存。因此<strong>不要</strong>在此触发器上叠加 <code>once</code>&#x2F;<code>condition_flag</code>&#x2F;<code>set_flag</code>。</p>
+<h2 id="Flag-机制"><a href="#Flag-机制" class="headerlink" title="Flag 机制"></a>Flag 机制</h2><p>Flag 是按楼层隔离的布尔数组（每层 16 个，ID 0~15），用于：</p>
+<ul>
+<li><strong>防止事件重复触发</strong>：使用 <code>once = true</code> 或 <code>condition_flag</code> &#x2F; <code>set_flag</code></li>
+<li><strong>跨事件状态</strong>：同一楼层内多个事件共享 flag，实现”先触发 A 后 B 才生效”的顺序谜题</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">    x = <span class="number">3</span>, y = <span class="number">7</span>,</span><br><span class="line">    condition_flag = <span class="number">3</span>,   <span class="comment">-- 仅当本层 flag 3 == 0 时触发</span></span><br><span class="line">    set_flag = <span class="number">3</span>,         <span class="comment">-- 触发后将本层 flag 3 设为 1</span></span><br><span class="line">    run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        say(<span class="string">&quot;第一次来到这里吧？&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>run</code> 中也可直接操作 flag：<code>has_flag(id)</code> 查询、<code>set_flag(id)</code> 设置。二者操作的始终是当前玩家所在楼层的 flag 空间。</p>
+<blockquote>
+<p><strong><code>once</code> 与手动 flag 冲突</strong>：<code>once = true</code> 自动占用内部 flag，编号等于该事件在 <code>events</code> 数组中的索引（0~15）。同一楼层若其他事件用了相同编号的手动 <code>set_flag</code>&#x2F;<code>condition_flag</code> 会互相干扰。楼层里已有手动 flag 时，新事件建议改用不冲突的编号。</p>
+</blockquote>
+<h2 id="Lua-API-摘要"><a href="#Lua-API-摘要" class="headerlink" title="Lua API 摘要"></a>Lua API 摘要</h2><p><code>run</code> 内可直接调用的常用函数：</p>
+<ul>
+<li><strong>对话与消息</strong>：<code>say(text)</code>（模态对话框）、<code>msg(text)</code>（底部消息栏）、<code>note(label, content)</code>（记入记事本）、<code>show_notebook()</code>、<code>choose_menu(a, b, c, ...)</code>（最多 8 项选择，返回 0~7 或 255）、<code>drain()</code></li>
+<li><strong>属性操作</strong>：<code>add_health(n)</code>、<code>add_attack(n)</code>、<code>add_defence(n)</code>、<code>add_money(n)</code>、<code>take_money(n)</code>（不足返回 <code>false</code>）、<code>set(attr, value)</code>（支持 <code>health</code>&#x2F;<code>attack</code>&#x2F;<code>defence</code>&#x2F;<code>money</code>&#x2F;<code>yellow</code>&#x2F;<code>blue</code>&#x2F;<code>red</code>&#x2F;<code>floor</code>&#x2F;<code>x</code>&#x2F;<code>y</code>）</li>
+<li><strong>地图操作</strong>：<code>set_tile(x, y, value)</code>、<code>set_tile_floor(floor, x, y, value)</code>（跨楼层）、<code>replace_all(floor, from, to)</code>、<code>get_tile(x, y)</code>、<code>get_tile_floor(...)</code>、<code>count_monsters(floor)</code>、<code>freeze_lava()</code>、<code>detonate()</code>（返回击杀数）</li>
+<li><strong>标记操作</strong>：<code>has_flag(id)</code>、<code>set_flag(id)</code></li>
+<li><strong>道具</strong>：<code>give(id)</code>、<code>add_yellow_key(n)</code> &#x2F; <code>add_blue_key(n)</code> &#x2F; <code>add_red_key(n)</code>、<code>take_yellow_key(n)</code>、<code>set_teleporter(v)</code>、<code>set_monster_book(v)</code>、<code>set_cross(v)</code>、<code>set_holy_shield(v)</code>、<code>set_lucky_coin(v)</code>、<code>set_dragon_slayer(v)</code>、<code>backpack_add(id[, uses])</code>、<code>backpack_has(id)</code>、<code>show_monster_book()</code>、<code>battle_monster(id)</code>（胜利扣血返回 <code>true</code>）、<code>show_victory()</code></li>
+<li><strong>演出与调试</strong>：<code>player_floor()</code>、<code>player_x()</code> &#x2F; <code>player_y()</code> &#x2F; <code>player_dir()</code>、<code>player_attack()</code> &#x2F; <code>player_defence()</code>、<code>altar_times()</code> &#x2F; <code>altar_tick()</code>、<code>sleep_ms(n)</code>（先刷新画面再等待）、<code>darken_map()</code> &#x2F; <code>lighten_map()</code>、<code>debug_on()</code> &#x2F; <code>debug_off()</code></li>
+</ul>
+<h2 id="地块-ID-速查表"><a href="#地块-ID-速查表" class="headerlink" title="地块 ID 速查表"></a>地块 ID 速查表</h2><h3 id="地形（1-11）"><a href="#地形（1-11）" class="headerlink" title="地形（1~11）"></a>地形（1~11）</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>符号</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code> </code></td>
+<td>空地</td>
+<td>可通行</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code> </code></td>
+<td>墙壁</td>
+<td>不可通行</td>
+</tr>
+<tr>
+<td>3</td>
+<td>〓</td>
+<td>黄门</td>
+<td>消耗黄钥匙打开</td>
+</tr>
+<tr>
+<td>4</td>
+<td>〓</td>
+<td>蓝门</td>
+<td>消耗蓝钥匙打开</td>
+</tr>
+<tr>
+<td>5</td>
+<td>〓</td>
+<td>红门</td>
+<td>消耗红钥匙打开</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code> </code></td>
+<td>岩浆</td>
+<td>不可通行（可用冰霜魔法冻结）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>★</td>
+<td>星星</td>
+<td>装饰性地块</td>
+</tr>
+<tr>
+<td>8</td>
+<td>〓</td>
+<td>守卫门</td>
+<td>击败守卫后自动打开</td>
+</tr>
+<tr>
+<td>9</td>
+<td>△</td>
+<td>上行楼梯</td>
+<td>通往上一层</td>
+</tr>
+<tr>
+<td>10</td>
+<td>▽</td>
+<td>下行楼梯</td>
+<td>通往下一层</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code> </code></td>
+<td>可破墙</td>
+<td>踩踏后消失</td>
+</tr>
+</tbody></table>
+<h3 id="道具（51-82）"><a href="#道具（51-82）" class="headerlink" title="道具（51~82）"></a>道具（51~82）</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>符号</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>51</td>
+<td>钥</td>
+<td>黄钥匙</td>
+</tr>
+<tr>
+<td>52</td>
+<td>钥</td>
+<td>蓝钥匙</td>
+</tr>
+<tr>
+<td>53</td>
+<td>钥</td>
+<td>红钥匙</td>
+</tr>
+<tr>
+<td>54</td>
+<td>★</td>
+<td>红血瓶</td>
+</tr>
+<tr>
+<td>55</td>
+<td>★</td>
+<td>蓝血瓶</td>
+</tr>
+<tr>
+<td>56</td>
+<td>◆</td>
+<td>红宝石</td>
+</tr>
+<tr>
+<td>57</td>
+<td>◆</td>
+<td>蓝宝石</td>
+</tr>
+<tr>
+<td>58~61</td>
+<td>剑&#x2F;盾</td>
+<td>铁剑盾、银剑盾</td>
+</tr>
+<tr>
+<td>62~65</td>
+<td>剑&#x2F;盾</td>
+<td>骑士剑盾、圣剑盾</td>
+</tr>
+<tr>
+<td>66</td>
+<td>剑</td>
+<td>神圣剑</td>
+</tr>
+<tr>
+<td>67</td>
+<td>盾</td>
+<td>神圣盾（免疫魔法伤害）</td>
+</tr>
+<tr>
+<td>68</td>
+<td>杖</td>
+<td>楼层传送器</td>
+</tr>
+<tr>
+<td>69</td>
+<td>冰</td>
+<td>冰霜魔法</td>
+</tr>
+<tr>
+<td>70</td>
+<td>炸</td>
+<td>炸药</td>
+</tr>
+<tr>
+<td>71</td>
+<td>镐</td>
+<td>镐子</td>
+</tr>
+<tr>
+<td>72</td>
+<td>-</td>
+<td>怪物手册（纯背包道具，不出现在地图上）</td>
+</tr>
+<tr>
+<td>73</td>
+<td>十</td>
+<td>十字架（被动：对兽人&#x2F;兽人武士&#x2F;吸血鬼攻击力×2）</td>
+</tr>
+<tr>
+<td>74</td>
+<td>飞</td>
+<td>中心对称飞行器（可传送 3 次）</td>
+</tr>
+<tr>
+<td>75</td>
+<td>飞</td>
+<td>下楼飞行器（单次）</td>
+</tr>
+<tr>
+<td>76</td>
+<td>飞</td>
+<td>上楼飞行器（单次）</td>
+</tr>
+<tr>
+<td>77</td>
+<td>钥</td>
+<td>魔法钥匙（一次性，打开本层所有黄门）</td>
+</tr>
+<tr>
+<td>78</td>
+<td>震</td>
+<td>地震卷轴（一次性，摧毁本层所有墙）</td>
+</tr>
+<tr>
+<td>79</td>
+<td>币</td>
+<td>幸运金币（被动：金币×2）</td>
+</tr>
+<tr>
+<td>80</td>
+<td>圣</td>
+<td>圣水（生命增加攻击+防御）</td>
+</tr>
+<tr>
+<td>81</td>
+<td>匕</td>
+<td>屠龙匕首（被动：攻击魔龙伤害×2）</td>
+</tr>
+<tr>
+<td>82</td>
+<td>记</td>
+<td>记事本</td>
+</tr>
+</tbody></table>
+<h3 id="怪物（101-141）"><a href="#怪物（101-141）" class="headerlink" title="怪物（101~141）"></a>怪物（101~141）</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>符号</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>101</td>
+<td>⊙</td>
+<td>绿史莱姆</td>
+</tr>
+<tr>
+<td>102</td>
+<td>⊙</td>
+<td>红史莱姆</td>
+</tr>
+<tr>
+<td>103</td>
+<td>蝠</td>
+<td>小蝙蝠</td>
+</tr>
+<tr>
+<td>104</td>
+<td>法</td>
+<td>初级法师</td>
+</tr>
+<tr>
+<td>105~106</td>
+<td>骷</td>
+<td>骷髅、骷髅士兵</td>
+</tr>
+<tr>
+<td>107</td>
+<td>卫</td>
+<td>初级卫兵</td>
+</tr>
+<tr>
+<td>108</td>
+<td>骷</td>
+<td>骷髅队长</td>
+</tr>
+<tr>
+<td>109~110</td>
+<td>⊙&#x2F;蝠</td>
+<td>大史莱姆、大蝙蝠</td>
+</tr>
+<tr>
+<td>111</td>
+<td>法</td>
+<td>高级法师</td>
+</tr>
+<tr>
+<td>112~113</td>
+<td>兽</td>
+<td>兽人、兽人武士</td>
+</tr>
+<tr>
+<td>114</td>
+<td>石</td>
+<td>石头人</td>
+</tr>
+<tr>
+<td>115</td>
+<td>章</td>
+<td>巨型章鱼</td>
+</tr>
+<tr>
+<td>116</td>
+<td>血</td>
+<td>吸血鬼</td>
+</tr>
+<tr>
+<td>117</td>
+<td>师</td>
+<td>大法师</td>
+</tr>
+<tr>
+<td>118~120</td>
+<td>鬼&#x2F;战&#x2F;幽</td>
+<td>鬼战士、战士、幽灵</td>
+</tr>
+<tr>
+<td>121</td>
+<td>卫</td>
+<td>中级卫兵</td>
+</tr>
+<tr>
+<td>122</td>
+<td>武</td>
+<td>双手剑士</td>
+</tr>
+<tr>
+<td>123</td>
+<td>龙</td>
+<td>魔龙</td>
+</tr>
+<tr>
+<td>124</td>
+<td>骑</td>
+<td>骑士</td>
+</tr>
+<tr>
+<td>125</td>
+<td>骑</td>
+<td>骑士队长（先攻）</td>
+</tr>
+<tr>
+<td>126~127</td>
+<td>巫</td>
+<td>初级巫师、高级巫师</td>
+</tr>
+<tr>
+<td>128~129</td>
+<td>Θ&#x2F;蝠</td>
+<td>史莱姆王、吸血蝙蝠</td>
+</tr>
+<tr>
+<td>130</td>
+<td>骑</td>
+<td>黑暗骑士</td>
+</tr>
+<tr>
+<td>131</td>
+<td>警</td>
+<td>魔法警卫</td>
+</tr>
+<tr>
+<td>132</td>
+<td>卫</td>
+<td>高级卫兵</td>
+</tr>
+<tr>
+<td>133~135</td>
+<td>王</td>
+<td>魔王</td>
+</tr>
+<tr>
+<td>136</td>
+<td>巫</td>
+<td>高级巫师（会逃亡，机制同 127）</td>
+</tr>
+<tr>
+<td>137~139</td>
+<td>-</td>
+<td>战士&#x2F;骑士&#x2F;鬼战士（先攻，数值同普通版）</td>
+</tr>
+<tr>
+<td>141</td>
+<td>武</td>
+<td>双手剑士（先攻）</td>
+</tr>
+</tbody></table>
+<h3 id="NPC-与其他"><a href="#NPC-与其他" class="headerlink" title="NPC 与其他"></a>NPC 与其他</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>符号</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>151</td>
+<td>老</td>
+<td>老人</td>
+</tr>
+<tr>
+<td>152</td>
+<td>商</td>
+<td>商人</td>
+</tr>
+<tr>
+<td>153</td>
+<td>公</td>
+<td>公主</td>
+</tr>
+<tr>
+<td>154</td>
+<td>偷</td>
+<td>小偷</td>
+</tr>
+<tr>
+<td>155</td>
+<td>祭</td>
+<td>祭坛</td>
+</tr>
+<tr>
+<td>140</td>
+<td>-</td>
+<td>隐形墙（踩上后变为墙）</td>
+</tr>
+<tr>
+<td>156</td>
+<td>-</td>
+<td>怪物身躯（多格 Boss 的身体）</td>
+</tr>
+<tr>
+<td>255</td>
+<td>-</td>
+<td>勇者（玩家）——不要在地图数据中使用</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>多格 Boss</strong>：15 层巨型章鱼、35 层魔龙用 3×3 的怪物身躯（156）表示。引擎会叠加一个覆盖整块的大号首领字符。对应事件用 <code>trigger = &quot;on_tile&quot;, tile = 156</code> + <code>battle_monster(首领 id)</code>：胜利后清除整个身躯块并移动玩家。</p>
+</blockquote>
+<h2 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h2><h3 id="示例-1：NPC-对话（一次性，按坐标）"><a href="#示例-1：NPC-对话（一次性，按坐标）" class="headerlink" title="示例 1：NPC 对话（一次性，按坐标）"></a>示例 1：NPC 对话（一次性，按坐标）</h3><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">events = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">        x = <span class="number">3</span>, y = <span class="number">5</span>,</span><br><span class="line">        once = <span class="literal">true</span>,</span><br><span class="line">        run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            say(<span class="string">&quot;少年，前方的道路充满危险。&quot;</span>)</span><br><span class="line">            add_health(<span class="number">200</span>)</span><br><span class="line">            msg(<span class="string">&quot;获得老人的祝福，生命+200&quot;</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例-2：守卫门"><a href="#示例-2：守卫门" class="headerlink" title="示例 2：守卫门"></a>示例 2：守卫门</h3><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">events = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        trigger = <span class="string">&quot;on_guard_kill&quot;</span>,</span><br><span class="line">        guards = &#123;&#123;x = <span class="number">1</span>, y = <span class="number">5</span>&#125;, &#123;x = <span class="number">3</span>, y = <span class="number">5</span>&#125;&#125;,</span><br><span class="line">        once = <span class="literal">true</span>,</span><br><span class="line">        run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            replace_all(player_floor(), <span class="number">8</span>, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例-3：祭坛（选择分支）"><a href="#示例-3：祭坛（选择分支）" class="headerlink" title="示例 3：祭坛（选择分支）"></a>示例 3：祭坛（选择分支）</h3><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">events = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">        tile = <span class="number">155</span>,</span><br><span class="line">        run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            <span class="keyword">local</span> t = altar_times()</span><br><span class="line">            <span class="keyword">local</span> r = (player_floor() - <span class="number">1</span>) // <span class="number">10</span> + <span class="number">1</span></span><br><span class="line">            <span class="keyword">local</span> cost = <span class="number">20</span> + <span class="number">10</span> * (t + <span class="number">1</span>) * t</span><br><span class="line">            <span class="keyword">local</span> hp  = <span class="number">100</span> * (t + <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">local</span> atk = <span class="number">2</span> * r</span><br><span class="line">            <span class="keyword">local</span> def = <span class="number">4</span> * r</span><br><span class="line"></span><br><span class="line">            say(<span class="string">&quot;供奉&quot;</span>..cost..<span class="string">&quot;金币，便可以增加你的力量，你想要什么呢……&quot;</span>)</span><br><span class="line">            <span class="keyword">local</span> c = choose_menu(<span class="string">&quot;生命+&quot;</span>..hp, <span class="string">&quot;攻击+&quot;</span>..atk, <span class="string">&quot;防御+&quot;</span>..def, <span class="string">&quot;离开&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> c &lt; <span class="number">3</span> <span class="keyword">and</span> take_money(cost) <span class="keyword">then</span></span><br><span class="line">                <span class="keyword">if</span> c == <span class="number">0</span> <span class="keyword">then</span> add_health(hp)</span><br><span class="line">                <span class="keyword">elseif</span> c == <span class="number">1</span> <span class="keyword">then</span> add_attack(atk)</span><br><span class="line">                <span class="keyword">elseif</span> c == <span class="number">2</span> <span class="keyword">then</span> add_defence(def) <span class="keyword">end</span></span><br><span class="line">                altar_tick()</span><br><span class="line">                drain()</span><br><span class="line">            <span class="keyword">elseif</span> c &lt; <span class="number">3</span> <span class="keyword">then</span></span><br><span class="line">                say(<span class="string">&quot;你的金币不足，无法供奉！&quot;</span>)</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例-4：商人（坐标匹配-选择分支）"><a href="#示例-4：商人（坐标匹配-选择分支）" class="headerlink" title="示例 4：商人（坐标匹配 + 选择分支）"></a>示例 4：商人（坐标匹配 + 选择分支）</h3><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">events = &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        trigger = <span class="string">&quot;on_tile&quot;</span>,</span><br><span class="line">        x = <span class="number">5</span>, y = <span class="number">3</span>,   <span class="comment">-- 精确匹配 (5,3) 的商人</span></span><br><span class="line">        run = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            <span class="keyword">local</span> c = choose_menu(<span class="string">&quot;黄钥匙(10金)&quot;</span>, <span class="string">&quot;蓝钥匙(20金)&quot;</span>, <span class="string">&quot;不买&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> c == <span class="number">0</span> <span class="keyword">and</span> take_money(<span class="number">10</span>) <span class="keyword">then</span></span><br><span class="line">                give(<span class="number">51</span>)</span><br><span class="line">            <span class="keyword">elseif</span> c == <span class="number">1</span> <span class="keyword">and</span> take_money(<span class="number">20</span>) <span class="keyword">then</span></span><br><span class="line">                give(<span class="number">52</span>)</span><br><span class="line">            <span class="keyword">elseif</span> c &lt; <span class="number">2</span> <span class="keyword">then</span></span><br><span class="line">                say(<span class="string">&quot;金币不足！&quot;</span>)</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">            drain()</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li><strong>执行优先级</strong>：玩家移动时，引擎先查 Lua 事件。若该坐标有匹配的 <code>on_tile</code> 事件则执行其 <code>run</code> 函数（跳过 C++ 默认行为）；否则走 C++ 内置逻辑（开门&#x2F;捡道具&#x2F;战斗&#x2F;移动）。因此 Lua 事件可完全覆盖任何地块类型的默认行为。同一 trigger 类型的多个事件只执行第一个满足条件的。</li>
+<li><strong>Flag 范围</strong>：ID 范围 0~15（按楼层隔离），不要超过 15。<code>once = true</code> 的自动 flag 由事件索引决定，每层最多 16 个事件。</li>
+<li><strong>坐标系统</strong>：x 是列号（0<del>12），y 是行号（0</del>12）。地图数组第 1 行是 y&#x3D;0，第 1 列是 x&#x3D;0。坐标匹配解决了”一楼层多商人”的问题。</li>
+<li><strong>守卫门初始值</strong>：守卫门必须在地图中写为 ID&#x3D;8，否则 <code>replace_all</code> 的 <code>from=8</code> 匹配不到。</li>
+<li><strong>run 中的错误</strong>：<code>run</code> 内的 Lua 错误输出到 stderr，游戏不会崩溃。复杂逻辑建议先在控制台 REPL 中测试。</li>
+<li><strong>文件编码</strong>：地图文件使用 UTF-8 编码保存。</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>完整的触发器说明、flag 机制与逐层事件清单可参考仓库内文档：<code>docs/LUA_EVENT_GUIDE.md</code> 与 <code>docs/FLAGS.md</code>。修改或新增玩法只需编辑对应楼层的 Lua 文件，无需重新编译。</p>
+
+    </div>
+
+    <!-- 版权声明 -->
+    <div class="post-copyright">
+      <p><strong>文章作者：</strong>LCH</p>
+      <p><strong>文章链接：</strong><a href="/2026/08/11/mota-lua-guide/">/2026/08/11/mota-lua-guide/</a></p>
+      <p><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源！</p>
+    </div>
+
+  </div>
+</div>
+
+      </main>
+
+      <!-- 右侧栏 -->
+      
+      <aside class="sidebar-right">
+        <!-- 目录窗口：仅在文章页显示 -->
+
+<div class="window sidebar-window toc-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 目录
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body toc-body">
+    <ul class="tree-view">
+<li><a href="#文件结构">文件结构</a></li>
+<li><a href="#地图格式">地图格式</a></li>
+<li><a href="#事件结构">事件结构</a></li>
+<li><a href="#触发器类型">触发器类型</a>
+<ul>
+<li><a href="#on-tile-—-踩踏地块触发">on_tile — 踩踏地块触发</a></li>
+<li><a href="#on-guard-kill-—-击败全部守卫后触发">on_guard_kill — 击败全部守卫后触发</a></li>
+<li><a href="#on-clear-—-楼层怪物清空后触发">on_clear — 楼层怪物清空后触发</a></li>
+<li><a href="#first-arrive-—-首次到达触发">first_arrive — 首次到达触发</a></li>
+</ul>
+</li>
+<li><a href="#Flag-机制">Flag 机制</a></li>
+<li><a href="#Lua-API-摘要">Lua API 摘要</a></li>
+<li><a href="#地块-ID-速查表">地块 ID 速查表</a>
+<ul>
+<li><a href="#地形（1-11）">地形（1~11）</a></li>
+<li><a href="#道具（51-82）">道具（51~82）</a></li>
+<li><a href="#怪物（101-141）">怪物（101~141）</a></li>
+<li><a href="#NPC-与其他">NPC 与其他</a></li>
+</ul>
+</li>
+<li><a href="#完整示例">完整示例</a>
+<ul>
+<li><a href="#示例-1：NPC-对话（一次性，按坐标）">示例 1：NPC 对话（一次性，按坐标）</a></li>
+<li><a href="#示例-2：守卫门">示例 2：守卫门</a></li>
+<li><a href="#示例-3：祭坛（选择分支）">示例 3：祭坛（选择分支）</a></li>
+<li><a href="#示例-4：商人（坐标匹配-选择分支）">示例 4：商人（坐标匹配 + 选择分支）</a></li>
+</ul>
+</li>
+<li><a href="#注意事项">注意事项</a></li>
+<li><a href="#结语">结语</a></li>
+</ul>
+
+    
+  </div>
+</div>
+
+
+<!-- 最新文章窗口 -->
+<div class="window sidebar-window latest-window">
+  <div class="title-bar">
+    <div class="title-bar-text">
+      <img src="/images/XML.png" alt="" width="16" height="16" draggable="false"> 最新文章
+    </div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize"></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="window-body latest-body">
+    <ul class="latest-list">
+      
+      
+        <li>
+          <span class="latest-date">08-11</span>
+          <a href="/2026/08/11/mota/">从 conhost 到 SDL3：一个 C++ 魔塔游戏的三代渲染演进</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">08-11</span>
+          <a href="/2026/08/11/mota-lua-guide/">魔塔地图与事件脚本指南：Lua 文件结构与编写方法</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">07-05</span>
+          <a href="/2026/07/05/tarot-divination/">塔罗占卜</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">07-01</span>
+          <a href="/2026/07/01/paper-bride-narrative/">当蝴蝶飞走以后——从纸嫁衣2看叙事的&#34;完美结局&#34;与续作困境</a>
+        </li>
+      
+        <li>
+          <span class="latest-date">06-25</span>
+          <a href="/2026/06/25/nesp-nesp2/">NESP &amp; NESP2 — 把 NES 塞进单片机，两次</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+      </aside>
+      
+
+    </div>
+  </div>
+</body>
+<script>
+(function() {
+  var el = document.getElementById('taskbarTime');
+  if (!el) return;
+  function tick() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+(function() {
+  var toc = document.querySelector('.toc-window');
+  if (!toc) return;
+  var spacer = document.createElement('div');
+  spacer.style.display = 'none';
+  toc.parentNode.insertBefore(spacer, toc.nextSibling);
+  function measure() {
+    var r = toc.getBoundingClientRect();
+    return {
+      top: r.top + window.scrollY,
+      left: r.left,
+      width: r.width,
+      height: r.height
+    };
+  }
+  var m = measure();
+  var gap = 14;
+  function onScroll() {
+    if (window.innerWidth <= 1100) return;
+    if (window.scrollY > m.top - 40) {
+      if (toc.style.position !== 'fixed') {
+        spacer.style.display = 'block';
+        spacer.style.height = (m.height + gap) + 'px';
+      }
+      toc.style.position = 'fixed';
+      toc.style.top = '40px';
+      toc.style.left = m.left + 'px';
+      toc.style.width = m.width + 'px';
+      toc.style.zIndex = '10';
+    } else {
+      toc.style.position = '';
+      toc.style.top = '';
+      toc.style.left = '';
+      toc.style.width = '';
+      toc.style.zIndex = '';
+      spacer.style.display = 'none';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', function() {
+    toc.style.position = '';
+    toc.style.top = '';
+    toc.style.left = '';
+    toc.style.width = '';
+    toc.style.zIndex = '';
+    spacer.style.display = 'none';
+    m = measure();
+    onScroll();
+  });
+})();
+</script>
+</html>
